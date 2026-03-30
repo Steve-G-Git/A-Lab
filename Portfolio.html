@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steve Garnet — IT Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:      #33ff33;
+      --green-dim:  #1a8a1a;
+      --green-dark: #0a2a0a;
+      --bg:         #070b07;
+      --bg2:        #0d140d;
+      --bg3:        #111a11;
+      --text:       #c8e8c8;
+      --text-dim:   #5a8a5a;
+      --border:     #1a3a1a;
+      --amber:      #ffcc44;
+      --cyan:       #44ddff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Scanlines ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── Grid bg ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(7, 11, 7, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      color: var(--green);
+      letter-spacing: 2px;
+    }
+
+    .nav-brand span { color: var(--text-dim); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 40px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-content { max-width: 680px; }
+
+    .hero-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 3px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-eyebrow::before {
+      content: '> ';
+      color: var(--text-dim);
+    }
+
+    .hero-name {
+      font-family: 'VT323', monospace;
+      font-size: clamp(64px, 10vw, 110px);
+      color: var(--green);
+      line-height: 0.9;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+      text-shadow: 0 0 40px rgba(51,255,51,0.15);
+    }
+
+    .hero-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      color: var(--amber);
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.6s;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text);
+      max-width: 520px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.8s;
+      font-weight: 300;
+    }
+
+    .hero-desc strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1s;
+    }
+
+    .btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 12px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #050b05;
+      border: 1px solid var(--green);
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--green);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green-dim);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+      background: rgba(51,255,51,0.05);
+    }
+
+    /* ── STATUS BADGES ── */
+    .status-bar {
+      position: absolute;
+      bottom: 48px;
+      left: 40px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1.2s;
+    }
+
+    .badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+    }
+
+    .badge-studying {
+      background: rgba(255,204,68,0.1);
+      color: var(--amber);
+      border: 1px solid rgba(255,204,68,0.3);
+    }
+
+    .badge-available {
+      background: rgba(51,255,51,0.08);
+      color: var(--green);
+      border: 1px solid rgba(51,255,51,0.25);
+    }
+
+    .badge-available::before {
+      content: '● ';
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .section-label::before { content: '// '; }
+
+    .section-title {
+      font-family: 'VT323', monospace;
+      font-size: 48px;
+      color: var(--green);
+      margin-bottom: 48px;
+      line-height: 1;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--green-dim);
+      background: var(--bg3);
+    }
+
+    .skill-card-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .skill-card-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 3px 10px;
+      background: rgba(51,255,51,0.06);
+      color: var(--green-dim);
+      border: 1px solid rgba(51,255,51,0.15);
+      border-radius: 3px;
+    }
+
+    /* ── CERT PROGRESS ── */
+    .cert-list { display: flex; flex-direction: column; gap: 16px; }
+
+    .cert-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cert-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 22px;
+      color: var(--amber);
+      width: 36px;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .cert-status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .cert-status.in-progress { color: var(--amber); }
+    .cert-status.planned     { color: var(--text-dim); }
+
+    .cert-bar-wrap {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .cert-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--green);
+      transition: width 1s ease;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+      transform-origin: left;
+    }
+
+    .project-card:hover { border-color: var(--green-dim); transform: translateY(-3px); }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-card-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--green);
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .project-card-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .project-card-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .project-card-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 1px;
+    }
+
+    .project-card-link::after { content: ' →'; }
+
+    .project-card.coming-soon { opacity: 0.5; pointer-events: none; }
+    .project-card.coming-soon .project-card-tag { color: var(--text-dim); }
+
+    /* ── CONTACT ── */
+    .contact-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 48px;
+      text-align: center;
+    }
+
+    .contact-title {
+      font-family: 'VT323', monospace;
+      font-size: 42px;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .contact-sub {
+      color: var(--text-dim);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 20px; }
+      .hero { padding: 90px 20px 80px; }
+      section { padding: 70px 20px; }
+      .status-bar { left: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .contact-wrap { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">SG<span>://</span>portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#certs">certs</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">IT PROFESSIONAL IN TRAINING</div>
+      <h1 class="hero-name">Steve<br>Garnet</h1>
+      <div class="hero-title">HELP DESK &nbsp;/&nbsp; COMPTIA A+ &nbsp;/&nbsp; CYBERSECURITY</div>
+      <p class="hero-desc">
+        Building a foundation in <strong>IT support, networking,</strong> and
+        <strong>cybersecurity</strong>. Currently studying for CompTIA A+ — and
+        building the tools to prove it.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+      </div>
+    </div>
+    <div class="status-bar">
+      <span class="badge badge-available">OPEN TO OPPORTUNITIES</span>
+      <span class="badge badge-studying">STUDYING: CompTIA A+</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label reveal">areas of knowledge</div>
+    <h2 class="section-title reveal">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-label">HARDWARE</div>
+        <div class="skill-card-title">PC Components & Assembly</div>
+        <div class="skill-tags">
+          <span class="tag">CPU / RAM</span>
+          <span class="tag">Storage</span>
+          <span class="tag">Motherboards</span>
+          <span class="tag">PSU</span>
+          <span class="tag">RAID</span>
+          <span class="tag">Ports & Connectors</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">NETWORKING</div>
+        <div class="skill-card-title">Network Fundamentals</div>
+        <div class="skill-tags">
+          <span class="tag">OSI Model</span>
+          <span class="tag">TCP/IP</span>
+          <span class="tag">Subnetting</span>
+          <span class="tag">DNS / DHCP</span>
+          <span class="tag">Wi-Fi 802.11</span>
+          <span class="tag">Network Ports</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">OPERATING SYSTEMS</div>
+        <div class="skill-card-title">Windows, Linux & macOS</div>
+        <div class="skill-tags">
+          <span class="tag">Windows 10/11</span>
+          <span class="tag">Linux CLI</span>
+          <span class="tag">macOS</span>
+          <span class="tag">NTFS / FAT32</span>
+          <span class="tag">Troubleshooting</span>
+          <span class="tag">Registry</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">SECURITY</div>
+        <div class="skill-card-title">Security Fundamentals</div>
+        <div class="skill-tags">
+          <span class="tag">Malware Types</span>
+          <span class="tag">Encryption</span>
+          <span class="tag">MFA</span>
+          <span class="tag">Hardening</span>
+          <span class="tag">Social Engineering</span>
+          <span class="tag">Physical Security</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">DEVELOPMENT</div>
+        <div class="skill-card-title">Web & Tooling</div>
+        <div class="skill-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub Pages</span>
+          <span class="tag">VS Code</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">SOFT SKILLS</div>
+        <div class="skill-card-title">Professional Attributes</div>
+        <div class="skill-tags">
+          <span class="tag">Problem Solving</span>
+          <span class="tag">Documentation</span>
+          <span class="tag">Self-directed Learning</span>
+          <span class="tag">Attention to Detail</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CERTS -->
+  <section id="certs">
+    <div class="section-label reveal">credentials & progress</div>
+    <h2 class="section-title reveal">Certifications</h2>
+    <div class="cert-list">
+      <div class="cert-item reveal">
+        <div class="cert-icon">[A+]</div>
+        <div style="flex:1">
+          <div class="cert-name">CompTIA A+</div>
+          <div class="cert-status in-progress">● IN PROGRESS — Core 1 & Core 2</div>
+        </div>
+        <div class="cert-bar-wrap" style="max-width:200px">
+          <div class="cert-bar" style="width:55%"></div>
+        </div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber);min-width:36px;text-align:right">55%</span>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-icon">[N+]</div>
+        <div style="flex:1">
+          <div class="cert-name">CompTIA Network+</div>
+          <div class="cert-status planned">○ PLANNED — After A+</div>
+        </div>
+        <div class="cert-bar-wrap" style="max-width:200px">
+          <div class="cert-bar" style="width:0%"></div>
+        </div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-dim);min-width:36px;text-align:right">—</span>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-icon">[S+]</div>
+        <div style="flex:1">
+          <div class="cert-name">CompTIA Security+</div>
+          <div class="cert-status planned">○ PLANNED — Cybersecurity pathway</div>
+        </div>
+        <div class="cert-bar-wrap" style="max-width:200px">
+          <div class="cert-bar" style="width:0%"></div>
+        </div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-dim);min-width:36px;text-align:right">—</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label reveal">things i've built</div>
+    <h2 class="section-title reveal">Projects</h2>
+    <div class="projects-grid">
+      <a href="lab.html" class="project-card reveal">
+        <div class="project-card-tag">FEATURED PROJECT &nbsp;·&nbsp; INTERACTIVE TOOL</div>
+        <div class="project-card-title">CompTIA A+ Lab Terminal</div>
+        <div class="project-card-desc">
+          A fully functional command-line terminal simulator built from scratch in HTML, CSS, and JavaScript.
+          Covers all four A+ domains — hardware, networking, OS, and security — with a built-in quiz engine and XP system.
+        </div>
+        <div class="project-card-link">Launch terminal</div>
+      </a>
+      <div class="project-card coming-soon reveal">
+        <div class="project-card-tag">COMING SOON &nbsp;·&nbsp; TOOL</div>
+        <div class="project-card-title">Network Troubleshooter</div>
+        <div class="project-card-desc">
+          An interactive diagnostic tool walking through real-world network troubleshooting scenarios step by step.
+        </div>
+        <div class="project-card-link">In progress</div>
+      </div>
+      <div class="project-card coming-soon reveal">
+        <div class="project-card-tag">COMING SOON &nbsp;·&nbsp; STUDY TOOL</div>
+        <div class="project-card-title">Security+ Flash Cards</div>
+        <div class="project-card-desc">
+          A Security+ exam prep tool with spaced repetition, covering threats, cryptography, and identity management.
+        </div>
+        <div class="project-card-link">In progress</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap reveal">
+      <div class="contact-title">Let's Connect</div>
+      <p class="contact-sub">Open to help desk, IT support, and junior cybersecurity roles.</p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="btn btn-primary">Email Me</a>
+        <a href="https://linkedin.com" class="btn btn-secondary" id="linkedin-btn">LinkedIn — Coming Soon</a>
+      </div>
+      <p style="margin-top:24px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:1px">
+        Based in Los Angeles, CA &nbsp;·&nbsp; Available for remote or local roles
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>
+    <span style="color:var(--green)">Built with HTML, CSS &amp; JavaScript</span>
+    <span>© 2026</span>
+  </footer>
+
+  <script>
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── Cert bars animate on scroll ── */
+    const certObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.cert-bar').forEach(bar => {
+            bar.style.width = bar.style.width;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.cert-item').forEach(el => certObserver.observe(el));
+
+    /* ── Active nav link ── */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 80) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? 'var(--green)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
