@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CompTIA A+ Lab Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #050905;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    #lab {
+      width: 100%;
+      max-width: 900px;
+      min-height: 100vh;
+      background: #0a0e0a;
+      color: #33ff33;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #1a2e1a;
+      border-right: 1px solid #1a2e1a;
+    }
+
+    /* ── Top bar ── */
+    #topbar {
+      background: #0d1a0d;
+      border-bottom: 1px solid #1f3d1f;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .dots { display: flex; gap: 7px; align-items: center; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot-r { background: #3a1a1a; border: 1px solid #8b2020; }
+    .dot-y { background: #2a2a1a; border: 1px solid #8b8020; }
+    .dot-g { background: #1a3a1a; border: 1px solid #208b20; }
+    #title-bar { font-family: 'VT323', monospace; font-size: 18px; color: #55cc55; letter-spacing: 3px; }
+    #status-bar { font-size: 11px; color: #2d6b2d; }
+
+    /* ── Tabs ── */
+    #tabs {
+      display: flex;
+      background: #080d08;
+      border-bottom: 1px solid #1a3a1a;
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    #tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 8px 16px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: #2d6b2d;
+      cursor: pointer;
+      white-space: nowrap;
+      border: none;
+      border-right: 1px solid #1a3a1a;
+      border-bottom: 2px solid transparent;
+      background: none;
+      outline: none;
+      transition: all 0.15s;
+    }
+    .tab:hover { color: #55cc55; background: #0d1a0d; }
+    .tab.active { color: #33ff33; border-bottom: 2px solid #33ff33; background: #0a0e0a; }
+
+    /* ── Terminal ── */
+    #terminal {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    #output {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: #1f3d1f #0a0e0a;
+      min-height: 0;
+    }
+    #output::-webkit-scrollbar { width: 6px; }
+    #output::-webkit-scrollbar-track { background: #0a0e0a; }
+    #output::-webkit-scrollbar-thumb { background: #1f3d1f; border-radius: 3px; }
+
+    /* ── Output line types ── */
+    .line-cmd     { color: #33ff33; }
+    .line-out     { color: #aaffaa; }
+    .line-err     { color: #ff5555; }
+    .line-warn    { color: #ffcc44; }
+    .line-info    { color: #44ccff; }
+    .line-success { color: #55ff55; font-weight: bold; }
+    .line-title   { color: #33ff33; font-family: 'VT323', monospace; font-size: 20px; line-height: 1.25; }
+    .line-dim     { color: #2d6b2d; }
+    .line-score   { color: #ffcc44; }
+
+    /* ── Input row ── */
+    .prompt-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-top: 1px solid #1a3a1a;
+      padding-top: 12px;
+      flex-shrink: 0;
+    }
+    #prompt-label {
+      color: #33ff33;
+      font-size: 14px;
+      white-space: nowrap;
+      font-family: 'Share Tech Mono', monospace;
+      flex-shrink: 0;
+    }
+    #cmd-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #33ff33;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      caret-color: #33ff33;
+      min-width: 0;
+    }
+    #cmd-input::placeholder { color: #1f4a1f; }
+
+    /* ── Scanline overlay for CRT feel ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+<div id="lab">
+  <div id="topbar">
+    <div class="dots">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+    </div>
+    <div id="title-bar">CompTIA A+ Lab Terminal v1.0</div>
+    <div id="status-bar">● CONNECTED &nbsp;|&nbsp; <span id="score-display">XP: 0</span></div>
+  </div>
+
+  <div id="tabs">
+    <button class="tab active" onclick="switchModule('home')">~/home</button>
+    <button class="tab" onclick="switchModule('hardware')">~/hardware</button>
+    <button class="tab" onclick="switchModule('networking')">~/networking</button>
+    <button class="tab" onclick="switchModule('os')">~/os</button>
+    <button class="tab" onclick="switchModule('security')">~/security</button>
+    <button class="tab" onclick="switchModule('quiz')">~/quiz</button>
+  </div>
+
+  <div id="terminal">
+    <div id="output"></div>
+    <div class="prompt-row">
+      <span id="prompt-label">user@aplus-lab:~$</span>
+      <input id="cmd-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type 'help' to begin..." />
+    </div>
+  </div>
+</div>
+
+<script>
+const out = document.getElementById('output');
+const inp = document.getElementById('cmd-input');
+const scoreDisplay = document.getElementById('score-display');
+const promptLabel  = document.getElementById('prompt-label');
+
+let state = {
+  module: 'home',
+  xp: 0,
+  quizActive: false,
+  history: [],
+  historyIndex: -1
+};
+
+const prompts = {
+  home:       'user@aplus-lab:~$',
+  hardware:   'user@aplus-lab:~/hardware$',
+  networking: 'user@aplus-lab:~/networking$',
+  os:         'user@aplus-lab:~/os$',
+  security:   'user@aplus-lab:~/security$',
+  quiz:       'user@aplus-lab:~/quiz$',
+};
+
+/* ─────────────────────────────────────────
+   STUDY DATA
+───────────────────────────────────────── */
+const data = {
+  hardware: {
+    ram: {
+      title: 'RAM — Random Access Memory',
+      body: [
+        ['info', 'Form factors: DIMM (desktop, 288-pin), SO-DIMM (laptop, 260-pin)'],
+        ['out',  'Types:'],
+        ['out',  '  DDR4   — 2133–3200 MHz, 1.2V, 288-pin DIMM'],
+        ['out',  '  DDR5   — 4800–6400 MHz, 1.1V, 288-pin DIMM (not backward compat)'],
+        ['out',  '  DDR3   — 1066–2133 MHz, 1.5V (legacy)'],
+        ['warn', 'Channels: Single / Dual / Triple / Quad — match sticks for dual channel'],
+        ['out',  'ECC RAM — Error Correcting Code, for servers, corrects 1-bit errors'],
+        ['info', 'Key exam tip: DDR slots are keyed — wrong generation won\'t physically fit'],
+      ]
+    },
+    cpu: {
+      title: 'CPU — Central Processing Unit',
+      body: [
+        ['info', 'Sockets: Intel LGA (pins on motherboard) | AMD AM4/AM5 (pins on CPU)'],
+        ['out',  'Cores: physical execution units | Threads: logical (Hyper-Threading / SMT)'],
+        ['out',  'Clock speed: GHz (base + boost) | Cache: L1 < L2 < L3 (size vs speed)'],
+        ['warn', 'Thermal paste: required between CPU and heatsink for heat transfer'],
+        ['out',  'Cooling: Air (heatsink+fan) | AIO liquid | Custom loop'],
+        ['info', 'Key exam tip: Always ground yourself (ESD wrist strap) before handling CPU'],
+      ]
+    },
+    storage: {
+      title: 'Storage Devices',
+      body: [
+        ['out',  'HDD  — spinning platters, 3.5" desktop / 2.5" laptop, SATA III (6Gb/s)'],
+        ['out',  'SSD  — NAND flash, 2.5" SATA or M.2 form factor'],
+        ['info', '  M.2 slots can be SATA or NVMe (PCIe) — check motherboard specs!'],
+        ['out',  'NVMe — PCIe lanes, far faster than SATA (up to 7000 MB/s on PCIe 4.0)'],
+        ['warn', 'Optical: DVD (4.7GB) | Blu-ray (25GB per layer)'],
+        ['out',  'RAID:'],
+        ['out',  '  RAID 0  — Striping (speed, NO redundancy)'],
+        ['out',  '  RAID 1  — Mirroring (redundancy, 50% usable)'],
+        ['out',  '  RAID 5  — Striping + parity (min 3 disks, 1 fault tolerant)'],
+        ['out',  '  RAID 10 — Mirror of stripes (min 4 disks, speed + redundancy)'],
+      ]
+    },
+    ports: {
+      title: 'Common Ports & Connectors',
+      body: [
+        ['out',  'USB-A 2.0  — black, 480 Mb/s  | USB-A 3.0 — blue, 5 Gb/s'],
+        ['out',  'USB-A 3.1  — teal/blue, 10 Gb/s | USB4 — 40 Gb/s'],
+        ['info', 'USB-C — reversible, can carry USB / Thunderbolt / DisplayPort / power'],
+        ['out',  'Thunderbolt 3/4 — 40 Gb/s, uses USB-C connector, daisy-chain up to 6'],
+        ['out',  'Display: HDMI (audio+video) | DisplayPort (higher refresh/res) | VGA (analog, legacy)'],
+        ['warn', 'eSATA — external SATA for drives, no power delivery'],
+        ['out',  'Audio jacks: green=speakers, pink=mic, blue=line-in'],
+      ]
+    },
+    motherboard: {
+      title: 'Motherboard',
+      body: [
+        ['out',  'Form factors: ATX (305x244mm) | mATX | Mini-ITX (170x170mm)'],
+        ['info', 'Chipset: bridges CPU to peripherals, determines supported CPU/RAM/features'],
+        ['out',  'Slots: PCIe x16 (GPU) | PCIe x1 (cards) | M.2 (NVMe/SATA SSD)'],
+        ['out',  'BIOS/UEFI: firmware, POST checks hardware, boots OS'],
+        ['warn', 'CMOS battery (CR2032): stores BIOS settings & clock. Dead = date resets'],
+        ['out',  'Power connectors: 24-pin ATX (motherboard) + 8-pin EPS (CPU)'],
+        ['info', 'Front panel headers: power button, reset, HDD LED, power LED, USB, audio'],
+      ]
+    },
+    psu: {
+      title: 'Power Supply Unit (PSU)',
+      body: [
+        ['out',  'Converts AC wall power to DC voltages the PC uses: 3.3V, 5V, 12V'],
+        ['info', 'Wattage: add up all component TDPs — then add 20% headroom'],
+        ['out',  '80 Plus ratings: Standard < Bronze < Silver < Gold < Platinum < Titanium'],
+        ['warn', 'Modular PSU — only connect cables you need (less cable clutter)'],
+        ['out',  'ATX form factor standard — most cases and PSUs use ATX'],
+        ['info', 'Key exam tip: PSU failure symptoms — random shutdowns, burning smell, no POST'],
+      ]
+    },
+  },
+
+  networking: {
+    osi: {
+      title: 'OSI Model — 7 Layers',
+      body: [
+        ['out',  '7  Application  — HTTP, FTP, DNS, SMTP (user-facing protocols)'],
+        ['out',  '6  Presentation — encryption, compression, format conversion (SSL/TLS)'],
+        ['out',  '5  Session      — establish/manage/terminate sessions (NetBIOS, RPC)'],
+        ['out',  '4  Transport    — TCP (reliable) / UDP (fast) | ports | segmentation'],
+        ['out',  '3  Network      — IP addressing, routing (routers operate here)'],
+        ['out',  '2  Data Link    — MAC addresses, switches, frames (Ethernet, Wi-Fi)'],
+        ['out',  '1  Physical     — bits, cables, hubs, repeaters, voltages'],
+        ['info', 'Mnemonic (top-down): "All People Seem To Need Data Processing"'],
+        ['warn', 'Exam: switches=layer 2, routers=layer 3, hubs=layer 1'],
+      ]
+    },
+    ports: {
+      title: 'Common Network Ports',
+      body: [
+        ['out',  '20/21  FTP    — File Transfer (21=control, 20=data)'],
+        ['out',  '22     SSH    — Secure Shell (encrypted remote admin)'],
+        ['out',  '23     Telnet — unencrypted remote (avoid! use SSH)'],
+        ['out',  '25     SMTP   — sending email'],
+        ['out',  '53     DNS    — domain name resolution (UDP/TCP)'],
+        ['out',  '67/68  DHCP   — dynamic IP assignment'],
+        ['out',  '80     HTTP   — web (unencrypted)'],
+        ['out',  '110    POP3   — receive email (downloads, removes from server)'],
+        ['out',  '143    IMAP   — receive email (syncs, keeps on server)'],
+        ['out',  '443    HTTPS  — secure web (TLS)'],
+        ['out',  '3389   RDP    — Remote Desktop Protocol (Windows)'],
+        ['warn', 'Range 0-1023 = well-known | 1024-49151 = registered | rest = dynamic'],
+      ]
+    },
+    'tcp-ip': {
+      title: 'TCP vs UDP',
+      body: [
+        ['out',  'TCP — Transmission Control Protocol'],
+        ['out',  '  Connection-oriented (3-way handshake: SYN > SYN-ACK > ACK)'],
+        ['out',  '  Reliable: ACKs, retransmission, ordering, flow control'],
+        ['info', '  Use: HTTP/S, FTP, SSH, email — anything needing data integrity'],
+        ['out',  ''],
+        ['out',  'UDP — User Datagram Protocol'],
+        ['out',  '  Connectionless — fire and forget, no handshake'],
+        ['out',  '  Faster, lower overhead, no delivery guarantee'],
+        ['warn', '  Use: DNS, DHCP, VoIP, video streaming, online gaming'],
+      ]
+    },
+    subnetting: {
+      title: 'Subnetting Basics',
+      body: [
+        ['out',  'IP Address classes (classful — exam-tested):'],
+        ['out',  '  Class A: 1-126.x.x.x    /8   — 16M hosts per network'],
+        ['out',  '  Class B: 128-191.x.x.x  /16  — 65K hosts per network'],
+        ['out',  '  Class C: 192-223.x.x.x  /24  — 254 hosts per network'],
+        ['info', 'Private ranges: 10.0.0.0/8 | 172.16-31.x.x/12 | 192.168.0.0/16'],
+        ['out',  'CIDR /24 = 255.255.255.0 = 256 addresses (254 usable)'],
+        ['out',  'CIDR /25 = 255.255.255.128 = 128 addresses (126 usable, 2 subnets)'],
+        ['warn', 'Formula: usable hosts = 2^(host bits) - 2'],
+        ['out',  'Loopback: 127.0.0.1 | APIPA: 169.254.x.x (no DHCP reached)'],
+      ]
+    },
+    wireless: {
+      title: 'Wireless Networking Standards',
+      body: [
+        ['out',  '802.11a  — 5 GHz,     54 Mbps  (older)'],
+        ['out',  '802.11b  — 2.4 GHz,   11 Mbps  (legacy)'],
+        ['out',  '802.11g  — 2.4 GHz,   54 Mbps'],
+        ['out',  '802.11n  — 2.4/5 GHz, 600 Mbps (Wi-Fi 4, MIMO)'],
+        ['out',  '802.11ac — 5 GHz,     3.5 Gbps (Wi-Fi 5)'],
+        ['out',  '802.11ax — 2.4/5/6GHz, 9.6 Gbps (Wi-Fi 6/6E)'],
+        ['warn', '2.4 GHz: longer range, more interference | 5 GHz: faster, shorter range'],
+        ['info', 'WPA3 = current best security | WPA2 = still widely used | WEP = broken'],
+        ['out',  'Non-overlapping 2.4GHz channels: 1, 6, and 11'],
+      ]
+    },
+    cables: {
+      title: 'Network Cables',
+      body: [
+        ['out',  'Cat 5e  — up to 1 Gbps,  100m'],
+        ['out',  'Cat 6   — up to 10 Gbps, 55m (10G) / 100m (1G)'],
+        ['out',  'Cat 6a  — up to 10 Gbps, 100m (full distance)'],
+        ['out',  'Fiber:  Single-mode (long distance) | Multi-mode (shorter, cheaper)'],
+        ['info', 'Straight-through: PC to switch | Crossover: PC to PC (or same device)'],
+        ['warn', 'Modern switches auto-detect (Auto-MDIX) — crossover rarely needed now'],
+        ['out',  'Coaxial (RG-6): cable internet/TV | Plenum-rated: for air spaces (fire safe)'],
+      ]
+    },
+  },
+
+  os: {
+    windows: {
+      title: 'Windows — Key Concepts',
+      body: [
+        ['out',  'File systems: NTFS (modern, ACLs, encryption) | FAT32 | exFAT (flash)'],
+        ['info', 'NTFS max file size: 16TB | FAT32 max file size: 4GB'],
+        ['out',  'Key tools:'],
+        ['out',  '  msconfig    — startup, boot options, safe mode'],
+        ['out',  '  regedit     — registry editor (HKLM, HKCU, HKCR, HKU, HKCC)'],
+        ['out',  '  devmgmt.msc — Device Manager (yellow ! = driver problem)'],
+        ['out',  '  eventvwr    — Event Viewer (Application, System, Security logs)'],
+        ['out',  '  diskpart    — CLI disk management'],
+        ['out',  '  taskmgr     — Task Manager (Ctrl+Shift+Esc)'],
+        ['warn', 'Quick tip: Win+R opens the Run box — fastest way to open tools'],
+        ['info', 'Editions: Home < Pro < Enterprise | Pro adds domain join, BitLocker'],
+      ]
+    },
+    linux: {
+      title: 'Linux — Essential Commands',
+      body: [
+        ['out',  'ls        — list files | ls -la (show hidden + permissions)'],
+        ['out',  'cd        — change directory | cd .. (up) | cd ~ (home)'],
+        ['out',  'pwd       — print working directory'],
+        ['out',  'cp/mv/rm  — copy / move / remove files'],
+        ['out',  'chmod     — change permissions (chmod 755 file)'],
+        ['out',  'chown     — change owner (chown user:group file)'],
+        ['info', 'Permissions: rwx = 4+2+1 | 755 = rwxr-xr-x | 644 = rw-r--r--'],
+        ['out',  'sudo      — run as superuser | su — switch user'],
+        ['out',  'apt/yum   — package managers (Debian/RHEL families)'],
+        ['warn', '/etc=config | /var/log=logs | /home=users | /boot=kernel'],
+        ['out',  'ps aux    — running processes | kill -9 PID — force kill'],
+      ]
+    },
+    macos: {
+      title: 'macOS — Key Concepts',
+      body: [
+        ['out',  'File system: APFS (modern) | HFS+ (legacy)'],
+        ['out',  'Disk Utility    — format, partition, verify/repair disks'],
+        ['out',  'Activity Monitor — like Task Manager (CPU, memory, disk, network)'],
+        ['out',  'Terminal         — full bash/zsh shell, Unix underpinnings'],
+        ['info', 'System Settings  — central config hub (was System Preferences)'],
+        ['out',  'Finder           — file manager | Spotlight (Cmd+Space) — search'],
+        ['warn', 'FileVault — full-disk encryption (equivalent to BitLocker)'],
+        ['out',  'Time Machine — automated backup to external drive or NAS'],
+        ['info', 'SIP (System Integrity Protection) — protects core OS files'],
+      ]
+    },
+    troubleshooting: {
+      title: 'OS Troubleshooting',
+      body: [
+        ['out',  'Windows BSOD: note the stop code — it tells you what failed'],
+        ['out',  '  MEMORY_MANAGEMENT    — run memtest86+ to check RAM'],
+        ['out',  '  INACCESSIBLE_BOOT_DEVICE — check SATA/AHCI mode in BIOS'],
+        ['warn', 'Safe Mode: loads minimal drivers — great for isolating software issues'],
+        ['out',  'Windows Recovery (WinRE):'],
+        ['out',  '  sfc /scannow                        — repairs corrupt OS files'],
+        ['out',  '  DISM /Online /Cleanup-Image /RestoreHealth — repairs Windows image'],
+        ['info', 'Boot sequence: POST > UEFI/BIOS > Boot loader > OS kernel > login'],
+        ['out',  'Profile corrupt? Create a new user account and test in that profile'],
+      ]
+    },
+    commands: {
+      title: 'Windows CLI Commands',
+      body: [
+        ['out',  'ipconfig        — show IP config | ipconfig /all (full detail)'],
+        ['out',  'ipconfig /release + /renew — release and get new DHCP lease'],
+        ['out',  'ping <host>     — test connectivity'],
+        ['out',  'tracert <host>  — trace route (hops to destination)'],
+        ['out',  'nslookup        — DNS lookup tool'],
+        ['out',  'netstat -an     — show active connections and listening ports'],
+        ['info', 'chkdsk /f /r    — check and repair disk errors'],
+        ['out',  'shutdown /r /t 0 — restart immediately'],
+        ['warn', 'Always run Command Prompt as Administrator for system-level commands'],
+      ]
+    },
+  },
+
+  security: {
+    threats: {
+      title: 'Common Security Threats',
+      body: [
+        ['err',  'Malware types:'],
+        ['out',  '  Virus      — attaches to files, spreads on execution'],
+        ['out',  '  Worm       — self-replicates over network, no host file needed'],
+        ['out',  '  Trojan     — disguised as legitimate software'],
+        ['out',  '  Ransomware — encrypts files, demands payment (e.g. WannaCry)'],
+        ['out',  '  Rootkit    — hides in OS/kernel, very hard to detect/remove'],
+        ['out',  '  Spyware    — silently monitors and exfiltrates data'],
+        ['out',  '  Adware     — unwanted ads, often bundles spyware'],
+        ['warn', 'Social engineering:'],
+        ['out',  '  Phishing        — mass deceptive emails'],
+        ['out',  '  Spear phishing  — targeted, personalized phishing'],
+        ['out',  '  Vishing         — voice/phone based'],
+        ['out',  '  Tailgating      — physically following through a secure door'],
+      ]
+    },
+    hardening: {
+      title: 'System Hardening',
+      body: [
+        ['info', 'Principle of least privilege — only the minimum access needed'],
+        ['out',  'Disable unused ports and services (reduce attack surface)'],
+        ['out',  'Keep OS and software fully patched — patch management is critical'],
+        ['out',  'Strong passwords: min 12 chars, upper+lower+number+symbol'],
+        ['warn', 'MFA — something you know + something you have + something you are'],
+        ['out',  'Account lockout policies — limit failed login attempts'],
+        ['out',  'Full disk encryption: BitLocker (Win) | FileVault (Mac) | LUKS (Linux)'],
+        ['out',  'Firewall: host-based (Windows Defender) + network-level firewall'],
+        ['info', 'Change default credentials on ALL devices immediately!'],
+        ['out',  'Disable autorun/autoplay — common malware entry vector on USB'],
+      ]
+    },
+    encryption: {
+      title: 'Encryption & Protocols',
+      body: [
+        ['out',  'Symmetric — same key encrypts and decrypts (AES, DES, 3DES)'],
+        ['out',  '  AES-256 — current gold standard symmetric cipher'],
+        ['out',  'Asymmetric — public key encrypts, private key decrypts (RSA)'],
+        ['info', 'SSL/TLS — encrypts web traffic (TLS 1.3 current, SSL deprecated)'],
+        ['out',  'HTTPS = HTTP + TLS | SFTP = FTP + SSH | FTPS = FTP + SSL/TLS'],
+        ['out',  'Hashing: one-way | MD5/SHA-1 = broken | SHA-256 = current standard'],
+        ['warn', 'MD5 and SHA-1 are cryptographically broken — never use for security'],
+        ['out',  'PKI: Certificate Authority (CA) issues digital certificates'],
+        ['out',  '802.1X — port-based NAC, RADIUS server authenticates devices'],
+      ]
+    },
+    physical: {
+      title: 'Physical Security',
+      body: [
+        ['out',  'Cable locks — Kensington lock for laptops in public'],
+        ['out',  'Server room: badge access, mantrap (double-door), biometrics'],
+        ['warn', 'Tailgating/piggybacking — never let unknown people through secure doors'],
+        ['out',  'Privacy screen — prevents shoulder surfing'],
+        ['out',  'Data destruction: shredding HDDs, degaussing magnetic media'],
+        ['info', 'CCTV — deterrent and forensic evidence'],
+        ['out',  'Asset tracking — RFID tags, barcodes, inventory management'],
+        ['warn', 'Dumpster diving — shred ALL documents with company information'],
+      ]
+    },
+    malware: {
+      title: 'Malware Removal Process',
+      body: [
+        ['out',  '1. Identify and research the malware symptoms'],
+        ['out',  '2. Quarantine the infected system (disconnect from network)'],
+        ['out',  '3. Disable System Restore (prevents malware hiding in restore points)'],
+        ['out',  '4. Boot into Safe Mode'],
+        ['out',  '5. Run up-to-date anti-malware scan'],
+        ['out',  '6. Remove all identified threats'],
+        ['out',  '7. Re-enable System Restore, create new restore point'],
+        ['out',  '8. Update and patch the system'],
+        ['info', '9. Educate the user — how did this happen?'],
+        ['warn', 'If you cannot remove it, consider nuke and pave (wipe and reinstall)'],
+      ]
+    },
+  }
+};
+
+/* ─────────────────────────────────────────
+   QUIZ BANK
+───────────────────────────────────────── */
+const quizBank = [
+  { q: 'What RAID level provides striping with NO fault tolerance?', a: ['raid 0','0'], hint: 'Speed over safety.', domain: 'hardware', xp: 10 },
+  { q: 'What color indicates a USB 3.0 port (5 Gbps)?', a: ['blue'], hint: 'Blue = fast.', domain: 'hardware', xp: 10 },
+  { q: 'Which form factor does laptop RAM use?', a: ['so-dimm','sodimm'], hint: 'Small Outline...', domain: 'hardware', xp: 10 },
+  { q: 'What connects to the 24-pin ATX connector on a motherboard?', a: ['psu','power supply','power supply unit'], hint: 'The big cable from your PSU.', domain: 'hardware', xp: 10 },
+  { q: 'What RAID level requires minimum 3 disks and tolerates 1 failure?', a: ['raid 5','5'], hint: 'Uses parity.', domain: 'hardware', xp: 15 },
+  { q: 'What port does SSH use by default?', a: ['22','port 22'], hint: 'Small number.', domain: 'networking', xp: 10 },
+  { q: 'Which OSI layer do routers operate at?', a: ['layer 3','3','network','network layer'], hint: 'Think IP addresses.', domain: 'networking', xp: 10 },
+  { q: 'What is the APIPA address range when DHCP fails?', a: ['169.254','169.254.x.x','169.254.0.0'], hint: 'Starts with 169.', domain: 'networking', xp: 15 },
+  { q: 'Which port does HTTPS use?', a: ['443','port 443'], hint: 'Three digits, starts with 4.', domain: 'networking', xp: 5 },
+  { q: 'Which 802.11 standard is Wi-Fi 6?', a: ['802.11ax','11ax','ax'], hint: 'After ac comes...', domain: 'networking', xp: 15 },
+  { q: 'What non-overlapping 2.4GHz channels should you use?', a: ['1 6 11','1, 6, 11','channels 1 6 11'], hint: 'Three specific numbers.', domain: 'networking', xp: 15 },
+  { q: 'Which command scans and repairs corrupt Windows system files?', a: ['sfc /scannow','sfc'], hint: 'System File Checker.', domain: 'os', xp: 10 },
+  { q: 'What Windows tool manages device drivers?', a: ['device manager','devmgmt.msc'], hint: 'Yellow exclamation marks live here.', domain: 'os', xp: 10 },
+  { q: 'What file system does Windows use for modern drives?', a: ['ntfs'], hint: 'Supports encryption and ACLs.', domain: 'os', xp: 10 },
+  { q: 'What key command opens Task Manager on Windows?', a: ['ctrl+shift+esc','ctrl shift esc'], hint: 'Three keys.', domain: 'os', xp: 5 },
+  { q: 'What does MFA stand for?', a: ['multi-factor authentication','multifactor authentication'], hint: 'More than one way to prove identity.', domain: 'security', xp: 5 },
+  { q: 'Which hash algorithm is broken and should NOT be used?', a: ['md5','sha-1','sha1'], hint: 'Old 90s-era algorithms.', domain: 'security', xp: 15 },
+  { q: 'What malware disguises itself as legitimate software?', a: ['trojan','trojan horse'], hint: 'Greek mythology.', domain: 'security', xp: 10 },
+  { q: 'What is the principle of least privilege?', a: ['minimum access','only minimum access needed','least access needed'], hint: 'Give only what is needed.', domain: 'security', xp: 10 },
+  { q: 'What malware self-replicates across a network without a host file?', a: ['worm'], hint: 'No file needed to spread.', domain: 'security', xp: 10 },
+];
+
+/* ─────────────────────────────────────────
+   TERMINAL HELPERS
+───────────────────────────────────────── */
+function print(text, cls = 'line-out') {
+  const div = document.createElement('div');
+  div.className = cls;
+  div.textContent = text;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+function blank() { print(''); }
+
+function addXP(n) {
+  state.xp += n;
+  scoreDisplay.textContent = 'XP: ' + state.xp;
+  print('  +' + n + ' XP!', 'line-score');
+}
+
+/* ─────────────────────────────────────────
+   BANNER
+───────────────────────────────────────── */
+function showBanner() {
+  out.innerHTML = '';
+  print('  ______  ____    __      _       ____  ', 'line-title');
+  print(' / __  / / __ \\  / /     | |     / _  \\ ', 'line-title');
+  print('/ /  /_// /_/ / / /   +  | |    / /_/ / ', 'line-title');
+  print('\\ \\    / __  / / /_______ | |___/ __  /  ', 'line-title');
+  print(' \\____/_/ /_/ /_________/ |____/_/ /_/   ', 'line-title');
+  blank();
+  print('  CompTIA A+ Interactive Lab Terminal', 'line-info');
+  print('  Core 1 (220-1101) + Core 2 (220-1102)', 'line-dim');
+  blank();
+  print('  Domains: Hardware | Networking | OS | Security', 'line-out');
+  blank();
+  print('  Type "help" to see all commands.', 'line-warn');
+  blank();
+}
+
+/* ─────────────────────────────────────────
+   HELP
+───────────────────────────────────────── */
+function showHelp() {
+  const m = state.module;
+  blank();
+  print('  COMMANDS', 'line-info');
+  print('  ──────────────────────────────────────', 'line-dim');
+  print('  cd <module>  — navigate to a module', 'line-out');
+  print('  ls           — list topics in current module', 'line-out');
+  print('  cat <topic>  — display topic details (+5 XP)', 'line-out');
+  print('  quiz         — go to quiz module', 'line-out');
+  print('  score        — show your XP and rank', 'line-out');
+  print('  clear        — clear terminal', 'line-out');
+  print('  home         — return to home screen', 'line-out');
+  blank();
+  print('  MODULES', 'line-info');
+  print('  ──────────────────────────────────────', 'line-dim');
+  print('  hardware | networking | os | security | quiz', 'line-out');
+  blank();
+  if (m !== 'home' && m !== 'quiz' && data[m]) {
+    const topics = Object.keys(data[m]).join(' | ');
+    print('  TOPICS IN ~/' + m.toUpperCase(), 'line-info');
+    print('  ──────────────────────────────────────', 'line-dim');
+    print('  ' + topics, 'line-out');
+    blank();
+  }
+  if (m === 'quiz') {
+    print('  QUIZ COMMANDS', 'line-info');
+    print('  ──────────────────────────────────────', 'line-dim');
+    print('  start              — all domains (20 questions)', 'line-out');
+    print('  start hardware     — hardware only', 'line-out');
+    print('  start networking   — networking only', 'line-out');
+    print('  start os           — OS only', 'line-out');
+    print('  start security     — security only', 'line-out');
+    blank();
+    print('  During quiz: "hint" for a clue | "skip" to skip', 'line-dim');
+    blank();
+  }
+}
+
+/* ─────────────────────────────────────────
+   LS
+───────────────────────────────────────── */
+function showLS() {
+  const m = state.module;
+  blank();
+  if (m === 'home') {
+    print('  MODULES', 'line-info');
+    ['hardware','networking','os','security','quiz'].forEach(n => {
+      print('  drwxr-xr-x  ' + n + '/', 'line-out');
+    });
+  } else if (m === 'quiz') {
+    print('  Quiz mode — no files to list.', 'line-dim');
+    print('  Type "start" to begin a quiz.', 'line-out');
+  } else if (data[m]) {
+    print('  TOPICS IN ~/' + m.toUpperCase(), 'line-info');
+    Object.keys(data[m]).forEach(k => {
+      print('  -rw-r--r--  ' + k + '.md', 'line-out');
+    });
+    blank();
+    print('  Use: cat <topic> to read', 'line-dim');
+  }
+  blank();
+}
+
+/* ─────────────────────────────────────────
+   CAT
+───────────────────────────────────────── */
+function showCat(topic) {
+  const m = state.module;
+  let found = null;
+
+  if (m !== 'home' && m !== 'quiz' && data[m] && data[m][topic]) {
+    found = data[m][topic];
+  } else {
+    for (const s of Object.keys(data)) {
+      if (data[s][topic]) { found = data[s][topic]; break; }
+    }
+  }
+
+  if (!found) {
+    print('  cat: ' + topic + ': No such file', 'line-err');
+    print('  Use "ls" to list available topics.', 'line-dim');
+    return;
+  }
+
+  blank();
+  print('  ══════════════════════════════════════', 'line-dim');
+  print('  ' + found.title, 'line-info');
+  print('  ══════════════════════════════════════', 'line-dim');
+  found.body.forEach(([cls, txt]) => print('  ' + txt, 'line-' + cls));
+  blank();
+  addXP(5);
+}
+
+/* ─────────────────────────────────────────
+   SCORE
+───────────────────────────────────────── */
+function showScore() {
+  blank();
+  print('  XP: ' + state.xp, 'line-score');
+  const rank =
+    state.xp < 30  ? 'Trainee Technician' :
+    state.xp < 80  ? 'Help Desk I' :
+    state.xp < 150 ? 'Support Technician' :
+    state.xp < 250 ? 'A+ Candidate' :
+    state.xp < 400 ? 'Senior Technician' :
+                     'CompTIA A+ Ready!';
+  print('  Rank: ' + rank, 'line-info');
+  blank();
+}
+
+/* ─────────────────────────────────────────
+   MODULE SWITCH
+───────────────────────────────────────── */
+function switchModule(mod) {
+  state.module = mod;
+  state.quizActive = false;
+  currentQuiz = null;
+
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.textContent.trim() === '~/' + mod) t.classList.add('active');
+  });
+
+  promptLabel.textContent = prompts[mod] || 'user@aplus-lab:~$';
+
+  if (mod === 'home') { showBanner(); inp.focus(); return; }
+
+  out.innerHTML = '';
+  blank();
+  print('  [ ' + mod.toUpperCase() + ' ]', 'line-info');
+  print('  ──────────────────────────────────────', 'line-dim');
+
+  if (mod === 'quiz') {
+    print('  Ready to test your knowledge?', 'line-out');
+    blank();
+    print('  start              — all domains', 'line-out');
+    print('  start hardware     — hardware only', 'line-out');
+    print('  start networking   — networking only', 'line-out');
+    print('  start os           — OS only', 'line-out');
+    print('  start security     — security only', 'line-out');
+  } else if (data[mod]) {
+    const topics = Object.keys(data[mod]).join(', ');
+    print('  Topics: ' + topics, 'line-out');
+    blank();
+    print('  Use "cat <topic>" to study | "ls" to list all', 'line-dim');
+  }
+
+  blank();
+  inp.focus();
+}
+
+/* ─────────────────────────────────────────
+   QUIZ ENGINE
+───────────────────────────────────────── */
+let quizQueue = [];
+let currentQuiz = null;
+let quizScore = 0;
+let quizTotal = 0;
+let quizIndex = 0;
+
+function startQuiz(domain) {
+  state.quizActive = true;
+  quizScore = 0;
+  quizQueue = quizBank
+    .filter(q => !domain || q.domain === domain)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 10);
+  quizTotal = quizQueue.length;
+  quizIndex = 0;
+
+  blank();
+  print('  ╔══════════════════════════════════════╗', 'line-warn');
+  print('  ║   QUIZ MODE                          ║', 'line-warn');
+  print('  ║   ' + quizTotal + ' questions' + (domain ? ' — ' + domain : ' — all domains') + ' '.repeat(Math.max(0, 22 - (domain || 'all domains').length)) + '║', 'line-warn');
+  print('  ╚══════════════════════════════════════╝', 'line-warn');
+  blank();
+  print('  Type your answer and press Enter.', 'line-dim');
+  print('  "hint" for a clue | "skip" to skip', 'line-dim');
+  blank();
+
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (quizIndex >= quizQueue.length) { endQuiz(); return; }
+  currentQuiz = quizQueue[quizIndex++];
+  print('  [' + quizIndex + '/' + quizTotal + '] <' + currentQuiz.domain.toUpperCase() + '>', 'line-info');
+  print('  ' + currentQuiz.q, 'line-warn');
+  blank();
+}
+
+function checkAnswer(ans) {
+  if (!currentQuiz) return;
+  const clean = ans.toLowerCase().trim();
+  const correct = currentQuiz.a.some(a => clean.includes(a.toLowerCase()));
+  if (correct) {
+    print('  ✓ Correct!', 'line-success');
+    addXP(currentQuiz.xp);
+    quizScore++;
+  } else {
+    print('  ✗ Wrong. Answer: ' + currentQuiz.a[0], 'line-err');
+  }
+  blank();
+  currentQuiz = null;
+  setTimeout(nextQuestion, 250);
+}
+
+function endQuiz() {
+  state.quizActive = false;
+  currentQuiz = null;
+  blank();
+  print('  ══════════════════════════════════════', 'line-dim');
+  print('  QUIZ COMPLETE', 'line-success');
+  print('  Score: ' + quizScore + ' / ' + quizTotal, 'line-score');
+  const pct = Math.round((quizScore / quizTotal) * 100);
+  const msg =
+    pct >= 90 ? 'EXCELLENT — CompTIA would be proud!' :
+    pct >= 70 ? 'PASS — Keep studying!' :
+    pct >= 50 ? 'BORDERLINE — Review weak areas.' :
+                'Keep studying — you\'ve got this.';
+  print('  ' + pct + '% — ' + msg, pct >= 70 ? 'line-success' : 'line-err');
+  print('  Total session XP: ' + state.xp, 'line-score');
+  print('  ══════════════════════════════════════', 'line-dim');
+  blank();
+  print('  Type "start" to retry | "cd <module>" to study', 'line-dim');
+  blank();
+}
+
+/* ─────────────────────────────────────────
+   COMMAND PROCESSOR
+───────────────────────────────────────── */
+function processCommand(raw) {
+  const cmd = raw.trim().toLowerCase();
+  if (!cmd) return;
+
+  state.history.unshift(raw);
+  state.historyIndex = -1;
+
+  print('  ' + promptLabel.textContent + ' ' + raw, 'line-cmd');
+
+  /* ── Quiz intercepts ── */
+  if (state.quizActive) {
+    if (cmd === 'hint')  { if (currentQuiz) print('  Hint: ' + currentQuiz.hint, 'line-warn'); return; }
+    if (cmd === 'skip')  { print('  Skipped. Answer: ' + (currentQuiz ? currentQuiz.a[0] : '?'), 'line-warn'); blank(); currentQuiz = null; setTimeout(nextQuestion, 200); return; }
+    if (cmd === 'quit' || cmd === 'exit') { state.quizActive = false; currentQuiz = null; print('  Quiz exited.', 'line-dim'); blank(); return; }
+    if (currentQuiz) { checkAnswer(raw); return; }
+  }
+
+  /* ── Universal commands ── */
+  if (cmd === 'clear' || cmd === 'cls')    { out.innerHTML = ''; return; }
+  if (cmd === 'home' || cmd === 'cd ~' || cmd === 'cd') { switchModule('home'); return; }
+  if (cmd === 'help' || cmd === 'man')     { showHelp(); return; }
+  if (cmd === 'ls' || cmd === 'dir')       { showLS(); return; }
+  if (cmd === 'score' || cmd === 'xp')     { showScore(); return; }
+  if (cmd === 'quiz')                      { switchModule('quiz'); return; }
+  if (cmd === 'whoami')   { print('  student@aplus-lab — future CompTIA A+ certified tech', 'line-out'); return; }
+  if (cmd === 'pwd')      { print('  /home/student/' + state.module, 'line-out'); return; }
+  if (cmd === 'uname -a') { print('  APlus-Lab 1.0 (220-1101/220-1102) x86_64', 'line-out'); return; }
+  if (cmd === 'date')     { print('  ' + new Date().toString(), 'line-out'); return; }
+
+  if (cmd.startsWith('cd ')) {
+    const dest = cmd.slice(3).replace(/^~\//, '').trim();
+    if (['home','hardware','networking','os','security','quiz'].includes(dest)) { switchModule(dest); return; }
+    print('  cd: ' + dest + ': No such directory', 'line-err');
+    print('  Modules: hardware | networking | os | security | quiz', 'line-dim');
+    return;
+  }
+
+  if (cmd.startsWith('cat ')) {
+    showCat(cmd.slice(4).trim());
+    return;
+  }
+
+  if (cmd === 'start' || cmd.startsWith('start ')) {
+    const domain = cmd.slice(5).trim() || null;
+    const valid = ['hardware','networking','os','security'];
+    if (domain && !valid.includes(domain)) {
+      print('  Unknown domain: ' + domain, 'line-err');
+      print('  Valid: hardware | networking | os | security', 'line-dim');
+      return;
+    }
+    if (state.module !== 'quiz') switchModule('quiz');
+    startQuiz(domain || null);
+    return;
+  }
+
+  print('  Command not found: ' + raw, 'line-err');
+  print('  Type "help" for available commands.', 'line-dim');
+  blank();
+}
+
+/* ─────────────────────────────────────────
+   INPUT HANDLING
+───────────────────────────────────────── */
+inp.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = inp.value;
+    inp.value = '';
+    processCommand(val);
+  }
+  if (e.key === 'ArrowUp') {
+    state.historyIndex = Math.min(state.historyIndex + 1, state.history.length - 1);
+    inp.value = state.history[state.historyIndex] || '';
+    e.preventDefault();
+  }
+  if (e.key === 'ArrowDown') {
+    state.historyIndex = Math.max(state.historyIndex - 1, -1);
+    inp.value = state.historyIndex >= 0 ? state.history[state.historyIndex] : '';
+    e.preventDefault();
+  }
+});
+
+/* Click anywhere on terminal to focus input */
+document.getElementById('lab').addEventListener('click', () => inp.focus());
+
+/* ─────────────────────────────────────────
+   BOOT
+───────────────────────────────────────── */
+showBanner();
+inp.focus();
+</script>
+</body>
+</html>
