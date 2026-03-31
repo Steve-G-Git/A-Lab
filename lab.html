@@ -13,39 +13,43 @@
       height: 100%;
       background: #050905;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
       font-family: 'Share Tech Mono', monospace;
     }
-#topnav {
-  background: #0d1a0d;
-  border-bottom: 1px solid #1a3a1a;
-  padding: 0 16px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
-}
-#topnav a {
-  color: #2d6b2d;
-  text-decoration: none;
-  letter-spacing: 1px;
-  transition: color 0.15s;
-}
-#topnav a:hover { color: #33ff33; }
-#topnav .nav-right { color: #1a4a1a; }
-    <div id="lab">
-  <div id="topnav">
-    <a href="index.html">← Back to Portfolio</a>
-    <span class="nav-right">CompTIA A+ Lab Terminal</span>
-  </div>
+
+    /* ── Top nav ── */
+    #topnav {
+      width: 100%;
+      max-width: 900px;
+      background: #0d1a0d;
+      border-bottom: 1px solid #1a3a1a;
+      border-left: 1px solid #1a2e1a;
+      border-right: 1px solid #1a2e1a;
+      padding: 0 16px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+
+    #topnav a {
+      color: #2d6b2d;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.15s;
+    }
+
+    #topnav a:hover { color: #33ff33; }
+    #topnav .nav-right { color: #1a4a1a; }
+
+    /* ── Lab container ── */
     #lab {
       width: 100%;
       max-width: 900px;
-      min-height: 100vh;
+      flex: 1;
       background: #0a0e0a;
       color: #33ff33;
       display: flex;
@@ -64,6 +68,7 @@
       justify-content: space-between;
       flex-shrink: 0;
     }
+
     .dots { display: flex; gap: 7px; align-items: center; }
     .dot { width: 11px; height: 11px; border-radius: 50%; }
     .dot-r { background: #3a1a1a; border: 1px solid #8b2020; }
@@ -82,6 +87,7 @@
       scrollbar-width: none;
     }
     #tabs::-webkit-scrollbar { display: none; }
+
     .tab {
       padding: 8px 16px;
       font-family: 'Share Tech Mono', monospace;
@@ -122,18 +128,15 @@
     #output::-webkit-scrollbar-track { background: #0a0e0a; }
     #output::-webkit-scrollbar-thumb { background: #1f3d1f; border-radius: 3px; }
 
-    /* ── Output line types ── */
     .line-cmd     { color: #33ff33; }
     .line-out     { color: #aaffaa; }
     .line-err     { color: #ff5555; }
     .line-warn    { color: #ffcc44; }
     .line-info    { color: #44ccff; }
     .line-success { color: #55ff55; font-weight: bold; }
-    .line-title   { color: #33ff33; font-family: 'VT323', monospace; font-size: 20px; line-height: 1.25; }
     .line-dim     { color: #2d6b2d; }
     .line-score   { color: #ffcc44; }
 
-    /* ── Input row ── */
     .prompt-row {
       display: flex;
       align-items: center;
@@ -142,6 +145,7 @@
       padding-top: 12px;
       flex-shrink: 0;
     }
+
     #prompt-label {
       color: #33ff33;
       font-size: 14px;
@@ -149,6 +153,7 @@
       font-family: 'Share Tech Mono', monospace;
       flex-shrink: 0;
     }
+
     #cmd-input {
       flex: 1;
       background: transparent;
@@ -162,17 +167,13 @@
     }
     #cmd-input::placeholder { color: #1f4a1f; }
 
-    /* ── Scanline overlay for CRT feel ── */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
       background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
       );
       pointer-events: none;
       z-index: 9999;
@@ -181,34 +182,40 @@
 </head>
 <body>
 
-<div id="lab">
-  <div id="topbar">
-    <div class="dots">
-      <div class="dot dot-r"></div>
-      <div class="dot dot-y"></div>
-      <div class="dot dot-g"></div>
-    </div>
-    <div id="title-bar">CompTIA A+ Lab Terminal v1.0</div>
-    <div id="status-bar">● CONNECTED &nbsp;|&nbsp; <span id="score-display">XP: 0</span></div>
+  <!-- Back to portfolio nav -->
+  <div id="topnav">
+    <a href="index.html">&#8592; Back to Portfolio</a>
+    <span class="nav-right">CompTIA A+ Lab Terminal</span>
   </div>
 
-  <div id="tabs">
-    <button class="tab active" onclick="switchModule('home')">~/home</button>
-    <button class="tab" onclick="switchModule('hardware')">~/hardware</button>
-    <button class="tab" onclick="switchModule('networking')">~/networking</button>
-    <button class="tab" onclick="switchModule('os')">~/os</button>
-    <button class="tab" onclick="switchModule('security')">~/security</button>
-    <button class="tab" onclick="switchModule('quiz')">~/quiz</button>
-  </div>
+  <div id="lab">
+    <div id="topbar">
+      <div class="dots">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div id="title-bar">CompTIA A+ Lab Terminal v1.0</div>
+      <div id="status-bar">&#9679; CONNECTED &nbsp;|&nbsp; <span id="score-display">XP: 0</span></div>
+    </div>
 
-  <div id="terminal">
-    <div id="output"></div>
-    <div class="prompt-row">
-      <span id="prompt-label">user@aplus-lab:~$</span>
-      <input id="cmd-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type 'help' to begin..." />
+    <div id="tabs">
+      <button class="tab active" onclick="switchModule('home')">~/home</button>
+      <button class="tab" onclick="switchModule('hardware')">~/hardware</button>
+      <button class="tab" onclick="switchModule('networking')">~/networking</button>
+      <button class="tab" onclick="switchModule('os')">~/os</button>
+      <button class="tab" onclick="switchModule('security')">~/security</button>
+      <button class="tab" onclick="switchModule('quiz')">~/quiz</button>
+    </div>
+
+    <div id="terminal">
+      <div id="output"></div>
+      <div class="prompt-row">
+        <span id="prompt-label">user@aplus-lab:~$</span>
+        <input id="cmd-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type 'help' to begin..." />
+      </div>
     </div>
   </div>
-</div>
 
 <script>
 const out = document.getElementById('output');
@@ -233,9 +240,6 @@ const prompts = {
   quiz:       'user@aplus-lab:~/quiz$',
 };
 
-/* ─────────────────────────────────────────
-   STUDY DATA
-───────────────────────────────────────── */
 const data = {
   hardware: {
     ram: {
@@ -243,12 +247,12 @@ const data = {
       body: [
         ['info', 'Form factors: DIMM (desktop, 288-pin), SO-DIMM (laptop, 260-pin)'],
         ['out',  'Types:'],
-        ['out',  '  DDR4   — 2133–3200 MHz, 1.2V, 288-pin DIMM'],
-        ['out',  '  DDR5   — 4800–6400 MHz, 1.1V, 288-pin DIMM (not backward compat)'],
-        ['out',  '  DDR3   — 1066–2133 MHz, 1.5V (legacy)'],
+        ['out',  '  DDR4   — 2133-3200 MHz, 1.2V, 288-pin DIMM'],
+        ['out',  '  DDR5   — 4800-6400 MHz, 1.1V, 288-pin DIMM (not backward compat)'],
+        ['out',  '  DDR3   — 1066-2133 MHz, 1.5V (legacy)'],
         ['warn', 'Channels: Single / Dual / Triple / Quad — match sticks for dual channel'],
         ['out',  'ECC RAM — Error Correcting Code, for servers, corrects 1-bit errors'],
-        ['info', 'Key exam tip: DDR slots are keyed — wrong generation won\'t physically fit'],
+        ['info', 'Key exam tip: DDR slots are keyed — wrong generation will not physically fit'],
       ]
     },
     cpu: {
@@ -305,7 +309,7 @@ const data = {
       title: 'Power Supply Unit (PSU)',
       body: [
         ['out',  'Converts AC wall power to DC voltages the PC uses: 3.3V, 5V, 12V'],
-        ['info', 'Wattage: add up all component TDPs — then add 20% headroom'],
+        ['info', 'Wattage: add up all component TDPs then add 20% headroom'],
         ['out',  '80 Plus ratings: Standard < Bronze < Silver < Gold < Platinum < Titanium'],
         ['warn', 'Modular PSU — only connect cables you need (less cable clutter)'],
         ['out',  'ATX form factor standard — most cases and PSUs use ATX'],
@@ -313,7 +317,6 @@ const data = {
       ]
     },
   },
-
   networking: {
     osi: {
       title: 'OSI Model — 7 Layers',
@@ -377,11 +380,11 @@ const data = {
     wireless: {
       title: 'Wireless Networking Standards',
       body: [
-        ['out',  '802.11a  — 5 GHz,     54 Mbps  (older)'],
-        ['out',  '802.11b  — 2.4 GHz,   11 Mbps  (legacy)'],
-        ['out',  '802.11g  — 2.4 GHz,   54 Mbps'],
-        ['out',  '802.11n  — 2.4/5 GHz, 600 Mbps (Wi-Fi 4, MIMO)'],
-        ['out',  '802.11ac — 5 GHz,     3.5 Gbps (Wi-Fi 5)'],
+        ['out',  '802.11a  — 5 GHz,      54 Mbps  (older)'],
+        ['out',  '802.11b  — 2.4 GHz,    11 Mbps  (legacy)'],
+        ['out',  '802.11g  — 2.4 GHz,    54 Mbps'],
+        ['out',  '802.11n  — 2.4/5 GHz,  600 Mbps (Wi-Fi 4, MIMO)'],
+        ['out',  '802.11ac — 5 GHz,      3.5 Gbps (Wi-Fi 5)'],
         ['out',  '802.11ax — 2.4/5/6GHz, 9.6 Gbps (Wi-Fi 6/6E)'],
         ['warn', '2.4 GHz: longer range, more interference | 5 GHz: faster, shorter range'],
         ['info', 'WPA3 = current best security | WPA2 = still widely used | WEP = broken'],
@@ -401,7 +404,6 @@ const data = {
       ]
     },
   },
-
   os: {
     windows: {
       title: 'Windows — Key Concepts',
@@ -439,7 +441,7 @@ const data = {
       title: 'macOS — Key Concepts',
       body: [
         ['out',  'File system: APFS (modern) | HFS+ (legacy)'],
-        ['out',  'Disk Utility    — format, partition, verify/repair disks'],
+        ['out',  'Disk Utility     — format, partition, verify/repair disks'],
         ['out',  'Activity Monitor — like Task Manager (CPU, memory, disk, network)'],
         ['out',  'Terminal         — full bash/zsh shell, Unix underpinnings'],
         ['info', 'System Settings  — central config hub (was System Preferences)'],
@@ -453,11 +455,11 @@ const data = {
       title: 'OS Troubleshooting',
       body: [
         ['out',  'Windows BSOD: note the stop code — it tells you what failed'],
-        ['out',  '  MEMORY_MANAGEMENT    — run memtest86+ to check RAM'],
+        ['out',  '  MEMORY_MANAGEMENT       — run memtest86+ to check RAM'],
         ['out',  '  INACCESSIBLE_BOOT_DEVICE — check SATA/AHCI mode in BIOS'],
         ['warn', 'Safe Mode: loads minimal drivers — great for isolating software issues'],
         ['out',  'Windows Recovery (WinRE):'],
-        ['out',  '  sfc /scannow                        — repairs corrupt OS files'],
+        ['out',  '  sfc /scannow                         — repairs corrupt OS files'],
         ['out',  '  DISM /Online /Cleanup-Image /RestoreHealth — repairs Windows image'],
         ['info', 'Boot sequence: POST > UEFI/BIOS > Boot loader > OS kernel > login'],
         ['out',  'Profile corrupt? Create a new user account and test in that profile'],
@@ -466,19 +468,18 @@ const data = {
     commands: {
       title: 'Windows CLI Commands',
       body: [
-        ['out',  'ipconfig        — show IP config | ipconfig /all (full detail)'],
+        ['out',  'ipconfig         — show IP config | ipconfig /all (full detail)'],
         ['out',  'ipconfig /release + /renew — release and get new DHCP lease'],
-        ['out',  'ping <host>     — test connectivity'],
-        ['out',  'tracert <host>  — trace route (hops to destination)'],
-        ['out',  'nslookup        — DNS lookup tool'],
-        ['out',  'netstat -an     — show active connections and listening ports'],
-        ['info', 'chkdsk /f /r    — check and repair disk errors'],
+        ['out',  'ping <host>      — test connectivity'],
+        ['out',  'tracert <host>   — trace route (hops to destination)'],
+        ['out',  'nslookup         — DNS lookup tool'],
+        ['out',  'netstat -an      — show active connections and listening ports'],
+        ['info', 'chkdsk /f /r     — check and repair disk errors'],
         ['out',  'shutdown /r /t 0 — restart immediately'],
         ['warn', 'Always run Command Prompt as Administrator for system-level commands'],
       ]
     },
   },
-
   security: {
     threats: {
       title: 'Common Security Threats',
@@ -492,10 +493,10 @@ const data = {
         ['out',  '  Spyware    — silently monitors and exfiltrates data'],
         ['out',  '  Adware     — unwanted ads, often bundles spyware'],
         ['warn', 'Social engineering:'],
-        ['out',  '  Phishing        — mass deceptive emails'],
-        ['out',  '  Spear phishing  — targeted, personalized phishing'],
-        ['out',  '  Vishing         — voice/phone based'],
-        ['out',  '  Tailgating      — physically following through a secure door'],
+        ['out',  '  Phishing       — mass deceptive emails'],
+        ['out',  '  Spear phishing — targeted, personalized phishing'],
+        ['out',  '  Vishing        — voice/phone based'],
+        ['out',  '  Tailgating     — physically following through a secure door'],
       ]
     },
     hardening: {
@@ -558,9 +559,6 @@ const data = {
   }
 };
 
-/* ─────────────────────────────────────────
-   QUIZ BANK
-───────────────────────────────────────── */
 const quizBank = [
   { q: 'What RAID level provides striping with NO fault tolerance?', a: ['raid 0','0'], hint: 'Speed over safety.', domain: 'hardware', xp: 10 },
   { q: 'What color indicates a USB 3.0 port (5 Gbps)?', a: ['blue'], hint: 'Blue = fast.', domain: 'hardware', xp: 10 },
@@ -584,9 +582,6 @@ const quizBank = [
   { q: 'What malware self-replicates across a network without a host file?', a: ['worm'], hint: 'No file needed to spread.', domain: 'security', xp: 10 },
 ];
 
-/* ─────────────────────────────────────────
-   TERMINAL HELPERS
-───────────────────────────────────────── */
 function print(text, cls = 'line-out') {
   const div = document.createElement('div');
   div.className = cls;
@@ -603,14 +598,9 @@ function addXP(n) {
   print('  +' + n + ' XP!', 'line-score');
 }
 
-/* ─────────────────────────────────────────
-   BANNER
-───────────────────────────────────────── */
 function showBanner() {
   out.innerHTML = '';
-  print('  CompTIA A+ Lab Terminal', 'line-info')
-  blank();
-  print('  CompTIA A+ Interactive Lab Terminal', 'line-info');
+  print('  CompTIA A+ Lab Terminal', 'line-info');
   print('  Core 1 (220-1101) + Core 2 (220-1102)', 'line-dim');
   blank();
   print('  Domains: Hardware | Networking | OS | Security', 'line-out');
@@ -619,9 +609,6 @@ function showBanner() {
   blank();
 }
 
-/* ─────────────────────────────────────────
-   HELP
-───────────────────────────────────────── */
 function showHelp() {
   const m = state.module;
   blank();
@@ -649,7 +636,7 @@ function showHelp() {
   if (m === 'quiz') {
     print('  QUIZ COMMANDS', 'line-info');
     print('  ──────────────────────────────────────', 'line-dim');
-    print('  start              — all domains (20 questions)', 'line-out');
+    print('  start              — all domains (10 questions)', 'line-out');
     print('  start hardware     — hardware only', 'line-out');
     print('  start networking   — networking only', 'line-out');
     print('  start os           — OS only', 'line-out');
@@ -660,9 +647,6 @@ function showHelp() {
   }
 }
 
-/* ─────────────────────────────────────────
-   LS
-───────────────────────────────────────── */
 function showLS() {
   const m = state.module;
   blank();
@@ -685,13 +669,9 @@ function showLS() {
   blank();
 }
 
-/* ─────────────────────────────────────────
-   CAT
-───────────────────────────────────────── */
 function showCat(topic) {
   const m = state.module;
   let found = null;
-
   if (m !== 'home' && m !== 'quiz' && data[m] && data[m][topic]) {
     found = data[m][topic];
   } else {
@@ -699,13 +679,11 @@ function showCat(topic) {
       if (data[s][topic]) { found = data[s][topic]; break; }
     }
   }
-
   if (!found) {
     print('  cat: ' + topic + ': No such file', 'line-err');
     print('  Use "ls" to list available topics.', 'line-dim');
     return;
   }
-
   blank();
   print('  ══════════════════════════════════════', 'line-dim');
   print('  ' + found.title, 'line-info');
@@ -715,9 +693,6 @@ function showCat(topic) {
   addXP(5);
 }
 
-/* ─────────────────────────────────────────
-   SCORE
-───────────────────────────────────────── */
 function showScore() {
   blank();
   print('  XP: ' + state.xp, 'line-score');
@@ -732,28 +707,20 @@ function showScore() {
   blank();
 }
 
-/* ─────────────────────────────────────────
-   MODULE SWITCH
-───────────────────────────────────────── */
 function switchModule(mod) {
   state.module = mod;
   state.quizActive = false;
   currentQuiz = null;
-
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => {
     if (t.textContent.trim() === '~/' + mod) t.classList.add('active');
   });
-
   promptLabel.textContent = prompts[mod] || 'user@aplus-lab:~$';
-
   if (mod === 'home') { showBanner(); inp.focus(); return; }
-
   out.innerHTML = '';
   blank();
   print('  [ ' + mod.toUpperCase() + ' ]', 'line-info');
   print('  ──────────────────────────────────────', 'line-dim');
-
   if (mod === 'quiz') {
     print('  Ready to test your knowledge?', 'line-out');
     blank();
@@ -768,14 +735,10 @@ function switchModule(mod) {
     blank();
     print('  Use "cat <topic>" to study | "ls" to list all', 'line-dim');
   }
-
   blank();
   inp.focus();
 }
 
-/* ─────────────────────────────────────────
-   QUIZ ENGINE
-───────────────────────────────────────── */
 let quizQueue = [];
 let currentQuiz = null;
 let quizScore = 0;
@@ -791,17 +754,15 @@ function startQuiz(domain) {
     .slice(0, 10);
   quizTotal = quizQueue.length;
   quizIndex = 0;
-
   blank();
   print('  ╔══════════════════════════════════════╗', 'line-warn');
   print('  ║   QUIZ MODE                          ║', 'line-warn');
-  print('  ║   ' + quizTotal + ' questions' + (domain ? ' — ' + domain : ' — all domains') + ' '.repeat(Math.max(0, 22 - (domain || 'all domains').length)) + '║', 'line-warn');
+  print('  ║   ' + quizTotal + ' questions — ' + (domain || 'all domains') + ' '.repeat(Math.max(0, 20 - (domain || 'all domains').length)) + '║', 'line-warn');
   print('  ╚══════════════════════════════════════╝', 'line-warn');
   blank();
   print('  Type your answer and press Enter.', 'line-dim');
   print('  "hint" for a clue | "skip" to skip', 'line-dim');
   blank();
-
   nextQuestion();
 }
 
@@ -818,11 +779,11 @@ function checkAnswer(ans) {
   const clean = ans.toLowerCase().trim();
   const correct = currentQuiz.a.some(a => clean.includes(a.toLowerCase()));
   if (correct) {
-    print('  ✓ Correct!', 'line-success');
+    print('  Correct!', 'line-success');
     addXP(currentQuiz.xp);
     quizScore++;
   } else {
-    print('  ✗ Wrong. Answer: ' + currentQuiz.a[0], 'line-err');
+    print('  Wrong. Answer: ' + currentQuiz.a[0], 'line-err');
   }
   blank();
   currentQuiz = null;
@@ -841,7 +802,7 @@ function endQuiz() {
     pct >= 90 ? 'EXCELLENT — CompTIA would be proud!' :
     pct >= 70 ? 'PASS — Keep studying!' :
     pct >= 50 ? 'BORDERLINE — Review weak areas.' :
-                'Keep studying — you\'ve got this.';
+                'Keep at it — you\'ve got this.';
   print('  ' + pct + '% — ' + msg, pct >= 70 ? 'line-success' : 'line-err');
   print('  Total session XP: ' + state.xp, 'line-score');
   print('  ══════════════════════════════════════', 'line-dim');
@@ -850,19 +811,13 @@ function endQuiz() {
   blank();
 }
 
-/* ─────────────────────────────────────────
-   COMMAND PROCESSOR
-───────────────────────────────────────── */
 function processCommand(raw) {
   const cmd = raw.trim().toLowerCase();
   if (!cmd) return;
-
   state.history.unshift(raw);
   state.historyIndex = -1;
-
   print('  ' + promptLabel.textContent + ' ' + raw, 'line-cmd');
 
-  /* ── Quiz intercepts ── */
   if (state.quizActive) {
     if (cmd === 'hint')  { if (currentQuiz) print('  Hint: ' + currentQuiz.hint, 'line-warn'); return; }
     if (cmd === 'skip')  { print('  Skipped. Answer: ' + (currentQuiz ? currentQuiz.a[0] : '?'), 'line-warn'); blank(); currentQuiz = null; setTimeout(nextQuestion, 200); return; }
@@ -870,13 +825,12 @@ function processCommand(raw) {
     if (currentQuiz) { checkAnswer(raw); return; }
   }
 
-  /* ── Universal commands ── */
-  if (cmd === 'clear' || cmd === 'cls')    { out.innerHTML = ''; return; }
+  if (cmd === 'clear' || cmd === 'cls')         { out.innerHTML = ''; return; }
   if (cmd === 'home' || cmd === 'cd ~' || cmd === 'cd') { switchModule('home'); return; }
-  if (cmd === 'help' || cmd === 'man')     { showHelp(); return; }
-  if (cmd === 'ls' || cmd === 'dir')       { showLS(); return; }
-  if (cmd === 'score' || cmd === 'xp')     { showScore(); return; }
-  if (cmd === 'quiz')                      { switchModule('quiz'); return; }
+  if (cmd === 'help' || cmd === 'man')           { showHelp(); return; }
+  if (cmd === 'ls' || cmd === 'dir')             { showLS(); return; }
+  if (cmd === 'score' || cmd === 'xp')           { showScore(); return; }
+  if (cmd === 'quiz')                            { switchModule('quiz'); return; }
   if (cmd === 'whoami')   { print('  student@aplus-lab — future CompTIA A+ certified tech', 'line-out'); return; }
   if (cmd === 'pwd')      { print('  /home/student/' + state.module, 'line-out'); return; }
   if (cmd === 'uname -a') { print('  APlus-Lab 1.0 (220-1101/220-1102) x86_64', 'line-out'); return; }
@@ -890,10 +844,7 @@ function processCommand(raw) {
     return;
   }
 
-  if (cmd.startsWith('cat ')) {
-    showCat(cmd.slice(4).trim());
-    return;
-  }
+  if (cmd.startsWith('cat ')) { showCat(cmd.slice(4).trim()); return; }
 
   if (cmd === 'start' || cmd.startsWith('start ')) {
     const domain = cmd.slice(5).trim() || null;
@@ -913,9 +864,6 @@ function processCommand(raw) {
   blank();
 }
 
-/* ─────────────────────────────────────────
-   INPUT HANDLING
-───────────────────────────────────────── */
 inp.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     const val = inp.value;
@@ -934,12 +882,8 @@ inp.addEventListener('keydown', e => {
   }
 });
 
-/* Click anywhere on terminal to focus input */
 document.getElementById('lab').addEventListener('click', () => inp.focus());
 
-/* ─────────────────────────────────────────
-   BOOT
-───────────────────────────────────────── */
 showBanner();
 inp.focus();
 </script>
