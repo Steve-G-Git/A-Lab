@@ -17,7 +17,31 @@
       justify-content: center;
       font-family: 'Share Tech Mono', monospace;
     }
-
+#topnav {
+  background: #0d1a0d;
+  border-bottom: 1px solid #1a3a1a;
+  padding: 0 16px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+}
+#topnav a {
+  color: #2d6b2d;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.15s;
+}
+#topnav a:hover { color: #33ff33; }
+#topnav .nav-right { color: #1a4a1a; }
+    <div id="lab">
+  <div id="topnav">
+    <a href="index.html">← Back to Portfolio</a>
+    <span class="nav-right">CompTIA A+ Lab Terminal</span>
+  </div>
     #lab {
       width: 100%;
       max-width: 900px;
