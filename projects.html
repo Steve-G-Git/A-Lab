@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Steve Garnet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:      #33ff33;
+      --green-dim:  #1a8a1a;
+      --bg:         #070b07;
+      --bg2:        #0d140d;
+      --bg3:        #111a11;
+      --text:       #c8e8c8;
+      --text-dim:   #5a8a5a;
+      --border:     #1a3a1a;
+      --amber:      #ffcc44;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(7,11,7,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--green); letter-spacing: 2px; text-decoration: none; }
+    .nav-brand span { color: var(--text-dim); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-links a.active { color: var(--green); }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 110px 40px 80px;
+    }
+
+    .page-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 3px; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
+    .page-eyebrow::before { content: '> '; color: var(--text-dim); }
+
+    .page-title { font-family: 'VT323', monospace; font-size: 72px; color: var(--green); line-height: 0.9; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s; text-shadow: 0 0 40px rgba(51,255,51,0.15); }
+
+    .page-sub { font-size: 15px; color: var(--text-dim); margin-bottom: 56px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; max-width: 560px; }
+
+    /* FEATURED PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: 24px; }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+    }
+
+    .project-card:hover { border-color: var(--green-dim); transform: translateY(-2px); }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+      transform-origin: left;
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-card-inner {
+      padding: 28px 32px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .project-card-inner.coming { opacity: 0.45; }
+
+    .project-number {
+      font-family: 'VT323', monospace;
+      font-size: 48px;
+      color: var(--border);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 48px;
+    }
+
+    .project-content { flex: 1; }
+
+    .project-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--green);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .project-tag.coming-tag { color: var(--text-dim); }
+
+    .project-title {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 18px;
+      max-width: 600px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tech-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 3px 10px;
+      background: rgba(51,255,51,0.06);
+      color: var(--green-dim);
+      border: 1px solid rgba(51,255,51,0.15);
+      border-radius: 3px;
+    }
+
+    .project-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      padding: 9px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary { background: var(--green); color: #050b05; border: 1px solid var(--green); font-weight: 500; }
+    .btn-primary:hover { background: transparent; color: var(--green); }
+    .btn-secondary { background: transparent; color: var(--green); border: 1px solid var(--green-dim); }
+    .btn-secondary:hover { border-color: var(--green); background: rgba(51,255,51,0.05); }
+
+    /* COMING SOON LABEL */
+    .coming-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 10px;
+      display: inline-block;
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; position: relative; z-index: 1; }
+
+    /* CTA */
+    .cta-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 36px;
+      text-align: center;
+    }
+
+    .cta-title { font-family: 'VT323', monospace; font-size: 36px; color: var(--green); margin-bottom: 10px; }
+    .cta-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+    .cta-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .page { padding: 90px 20px 60px; }
+      .page-title { font-size: 52px; }
+      .project-card-inner { flex-direction: column; gap: 16px; padding: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-brand">SG<span>://</span>portfolio</a>
+    <ul class="nav-links">
+      <li><a href="index.html">home</a></li>
+      <li><a href="about.html">about</a></li>
+      <li><a href="projects.html" class="active">projects</a></li>
+      <li><a href="index.html#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <div class="page-eyebrow">THINGS I'VE BUILT</div>
+    <h1 class="page-title">Projects</h1>
+    <p class="page-sub">Real tools built from scratch to demonstrate IT knowledge hands-on. Not just a list of topics studied — working software you can use right now.</p>
+
+    <div class="projects-list">
+
+      <!-- PROJECT 01 -->
+      <div class="project-card reveal">
+        <div class="project-card-inner">
+          <div class="project-number">01</div>
+          <div class="project-content">
+            <div class="project-tag">FEATURED &nbsp;·&nbsp; INTERACTIVE STUDY TOOL &nbsp;·&nbsp; LIVE</div>
+            <div class="project-title">CompTIA A+ Lab Terminal</div>
+            <div class="project-desc">
+              A fully functional command-line terminal simulator built from scratch. Covers all four CompTIA A+ domains — hardware, networking, operating systems, and security — with a complete study reference, built-in quiz engine, and XP progression system. Designed to make studying for the A+ exam active rather than passive.
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">GitHub Pages</span>
+              <span class="tech-tag">CompTIA A+</span>
+            </div>
+            <div class="project-links">
+              <a href="lab.html" class="btn btn-primary">Launch Terminal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 02 -->
+      <div class="project-card reveal">
+        <div class="project-card-inner">
+          <div class="project-number">02</div>
+          <div class="project-content">
+            <div class="project-tag">INTERACTIVE DIAGNOSTIC TOOL &nbsp;·&nbsp; LIVE</div>
+            <div class="project-title">Network Troubleshooter</div>
+            <div class="project-desc">
+              An interactive scenario-based diagnostic tool that walks through real-world network problems step by step. Four scenarios covering no internet access, WAN connectivity failure, broadcast storms, and APIPA addressing. Each scenario teaches the correct CompTIA A+ troubleshooting methodology — layer by layer, decision by decision.
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Networking</span>
+              <span class="tech-tag">CompTIA A+</span>
+            </div>
+            <div class="project-links">
+              <a href="troubleshooter.html" class="btn btn-primary">Launch Tool</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 03 — COMING SOON -->
+      <div class="project-card reveal">
+        <div class="project-card-inner coming">
+          <div class="project-number" style="color:var(--border)">03</div>
+          <div class="project-content">
+            <div class="project-tag coming-tag">COMING SOON &nbsp;·&nbsp; STUDY TOOL</div>
+            <div class="project-title" style="color:var(--text-dim)">Network+ Flash Cards</div>
+            <div class="project-desc">
+              A spaced repetition flash card tool for CompTIA Network+ exam prep. Will cover subnetting, routing protocols, network architecture, and troubleshooting methodology.
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">CompTIA N+</span>
+            </div>
+            <div class="project-links">
+              <span class="coming-label">In development</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider reveal">
+
+    <div class="cta-block reveal">
+      <div class="cta-title">Want to work together?</div>
+      <p class="cta-sub">Open to help desk and IT support roles in and around Salt Lake City, Utah. Remote considered.</p>
+      <div class="cta-links">
+        <a href="mailto:stevegarnet@outlook.com" class="btn btn-primary">Email Me</a>
+        <a href="about.html" class="btn btn-secondary">Read My Story</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>
+    <span style="color:var(--green)">Built with HTML, CSS &amp; JavaScript</span>
+    <span>&copy; 2026</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

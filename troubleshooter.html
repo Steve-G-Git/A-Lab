@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Troubleshooter — Steve Garnet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:     #33ff33;
+      --green-dim: #1a8a1a;
+      --bg:        #070b07;
+      --bg2:       #0d140d;
+      --bg3:       #111a11;
+      --text:      #c8e8c8;
+      --text-dim:  #5a8a5a;
+      --border:    #1a3a1a;
+      --amber:     #ffcc44;
+      --red:       #ff5555;
+      --cyan:      #44ddff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(7,11,7,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--green); letter-spacing: 2px; text-decoration: none; }
+    .nav-brand span { color: var(--text-dim); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--green); }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 90px 40px 80px;
+    }
+
+    .page-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 3px; margin-bottom: 12px; }
+    .page-eyebrow::before { content: '> '; color: var(--text-dim); }
+
+    .page-title { font-family: 'VT323', monospace; font-size: 56px; color: var(--green); line-height: 1; margin-bottom: 8px; text-shadow: 0 0 40px rgba(51,255,51,0.15); }
+
+    .page-sub { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 32px; }
+
+    /* SCORE BAR */
+    .score-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 20px;
+      margin-bottom: 28px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+    }
+
+    .score-bar .xp { color: var(--amber); }
+    .score-bar .scenarios { color: var(--text-dim); }
+    .score-bar .rank { color: var(--green); }
+
+    /* SCENARIO SELECTOR */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .scenario-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px 20px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .scenario-btn:hover { border-color: var(--green-dim); background: var(--bg3); }
+    .scenario-btn.active { border-color: var(--green); background: var(--bg3); }
+    .scenario-btn.completed { border-color: var(--green-dim); opacity: 0.7; }
+
+    .scenario-btn-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 8px; }
+    .scenario-btn-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .scenario-btn-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+    .scenario-btn .done-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); margin-top: 8px; }
+
+    /* TROUBLESHOOTER PANEL */
+    #troubleshooter {
+      display: none;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #troubleshooter.active { display: block; }
+
+    .ts-header {
+      background: #0d1a0d;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ts-header-title { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--green); letter-spacing: 1px; }
+    .ts-header-step { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); }
+
+    .ts-body { padding: 28px; }
+
+    /* PROGRESS TRACK */
+    .ts-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .ts-progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 1px solid var(--green-dim);
+      transition: background 0.3s;
+    }
+
+    .ts-progress-dot.done { background: var(--green); border-color: var(--green); }
+    .ts-progress-dot.current { background: var(--amber); border-color: var(--amber); }
+
+    /* SITUATION BOX */
+    .ts-situation {
+      background: #080d08;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--cyan);
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      color: var(--cyan);
+      line-height: 1.7;
+    }
+
+    .ts-situation-label { font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 8px; }
+
+    /* QUESTION */
+    .ts-question {
+      font-size: 17px;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* CHOICES */
+    .ts-choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .ts-choice {
+      background: #080d08;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      color: var(--text-dim);
+      text-align: left;
+      transition: all 0.15s;
+      line-height: 1.5;
+    }
+
+    .ts-choice:hover { border-color: var(--green-dim); color: var(--text); background: #0d1a0d; }
+    .ts-choice.correct { border-color: var(--green); color: var(--green); background: rgba(51,255,51,0.05); cursor: default; }
+    .ts-choice.wrong { border-color: var(--red); color: var(--red); background: rgba(255,85,85,0.05); cursor: default; }
+    .ts-choice.disabled { pointer-events: none; opacity: 0.5; }
+
+    /* FEEDBACK */
+    .ts-feedback {
+      display: none;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .ts-feedback.correct { background: rgba(51,255,51,0.06); border: 1px solid rgba(51,255,51,0.2); color: var(--green); }
+    .ts-feedback.wrong { background: rgba(255,85,85,0.06); border: 1px solid rgba(255,85,85,0.2); color: var(--red); }
+    .ts-feedback.show { display: block; }
+
+    .ts-feedback-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; margin-bottom: 8px; }
+    .ts-feedback p { color: var(--text); margin-top: 6px; font-size: 13px; }
+
+    /* NEXT BUTTON */
+    .ts-next {
+      display: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 11px 24px;
+      border-radius: 4px;
+      background: var(--green);
+      color: #050b05;
+      border: 1px solid var(--green);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .ts-next:hover { background: transparent; color: var(--green); }
+    .ts-next.show { display: inline-block; }
+
+    /* COMPLETE PANEL */
+    .ts-complete {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .ts-complete.show { display: block; }
+    .ts-complete-title { font-family: 'VT323', monospace; font-size: 48px; color: var(--green); margin-bottom: 12px; }
+    .ts-complete-score { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--amber); margin-bottom: 20px; }
+    .ts-complete-msg { font-size: 15px; color: var(--text-dim); margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    .ts-restart {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 11px 24px;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 0 8px;
+    }
+    .ts-restart:hover { border-color: var(--green); background: rgba(51,255,51,0.05); }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .page { padding: 80px 20px 60px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-brand">SG<span>://</span>portfolio</a>
+    <ul class="nav-links">
+      <li><a href="index.html">home</a></li>
+      <li><a href="about.html">about</a></li>
+      <li><a href="projects.html">projects</a></li>
+      <li><a href="index.html#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <div class="page-eyebrow">INTERACTIVE TOOL</div>
+    <h1 class="page-title">Network Troubleshooter</h1>
+    <div class="page-sub">STEP-THROUGH DIAGNOSTIC SCENARIOS &nbsp;·&nbsp; COMPTIA A+ METHODOLOGY</div>
+
+    <!-- SCORE BAR -->
+    <div class="score-bar">
+      <span class="xp">XP: <span id="xp-display">0</span></span>
+      <span class="scenarios">Scenarios completed: <span id="scenarios-display">0</span> / 4</span>
+      <span class="rank" id="rank-display">Trainee Technician</span>
+    </div>
+
+    <!-- SCENARIO SELECTOR -->
+    <div class="scenario-grid" id="scenario-grid">
+      <button class="scenario-btn" onclick="startScenario(0)">
+        <div class="scenario-btn-tag">SCENARIO 01 &nbsp;·&nbsp; BASIC</div>
+        <div class="scenario-btn-title">No Internet Access</div>
+        <div class="scenario-btn-desc">User can't load any websites. Where do you start?</div>
+      </button>
+      <button class="scenario-btn" onclick="startScenario(1)">
+        <div class="scenario-btn-tag">SCENARIO 02 &nbsp;·&nbsp; INTERMEDIATE</div>
+        <div class="scenario-btn-title">Can Ping Router, Not Internet</div>
+        <div class="scenario-btn-desc">Local network works but no external connectivity.</div>
+      </button>
+      <button class="scenario-btn" onclick="startScenario(2)">
+        <div class="scenario-btn-tag">SCENARIO 03 &nbsp;·&nbsp; INTERMEDIATE</div>
+        <div class="scenario-btn-title">Slow Network Performance</div>
+        <div class="scenario-btn-desc">Everything connects but speeds are unusably slow.</div>
+      </button>
+      <button class="scenario-btn" onclick="startScenario(3)">
+        <div class="scenario-btn-tag">SCENARIO 04 &nbsp;·&nbsp; ADVANCED</div>
+        <div class="scenario-btn-title">APIPA Address Assigned</div>
+        <div class="scenario-btn-desc">User's PC shows a 169.254.x.x address. What now?</div>
+      </button>
+    </div>
+
+    <!-- TROUBLESHOOTER PANEL -->
+    <div id="troubleshooter">
+      <div class="ts-header">
+        <span class="ts-header-title" id="ts-title">Scenario</span>
+        <span class="ts-header-step" id="ts-step">Step 1</span>
+      </div>
+      <div class="ts-body">
+        <div class="ts-progress" id="ts-progress"></div>
+        <div class="ts-situation" id="ts-situation">
+          <div class="ts-situation-label">SITUATION</div>
+          <div id="ts-situation-text"></div>
+        </div>
+        <div class="ts-question" id="ts-question"></div>
+        <div class="ts-choices" id="ts-choices"></div>
+        <div class="ts-feedback" id="ts-feedback">
+          <div class="ts-feedback-label" id="ts-feedback-label"></div>
+          <p id="ts-feedback-text"></p>
+        </div>
+        <button class="ts-next" id="ts-next" onclick="nextStep()">Next Step &rarr;</button>
+        <div class="ts-complete" id="ts-complete">
+          <div class="ts-complete-title">Scenario Complete!</div>
+          <div class="ts-complete-score" id="ts-complete-score"></div>
+          <div class="ts-complete-msg" id="ts-complete-msg"></div>
+          <button class="ts-restart" onclick="backToScenarios()">&#8592; Choose Another Scenario</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>
+    <span style="color:var(--green)">Built with HTML, CSS &amp; JavaScript</span>
+    <span>&copy; 2026</span>
+  </footer>
+
+<script>
+let xp = 0;
+let scenariosCompleted = 0;
+let completedIds = [];
+let currentScenario = null;
+let currentStep = 0;
+let stepCorrect = 0;
+let answered = false;
+
+const scenarios = [
+  {
+    id: 0,
+    title: 'No Internet Access',
+    steps: [
+      {
+        situation: 'A user calls the help desk. Their computer cannot load any websites. They are on a Windows 10 machine connected via ethernet cable. No one else in the office is reporting issues.',
+        question: 'What is your FIRST step?',
+        choices: [
+          { text: 'Run ipconfig to check the IP address and connection status', correct: true },
+          { text: 'Immediately replace the ethernet cable', correct: false },
+          { text: 'Reinstall Windows', correct: false },
+          { text: 'Call the ISP to report an outage', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct! Always gather information first. ipconfig tells you whether the machine has a valid IP address, which immediately narrows down the problem. If others aren\'t affected, it\'s likely a local issue.',
+          wrong: 'Not quite. Before touching hardware or escalating, you need information. Running ipconfig is the fastest way to see if the machine even has a valid IP address — that tells you where to look next.'
+        }
+      },
+      {
+        situation: 'You run ipconfig and see the machine has IP: 192.168.1.45, Subnet: 255.255.255.0, Default Gateway: 192.168.1.1. This looks like a valid DHCP-assigned address.',
+        question: 'What do you do next to test connectivity layer by layer?',
+        choices: [
+          { text: 'ping 127.0.0.1 to test the local TCP/IP stack', correct: true },
+          { text: 'ping google.com immediately', correct: false },
+          { text: 'Disable and re-enable the network adapter', correct: false },
+          { text: 'Check if the browser has a proxy configured', correct: false },
+        ],
+        feedback: {
+          correct: 'Exactly right. The OSI troubleshooting methodology works from the bottom up. Pinging 127.0.0.1 (loopback) confirms the local TCP/IP stack is working before you test anything external.',
+          wrong: 'Close, but methodology matters. You should test from the bottom up — loopback first (127.0.0.1), then gateway, then external. Jumping straight to google.com skips steps that could save you time.'
+        }
+      },
+      {
+        situation: 'Loopback ping succeeds. You then ping the default gateway (192.168.1.1) — that also succeeds. The machine can talk to the local network. You then ping 8.8.8.8 (Google\'s DNS) — it times out.',
+        question: 'What does this tell you, and what do you check next?',
+        choices: [
+          { text: 'The problem is beyond the router — check DNS or ISP connectivity', correct: true },
+          { text: 'The network adapter is faulty and needs replacing', correct: false },
+          { text: 'The ethernet cable is bad', correct: false },
+          { text: 'Windows Firewall is blocking the connection', correct: false },
+        ],
+        feedback: {
+          correct: 'Perfect diagnosis. Local connectivity works (gateway responds), but external IP fails. This points to the router\'s upstream connection or DNS. Run nslookup or try pinging another external IP to narrow it down further.',
+          wrong: 'The hardware is fine — the machine successfully pings the gateway, which proves the cable and adapter work. When local pings succeed but external IPs fail, the issue is upstream of the router or with DNS.'
+        }
+      },
+      {
+        situation: 'You run nslookup and DNS lookups fail. You try pinging 8.8.8.8 directly by IP — it still times out. The router admin page loads fine from the browser.',
+        question: 'What is the most likely cause and what do you recommend?',
+        choices: [
+          { text: 'The ISP connection is down — escalate to the ISP or reboot the modem', correct: true },
+          { text: 'The user\'s DNS settings are wrong — change to 8.8.8.8 manually', correct: false },
+          { text: 'The router needs a firmware update', correct: false },
+          { text: 'Malware is blocking internet access', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct conclusion. The router is reachable (admin page loads) but nothing gets through to the internet — that\'s an ISP-side issue. Reboot the modem first, then escalate to the ISP if that doesn\'t resolve it. Document your troubleshooting steps.',
+          wrong: 'DNS isn\'t the issue here — you can\'t even ping external IPs directly, which bypasses DNS entirely. The router responds locally but has no upstream connection. This points squarely at the ISP or modem.'
+        }
+      }
+    ]
+  },
+  {
+    id: 1,
+    title: 'Can Ping Router, Not Internet',
+    steps: [
+      {
+        situation: 'A user can access shared drives and printers on the local network without issue. They can ping 192.168.1.1 (the router). But no websites load and pinging external IPs fails.',
+        question: 'Which OSI layer is most likely where the problem exists?',
+        choices: [
+          { text: 'Layer 3 (Network) — routing or WAN-side connectivity issue', correct: true },
+          { text: 'Layer 1 (Physical) — cable or hardware fault', correct: false },
+          { text: 'Layer 2 (Data Link) — MAC addressing or switch issue', correct: false },
+          { text: 'Layer 7 (Application) — browser configuration problem', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct. Layers 1 and 2 are working — local network traffic flows fine. The failure point is at Layer 3, where packets need to be routed beyond the local network. The router\'s WAN connection or upstream routing is the suspect.',
+          wrong: 'Layers 1 and 2 are confirmed working — the user can ping the router and reach local resources. The problem is at Layer 3 where traffic needs to leave the local network and be routed to the internet.'
+        }
+      },
+      {
+        situation: 'You check the router admin page. The WAN IP shows as 0.0.0.0 — the router has not received an IP from the ISP. The modem\'s power and link lights are on.',
+        question: 'What is the best next step?',
+        choices: [
+          { text: 'Power cycle the modem — unplug for 30 seconds, then restart', correct: true },
+          { text: 'Replace the ethernet cable between modem and router', correct: false },
+          { text: 'Factory reset the router', correct: false },
+          { text: 'Reinstall the NIC driver on the user\'s PC', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct. A WAN IP of 0.0.0.0 means the router can\'t get an address from the ISP. Power cycling the modem forces it to re-establish the upstream connection and renegotiate with the ISP — this fixes the issue the majority of the time.',
+          wrong: 'The problem isn\'t on the local network side — it\'s between the modem and ISP. The modem needs to re-establish its connection. Power cycling is always the first step before replacing hardware or resetting devices.'
+        }
+      },
+      {
+        situation: 'After power cycling the modem, the WAN IP is still 0.0.0.0. The modem has been unplugged for 60 seconds and restarted. You\'ve waited 3 minutes.',
+        question: 'What do you do now?',
+        choices: [
+          { text: 'Contact the ISP — the issue is on their side', correct: true },
+          { text: 'Replace the modem immediately', correct: false },
+          { text: 'Reset the router to factory defaults', correct: false },
+          { text: 'Change the DNS settings on all workstations', correct: false },
+        ],
+        feedback: {
+          correct: 'Right call. You\'ve done everything on your end — the modem has power, the link light is on, but the ISP isn\'t assigning a WAN IP. That\'s an ISP-side provisioning or line issue. Document your steps and escalate. The ISP can check the line remotely.',
+          wrong: 'DNS changes won\'t help — there\'s no WAN IP at all, so no traffic is getting out regardless of DNS. Replacing hardware before checking with the ISP is premature. The ISP controls WAN IP assignment and needs to be contacted.'
+        }
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Slow Network Performance',
+    steps: [
+      {
+        situation: 'Multiple users report the network is extremely slow. File transfers that normally take seconds are taking minutes. Internet browsing is sluggish. The issue started about an hour ago. No hardware changes were made recently.',
+        question: 'What do you check first?',
+        choices: [
+          { text: 'Check network utilization on the switch/router and run ping tests to check latency', correct: true },
+          { text: 'Restart every workstation on the network', correct: false },
+          { text: 'Replace the network switch', correct: false },
+          { text: 'Upgrade everyone\'s network drivers', correct: false },
+        ],
+        feedback: {
+          correct: 'Good instinct. When multiple users are affected simultaneously, it\'s a shared infrastructure problem. Checking utilization tells you if the bandwidth is saturated. Ping tests with timestamps reveal if it\'s latency or packet loss causing the slowdown.',
+          wrong: 'Restarting workstations or replacing hardware without data is guesswork. When multiple users are affected, the problem is in shared infrastructure. Measure first — check utilization and run ping tests to characterize the problem before touching anything.'
+        }
+      },
+      {
+        situation: 'Ping tests to the gateway show high latency (500ms+) and occasional packet loss. Normal latency is under 5ms. You check the switch and notice one port\'s link light is flickering rapidly — much faster than normal traffic would cause.',
+        question: 'What does a rapidly flickering port light suggest?',
+        choices: [
+          { text: 'A broadcast storm — possibly caused by a network loop or faulty NIC', correct: true },
+          { text: 'Normal high traffic — nothing to worry about', correct: false },
+          { text: 'The port needs to be cleaned', correct: false },
+          { text: 'The switch needs a firmware update', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct. Rapid flickering across a port — especially when it\'s causing network-wide slowdowns — strongly suggests a broadcast storm. This can be caused by a network loop (two cables connecting the same switch segments), a faulty NIC flooding the network, or a misconfigured device.',
+          wrong: 'Rapid port flickering during a network slowdown is a red flag. Normal traffic doesn\'t cause this pattern. A broadcast storm — where packets loop endlessly or flood the network — is the likely culprit and can bring an entire network to its knees.'
+        }
+      },
+      {
+        situation: 'You suspect a broadcast storm. You check and find someone plugged both ends of an ethernet cable into the same switch, creating a loop. The switch doesn\'t have Spanning Tree Protocol (STP) enabled.',
+        question: 'What is the immediate fix, and what is the long-term solution?',
+        choices: [
+          { text: 'Remove the looped cable immediately, then enable STP on the switch to prevent future loops', correct: true },
+          { text: 'Restart the switch to clear the storm', correct: false },
+          { text: 'Reduce everyone\'s bandwidth allocation', correct: false },
+          { text: 'Replace the switch with a managed switch', correct: false },
+        ],
+        feedback: {
+          correct: 'Perfect. Remove the physical loop first to stop the storm immediately — the network should recover within seconds. Long term, Spanning Tree Protocol (STP) is designed specifically to detect and block loops automatically, preventing this from happening again.',
+          wrong: 'Restarting the switch won\'t help if the physical loop is still there — the storm will resume the moment the switch comes back up. You must physically remove the looped cable first, then configure STP to catch this automatically in the future.'
+        }
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: 'APIPA Address Assigned',
+    steps: [
+      {
+        situation: 'A user calls saying they can\'t access anything on the network. You run ipconfig and see: IP Address: 169.254.43.12, Subnet Mask: 255.255.0.0. No default gateway is listed.',
+        question: 'What does a 169.254.x.x address tell you?',
+        choices: [
+          { text: 'The PC failed to reach a DHCP server and self-assigned an APIPA address', correct: true },
+          { text: 'The PC has a static IP configured incorrectly', correct: false },
+          { text: 'The network adapter is failing', correct: false },
+          { text: 'The subnet mask is wrong', correct: false },
+        ],
+        feedback: {
+          correct: 'Exactly right. 169.254.x.x is an Automatic Private IP Addressing (APIPA) address. Windows assigns this automatically when it can\'t reach a DHCP server. The machine is essentially isolated — it can only communicate with other APIPA devices on the same segment.',
+          wrong: '169.254.x.x is a specific range reserved for APIPA — Automatic Private IP Addressing. Windows assigns this when the DHCP server is unreachable. It\'s not a static IP or hardware failure — it\'s a DHCP communication problem.'
+        }
+      },
+      {
+        situation: 'Now you know DHCP failed. Other users on the same floor are working fine. This is isolated to one PC.',
+        question: 'What do you try first?',
+        choices: [
+          { text: 'Run ipconfig /release then ipconfig /renew to force a new DHCP request', correct: true },
+          { text: 'Assign a static IP address manually', correct: false },
+          { text: 'Replace the network cable immediately', correct: false },
+          { text: 'Restart the DHCP server', correct: false },
+        ],
+        feedback: {
+          correct: 'Correct first step. ipconfig /release drops the current address, and ipconfig /renew forces a fresh DHCP discovery. Since other users are fine, the DHCP server is working — this is likely a temporary communication hiccup that a renew will fix.',
+          wrong: 'Assigning a static IP or restarting the DHCP server is overkill when other users are working fine. The DHCP server is up — the client just had a communication problem. Try releasing and renewing the IP first before any configuration changes.'
+        }
+      },
+      {
+        situation: 'ipconfig /release and /renew both fail. The renew attempt times out. You check the physical cable — it\'s seated properly and the link light is on. You try a different ethernet port on the switch.',
+        question: 'What do you suspect now, and what do you check?',
+        choices: [
+          { text: 'Check if the PC\'s network adapter is blocked by a VLAN, port security, or MAC filtering on the switch', correct: true },
+          { text: 'The PC needs to be reimaged', correct: false },
+          { text: 'The DHCP server lease pool is exhausted', correct: false },
+          { text: 'The user has a virus blocking DHCP', correct: false },
+        ],
+        feedback: {
+          correct: 'Good advanced thinking. When physical connectivity is confirmed but DHCP still fails on a single machine, switch-level security is a strong suspect. Port security, MAC address filtering, or VLAN misconfiguration can silently block DHCP traffic while the link light stays green.',
+          wrong: 'The link light is on and the cable is good, so physical layer is fine. Other users on the same DHCP server work fine, so the server isn\'t out of leases. The most likely culprit at this stage is switch-level security blocking this specific MAC address from getting through.'
+        }
+      },
+      {
+        situation: 'You check the switch and find port security is enabled with a MAC address whitelist. This PC\'s MAC address isn\'t on the list — it was recently swapped for a replacement machine and the MAC wasn\'t updated.',
+        question: 'What is the correct resolution?',
+        choices: [
+          { text: 'Add the new PC\'s MAC address to the switch\'s port security whitelist', correct: true },
+          { text: 'Disable port security on all switch ports', correct: false },
+          { text: 'Clone the old MAC address on the new PC', correct: false },
+          { text: 'Move the user to a different network segment', correct: false },
+        ],
+        feedback: {
+          correct: 'Perfect resolution. Add the new MAC address to the whitelist and document the change. Port security exists for a reason — disabling it entirely defeats the purpose. Cloning MAC addresses is a workaround that creates confusion and security issues down the line. The right fix is to update the authorized list.',
+          wrong: 'Disabling port security removes an important network protection. Cloning MAC addresses creates audit and security headaches. The clean, professional solution is to update the whitelist with the new machine\'s MAC address and document why the change was made.'
+        }
+      }
+    ]
+  }
+];
+
+function updateScoreBar() {
+  document.getElementById('xp-display').textContent = xp;
+  document.getElementById('scenarios-display').textContent = scenariosCompleted;
+  const rank =
+    xp < 30  ? 'Trainee Technician' :
+    xp < 80  ? 'Help Desk I' :
+    xp < 150 ? 'Support Technician' :
+    xp < 250 ? 'A+ Candidate' :
+               'Senior Technician';
+  document.getElementById('rank-display').textContent = rank;
+}
+
+function startScenario(id) {
+  currentScenario = scenarios[id];
+  currentStep = 0;
+  stepCorrect = 0;
+  answered = false;
+
+  document.getElementById('troubleshooter').classList.add('active');
+  document.getElementById('troubleshooter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('ts-title').textContent = currentScenario.title;
+  document.getElementById('ts-complete').classList.remove('show');
+
+  document.querySelectorAll('.scenario-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === id);
+  });
+
+  buildProgress();
+  renderStep();
+}
+
+function buildProgress() {
+  const prog = document.getElementById('ts-progress');
+  prog.innerHTML = '';
+  currentScenario.steps.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'ts-progress-dot' + (i === 0 ? ' current' : '');
+    dot.id = 'dot-' + i;
+    prog.appendChild(dot);
+  });
+}
+
+function updateProgress(stepIndex, correct) {
+  const dot = document.getElementById('dot-' + stepIndex);
+  if (dot) dot.classList.remove('current');
+
+  const next = document.getElementById('dot-' + (stepIndex + 1));
+  if (next) next.classList.add('current');
+}
+
+function renderStep() {
+  const step = currentScenario.steps[currentStep];
+  answered = false;
+
+  document.getElementById('ts-step').textContent = 'Step ' + (currentStep + 1) + ' of ' + currentScenario.steps.length;
+  document.getElementById('ts-situation-text').textContent = step.situation;
+  document.getElementById('ts-question').textContent = step.question;
+
+  const feedback = document.getElementById('ts-feedback');
+  feedback.className = 'ts-feedback';
+  feedback.classList.remove('show');
+
+  document.getElementById('ts-next').classList.remove('show');
+
+  const choicesEl = document.getElementById('ts-choices');
+  choicesEl.innerHTML = '';
+
+  step.choices.forEach((choice, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'ts-choice';
+    btn.textContent = choice.text;
+    btn.onclick = () => selectChoice(i, choice.correct, step);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectChoice(index, correct, step) {
+  if (answered) return;
+  answered = true;
+
+  const choices = document.querySelectorAll('.ts-choice');
+  choices.forEach((btn, i) => {
+    btn.classList.add('disabled');
+    if (i === index) {
+      btn.classList.add(correct ? 'correct' : 'wrong');
+    }
+    if (!correct && document.querySelectorAll('.ts-choice')[i].textContent === step.choices.find(c => c.correct).text) {
+      btn.classList.add('correct');
+    }
+  });
+
+  const feedback = document.getElementById('ts-feedback');
+  const label = document.getElementById('ts-feedback-label');
+  const text = document.getElementById('ts-feedback-text');
+
+  if (correct) {
+    feedback.className = 'ts-feedback correct show';
+    label.textContent = '✓ CORRECT';
+    text.textContent = step.feedback.correct;
+    xp += 15;
+    stepCorrect++;
+  } else {
+    feedback.className = 'ts-feedback wrong show';
+    label.textContent = '✗ NOT QUITE';
+    text.textContent = step.feedback.wrong;
+    xp += 5;
+  }
+
+  updateProgress(currentStep, correct);
+  updateScoreBar();
+
+  const isLast = currentStep === currentScenario.steps.length - 1;
+  const nextBtn = document.getElementById('ts-next');
+  nextBtn.textContent = isLast ? 'See Results' : 'Next Step →';
+  nextBtn.classList.add('show');
+}
+
+function nextStep() {
+  const isLast = currentStep === currentScenario.steps.length - 1;
+
+  if (isLast) {
+    showComplete();
+  } else {
+    currentStep++;
+    renderStep();
+  }
+}
+
+function showComplete() {
+  if (!completedIds.includes(currentScenario.id)) {
+    completedIds.push(currentScenario.id);
+    scenariosCompleted++;
+    xp += 20;
+    updateScoreBar();
+
+    const btn = document.querySelectorAll('.scenario-btn')[currentScenario.id];
+    btn.classList.add('completed');
+    btn.querySelector('.scenario-btn-desc').insertAdjacentHTML('afterend', '<div class="done-badge">✓ COMPLETED</div>');
+  }
+
+  const total = currentScenario.steps.length;
+  const pct = Math.round((stepCorrect / total) * 100);
+  const msg =
+    pct === 100 ? 'Perfect score — flawless diagnostic methodology. A real help desk asset.' :
+    pct >= 75   ? 'Strong performance. You understand the troubleshooting process well.' :
+    pct >= 50   ? 'Good effort. Review the explanations and try again to sharpen your methodology.' :
+                  'Keep at it — troubleshooting is a skill that comes with practice. Re-read the feedback and try again.';
+
+  document.getElementById('ts-next').classList.remove('show');
+  document.getElementById('ts-choices').innerHTML = '';
+  document.getElementById('ts-feedback').classList.remove('show');
+
+  const complete = document.getElementById('ts-complete');
+  document.getElementById('ts-complete-score').textContent = stepCorrect + ' / ' + total + ' correct &nbsp;·&nbsp; ' + pct + '%';
+  document.getElementById('ts-complete-msg').textContent = msg;
+  complete.classList.add('show');
+}
+
+function backToScenarios() {
+  document.getElementById('troubleshooter').classList.remove('active');
+  document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('scenario-grid').scrollIntoView({ behavior: 'smooth' });
+}
+
+updateScoreBar();
+</script>
+</body>
+</html>
