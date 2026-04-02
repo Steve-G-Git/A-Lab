@@ -96,9 +96,19 @@
     .story p strong { color: var(--green); font-weight: 500; }
     .story p em { color: var(--amber); font-style: normal; }
 
+    .story .callout {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 15px;
+      color: var(--green);
+      border-left: 3px solid var(--green);
+      padding: 12px 20px;
+      margin: 32px 0;
+      background: rgba(51,255,51,0.04);
+      border-radius: 0 4px 4px 0;
+    }
+
     .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 
-    /* LEAN BLOCK */
     .lean-block {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -114,7 +124,6 @@
 
     .lean-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 4px 12px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
-    /* STATS */
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 48px; }
 
     .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
@@ -126,7 +135,6 @@
     .section-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 3px; margin-bottom: 20px; }
     .section-label::before { content: '// '; }
 
-    /* SKILL GROUPS */
     .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 48px; }
 
     .skill-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; }
@@ -137,7 +145,6 @@
 
     .skill-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 3px 10px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
-    /* CURRENT LIST */
     .current-list { display: flex; flex-direction: column; gap: 12px; }
 
     .current-item { display: flex; align-items: flex-start; gap: 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; }
@@ -147,7 +154,6 @@
     .current-text { font-size: 15px; color: var(--text); }
     .current-text strong { color: var(--green); font-weight: 500; }
 
-    /* CTA */
     .cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 48px; }
 
     .btn { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; padding: 12px 28px; border-radius: 4px; text-decoration: none; transition: all 0.2s; }
@@ -191,39 +197,47 @@
 
     <div class="story">
       <p>
-        I come from a background in <strong>precision manufacturing</strong> — specifically the
-        production of polycrystalline diamond compacts at US Synthetic, used in drill bits for
-        oil and gas operations. It's an environment where tolerances are measured in microns and
-        attention to detail isn't optional. That mindset goes everywhere with me.
+        I come from a background in <strong>precision manufacturing</strong>, specifically the
+        production of polycrystalline diamond compacts at US Synthetic. It's an environment
+        where tolerances are measured in microns, mistakes are expensive, and consistency
+        matters. That kind of pressure builds discipline, attention to detail, and a habit of
+        solving problems methodically.
+      </p>
+
+      <div class="callout">That mindset is what I bring into IT.</div>
+
+      <p>
+        In manufacturing, I worked within <strong>Lean and the Toyota Production System</strong>,
+        focusing on identifying inefficiencies, standardizing processes, and eliminating waste.
+        In IT, that translates directly into how I approach troubleshooting: isolate variables,
+        test assumptions, document results, and refine the process until the issue is resolved
+        and repeatable.
       </p>
       <p>
-        Throughout my manufacturing career I developed a deep grounding in
-        <strong>Lean principles and the Toyota Production System</strong>. I'm a strong believer
-        in continuous improvement through <em>kaizen</em> — the idea that every process can be
-        refined, every source of waste identified and eliminated, and every team member has a
-        role in building a high-performance work environment. I bring that thinking into
-        everything I do.
+        I didn't move into IT because it sounded interesting. I moved into it because I was
+        already doing it. Building systems, breaking them, fixing them, and understanding
+        what's actually happening under the surface. That shift wasn't a leap — it was
+        a direction.
       </p>
       <p>
-        I've always been drawn to computers and technology — the kind of person who enjoys
-        figuring out how things work under the hood. Making the move into IT felt less like
-        a leap and more like <em>finally pointing in the right direction.</em>
+        I'm currently studying for my <strong>CompTIA A+ certification</strong> while building
+        hands-on labs and projects to reinforce what I learn. I don't rely on theory alone.
+        If I study a concept, I implement it, test it, and make sure I can explain and
+        reproduce it.
       </p>
       <p>
-        I'm based in <strong>Tooele, Utah</strong>, just outside Salt Lake City, currently
-        studying for my <strong>CompTIA A+</strong> certification and building real tools to
-        back it up. I learn best by doing — which is why there's a working terminal lab and
-        a network troubleshooter in my projects section instead of just a list of topics read.
+        Based in <strong>Tooele, Utah</strong>, I'm working toward an entry-level IT support
+        role where I can apply structured problem-solving, strong fundamentals, and a bias
+        toward action in a real environment.
       </p>
     </div>
 
-    <!-- LEAN BLOCK -->
     <div class="lean-block reveal">
       <div class="lean-block-label">LEAN / TPS BACKGROUND</div>
       <p style="font-size:15px;color:var(--text);max-width:620px;">
-        Trained in Lean manufacturing principles with hands-on experience applying the Toyota
-        Production System in a high-precision industrial environment. Focused on waste elimination,
-        process standardization, and building cultures of continuous improvement.
+        Hands-on experience applying the Toyota Production System in a high-precision
+        industrial environment. Focused on waste elimination, process standardization,
+        and building cultures of continuous improvement.
       </p>
       <div class="lean-tags">
         <span class="lean-tag">Kaizen</span>
