@@ -70,24 +70,10 @@
       justify-content: space-between;
     }
 
-    .nav-brand {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 14px;
-      color: var(--green);
-      letter-spacing: 2px;
-      text-decoration: none;
-    }
+    .nav-brand { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--green); letter-spacing: 2px; text-decoration: none; }
     .nav-brand span { color: var(--text-dim); }
-
     .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 1px;
-      transition: color 0.2s;
-    }
+    .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
     .nav-links a:hover { color: var(--green); }
     .nav-links a.active { color: var(--green); }
 
@@ -99,51 +85,20 @@
       padding: 110px 40px 80px;
     }
 
-    .page-eyebrow {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      color: var(--green);
-      letter-spacing: 3px;
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.2s;
-    }
+    .page-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 3px; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
     .page-eyebrow::before { content: '> '; color: var(--text-dim); }
 
-    .page-title {
-      font-family: 'VT323', monospace;
-      font-size: 72px;
-      color: var(--green);
-      line-height: 0.9;
-      margin-bottom: 48px;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.4s;
-      text-shadow: 0 0 40px rgba(51,255,51,0.15);
-    }
+    .page-title { font-family: 'VT323', monospace; font-size: 72px; color: var(--green); line-height: 0.9; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s; text-shadow: 0 0 40px rgba(51,255,51,0.15); }
 
-    .story {
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.6s;
-    }
+    .story { opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; }
 
-    .story p {
-      font-size: 17px;
-      color: var(--text);
-      margin-bottom: 24px;
-      font-weight: 300;
-      max-width: 680px;
-    }
-
+    .story p { font-size: 17px; color: var(--text); margin-bottom: 24px; font-weight: 300; max-width: 680px; }
     .story p strong { color: var(--green); font-weight: 500; }
     .story p em { color: var(--amber); font-style: normal; }
 
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 48px 0;
-    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 
-    /* LEAN PRINCIPLES BLOCK */
+    /* LEAN BLOCK */
     .lean-block {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -153,191 +108,59 @@
       margin-bottom: 24px;
     }
 
-    .lean-block-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-    }
+    .lean-block-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 12px; }
 
-    .lean-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    .lean-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 
-    .lean-tag {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      padding: 4px 12px;
-      background: rgba(51,255,51,0.06);
-      color: var(--green-dim);
-      border: 1px solid rgba(51,255,51,0.15);
-      border-radius: 3px;
-    }
+    .lean-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 4px 12px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-bottom: 48px;
-    }
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 48px; }
 
-    .stat-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 20px;
-    }
+    .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
 
-    .stat-value {
-      font-family: 'VT323', monospace;
-      font-size: 36px;
-      color: var(--green);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
+    .stat-value { font-family: 'VT323', monospace; font-size: 36px; color: var(--green); line-height: 1; margin-bottom: 6px; }
 
-    .stat-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 1px;
-    }
+    .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
 
-    .section-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 3px;
-      margin-bottom: 20px;
-    }
+    .section-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 3px; margin-bottom: 20px; }
     .section-label::before { content: '// '; }
 
-    .skill-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+    /* SKILL GROUPS */
+    .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 48px; }
 
-    .skill-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 18px;
-    }
+    .skill-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; }
 
-    .skill-row-name {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      color: var(--text);
-      min-width: 180px;
-      letter-spacing: 0.5px;
-    }
+    .skill-group-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 12px; }
 
-    .skill-row-bar {
-      flex: 1;
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
+    .skill-group-tags { display: flex; flex-wrap: wrap; gap: 7px; }
 
-    .skill-row-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: var(--green);
-      width: 0;
-      transition: width 1.2s ease;
-    }
+    .skill-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 3px 10px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
-    .skill-row-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-      min-width: 90px;
-      text-align: right;
-    }
-
+    /* CURRENT LIST */
     .current-list { display: flex; flex-direction: column; gap: 12px; }
 
-    .current-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px 20px;
-    }
+    .current-item { display: flex; align-items: flex-start; gap: 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; }
 
-    .current-icon {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 14px;
-      color: var(--amber);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
+    .current-icon { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--amber); flex-shrink: 0; margin-top: 2px; }
 
     .current-text { font-size: 15px; color: var(--text); }
     .current-text strong { color: var(--green); font-weight: 500; }
 
-    .cta-row {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 48px;
-    }
+    /* CTA */
+    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 48px; }
 
-    .btn {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 13px;
-      letter-spacing: 1px;
-      padding: 12px 28px;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: #050b05;
-      border: 1px solid var(--green);
-      font-weight: 500;
-    }
+    .btn { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; padding: 12px 28px; border-radius: 4px; text-decoration: none; transition: all 0.2s; }
+    .btn-primary { background: var(--green); color: #050b05; border: 1px solid var(--green); font-weight: 500; }
     .btn-primary:hover { background: transparent; color: var(--green); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--green);
-      border: 1px solid var(--green-dim);
-    }
+    .btn-secondary { background: transparent; color: var(--green); border: 1px solid var(--green-dim); }
     .btn-secondary:hover { border-color: var(--green); background: rgba(51,255,51,0.05); }
 
-    footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 24px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-    }
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 600px) {
@@ -346,7 +169,6 @@
       .page { padding: 90px 20px 60px; }
       .page-title { font-size: 52px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
-      .skill-row-name { min-width: 120px; }
     }
   </style>
 </head>
@@ -357,7 +179,7 @@
     <ul class="nav-links">
       <li><a href="index.html">home</a></li>
       <li><a href="about.html" class="active">about</a></li>
-      <li><a href="index.html#projects">projects</a></li>
+      <li><a href="projects.html">projects</a></li>
       <li><a href="index.html#contact">contact</a></li>
     </ul>
   </nav>
@@ -367,47 +189,33 @@
     <div class="page-eyebrow">THE PERSON BEHIND THE TERMINAL</div>
     <h1 class="page-title">About<br>Steve</h1>
 
-<div class="story">
-  <p>
-    I come from a background in <strong>precision manufacturing</strong>, specifically the
-    production of polycrystalline diamond compact inserts used in industrial drill bits at
-    US Synthetic. It’s an environment where tolerances are measured in microns, mistakes are
-    expensive, and consistency matters. That kind of pressure builds discipline, attention to
-    detail, and a habit of solving problems methodically.
-  </p>
-
-  <p>
-    That mindset is what I bring into IT.
-  </p>
-
-  <p>
-    In manufacturing, I worked within <strong>Lean and the Toyota Production System</strong>,
-    focusing on identifying inefficiencies, standardizing processes, and eliminating waste.
-    In IT, that translates directly into how I approach troubleshooting: isolate variables,
-    test assumptions, document results, and refine the process until the issue is resolved
-    and repeatable.
-  </p>
-
-  <p>
-    I've always been drawn to computers and technology, the kind of person who enjoys
-    figuring out how things work under the hood. Making the move into IT felt less like a
-    leap and more like a deliberate move. I'm not just studying the field. I actively build
-    and experiment with projects like a browser-based terminal lab, using AI-assisted tools
-    and then breaking down how they actually work behind the scenes.
-  </p>
-
-  <p>
-    I’m currently studying for my <strong>CompTIA A+</strong> certification while building
-    hands-on labs and projects to reinforce what I learn. I don’t rely on theory alone. If I
-    study a concept, I implement it, test it, and make sure I can explain and reproduce it.
-  </p>
-
-  <p>
-    Based in <strong>Tooele, Utah</strong>, I’m working toward an entry-level IT support role
-    where I can apply structured problem-solving, strong fundamentals, and a bias toward
-    action in a real environment.
-  </p>
-</div>
+    <div class="story">
+      <p>
+        I come from a background in <strong>precision manufacturing</strong> — specifically the
+        production of polycrystalline diamond compacts at US Synthetic, used in drill bits for
+        oil and gas operations. It's an environment where tolerances are measured in microns and
+        attention to detail isn't optional. That mindset goes everywhere with me.
+      </p>
+      <p>
+        Throughout my manufacturing career I developed a deep grounding in
+        <strong>Lean principles and the Toyota Production System</strong>. I'm a strong believer
+        in continuous improvement through <em>kaizen</em> — the idea that every process can be
+        refined, every source of waste identified and eliminated, and every team member has a
+        role in building a high-performance work environment. I bring that thinking into
+        everything I do.
+      </p>
+      <p>
+        I've always been drawn to computers and technology — the kind of person who enjoys
+        figuring out how things work under the hood. Making the move into IT felt less like
+        a leap and more like <em>finally pointing in the right direction.</em>
+      </p>
+      <p>
+        I'm based in <strong>Tooele, Utah</strong>, just outside Salt Lake City, currently
+        studying for my <strong>CompTIA A+</strong> certification and building real tools to
+        back it up. I learn best by doing — which is why there's a working terminal lab and
+        a network troubleshooter in my projects section instead of just a list of topics read.
+      </p>
+    </div>
 
     <!-- LEAN BLOCK -->
     <div class="lean-block reveal">
@@ -442,58 +250,75 @@
         <div class="stat-label">DOMAINS STUDIED</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">SLC</div>
-        <div class="stat-label">TOOELE, UTAH</div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">LIVE PROJECTS BUILT</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">N+</div>
-        <div class="stat-label">NEXT ON ROADMAP</div>
+        <div class="stat-value">SLC</div>
+        <div class="stat-label">TOOELE, UTAH</div>
       </div>
     </div>
 
     <hr class="divider reveal">
 
-    <div class="section-label reveal">current skill levels</div>
-    <div class="skill-rows reveal">
-      <div class="skill-row">
-        <div class="skill-row-name">Hardware & Components</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="70"></div></div>
-        <div class="skill-row-label">Solid</div>
+    <div class="section-label reveal">areas of knowledge</div>
+    <div class="skill-groups reveal">
+      <div class="skill-group">
+        <div class="skill-group-label">HARDWARE</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">CPU / RAM</span>
+          <span class="skill-tag">Storage / RAID</span>
+          <span class="skill-tag">Motherboards</span>
+          <span class="skill-tag">PSU</span>
+          <span class="skill-tag">Ports & Connectors</span>
+        </div>
       </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Networking Fundamentals</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="60"></div></div>
-        <div class="skill-row-label">Good</div>
+      <div class="skill-group">
+        <div class="skill-group-label">NETWORKING</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">OSI Model</span>
+          <span class="skill-tag">TCP/IP</span>
+          <span class="skill-tag">DNS / DHCP</span>
+          <span class="skill-tag">Subnetting</span>
+          <span class="skill-tag">Wi-Fi 802.11</span>
+        </div>
       </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Windows OS</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="65"></div></div>
-        <div class="skill-row-label">Good</div>
+      <div class="skill-group">
+        <div class="skill-group-label">OPERATING SYSTEMS</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">Windows 10/11</span>
+          <span class="skill-tag">Linux CLI</span>
+          <span class="skill-tag">macOS</span>
+          <span class="skill-tag">Troubleshooting</span>
+          <span class="skill-tag">File Systems</span>
+        </div>
       </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Linux CLI</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="40"></div></div>
-        <div class="skill-row-label">Learning</div>
+      <div class="skill-group">
+        <div class="skill-group-label">SECURITY AWARENESS</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">Malware Awareness</span>
+          <span class="skill-tag">MFA</span>
+          <span class="skill-tag">Device Hardening</span>
+          <span class="skill-tag">Encryption Basics</span>
+        </div>
       </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Security Awareness</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="50"></div></div>
-        <div class="skill-row-label">Growing</div>
+      <div class="skill-group">
+        <div class="skill-group-label">DEVELOPMENT</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Git / GitHub</span>
+        </div>
       </div>
-      <div class="skill-row">
-        <div class="skill-row-name">HTML / CSS / JavaScript</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="35"></div></div>
-        <div class="skill-row-label">Learning</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Process Improvement</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="90"></div></div>
-        <div class="skill-row-label">Lean certified</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-name">Attention to Detail</div>
-        <div class="skill-row-bar"><div class="skill-row-fill" data-width="95"></div></div>
-        <div class="skill-row-label">Diamond-grade</div>
+      <div class="skill-group">
+        <div class="skill-group-label">LEAN / TPS</div>
+        <div class="skill-group-tags">
+          <span class="skill-tag">Kaizen</span>
+          <span class="skill-tag">5S</span>
+          <span class="skill-tag">Waste Elimination</span>
+          <span class="skill-tag">Standard Work</span>
+        </div>
       </div>
     </div>
 
@@ -520,7 +345,7 @@
     </div>
 
     <div class="cta-row reveal">
-      <a href="index.html#projects" class="btn btn-primary">See My Projects</a>
+      <a href="projects.html" class="btn btn-primary">See My Projects</a>
       <a href="mailto:stevegarnet@outlook.com" class="btn btn-secondary">Get In Touch</a>
     </div>
 
@@ -529,19 +354,13 @@
   <footer>
     <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>
     <span style="color:var(--green)">Built with HTML, CSS &amp; JavaScript</span>
-    <span>© 2026</span>
+    <span>&copy; 2026</span>
   </footer>
 
   <script>
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-          e.target.querySelectorAll('.skill-row-fill').forEach(bar => {
-            bar.style.width = bar.dataset.width + '%';
-          });
-        }
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
       });
     }, { threshold: 0.1 });
 
