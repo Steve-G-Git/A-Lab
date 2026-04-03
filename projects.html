@@ -90,7 +90,7 @@
 
     .page-title { font-family: 'VT323', monospace; font-size: 72px; color: var(--green); line-height: 0.9; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s; text-shadow: 0 0 40px rgba(51,255,51,0.15); }
 
-    .page-sub { font-size: 15px; color: var(--text-dim); margin-bottom: 56px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; max-width: 560px; }
+    .page-sub { font-size: 15px; color: var(--text-dim); margin-bottom: 56px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; max-width: 600px; line-height: 1.7; }
 
     .projects-list { display: flex; flex-direction: column; gap: 24px; }
 
@@ -120,12 +120,7 @@
 
     .project-card:hover::before { transform: scaleX(1); }
 
-    .project-card-inner {
-      padding: 28px 32px;
-      display: flex;
-      gap: 32px;
-      align-items: flex-start;
-    }
+    .project-card-inner { padding: 32px 36px; display: flex; gap: 32px; align-items: flex-start; }
 
     .project-number { font-family: 'VT323', monospace; font-size: 48px; color: var(--border); line-height: 1; flex-shrink: 0; width: 48px; }
 
@@ -133,11 +128,23 @@
 
     .project-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 2px; margin-bottom: 10px; }
 
-    .project-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
+    .project-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 14px; }
 
-    .project-desc { font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 18px; max-width: 600px; }
+    .project-desc { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 14px; max-width: 640px; }
 
-    .project-tech { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .project-tech {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      max-width: 640px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.2);
+      border-left: 2px solid var(--green-dim);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
 
     .tech-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 3px 10px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
@@ -190,7 +197,9 @@
 
     <div class="page-eyebrow">THINGS I'VE BUILT</div>
     <h1 class="page-title">Projects</h1>
-    <p class="page-sub">Real tools built from scratch. Not theory — working software you can use right now.</p>
+    <p class="page-sub">
+      Both projects were developed to reinforce CompTIA A+ exam objectives through implementation rather than passive study. Each one required working through real problems — logic errors, state management, edge cases — and iterating until the behavior was correct and consistent.
+    </p>
 
     <div class="projects-list">
 
@@ -198,16 +207,20 @@
         <div class="project-card-inner">
           <div class="project-number">01</div>
           <div class="project-content">
-            <div class="project-tag">FEATURED &nbsp;·&nbsp; INTERACTIVE STUDY TOOL &nbsp;·&nbsp; LIVE</div>
+            <div class="project-tag">STUDY TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">CompTIA A+ Lab Terminal</div>
             <div class="project-desc">
-              A fully functional command-line terminal simulator built from scratch. Covers all four CompTIA A+ domains — hardware, networking, operating systems, and security — with a complete study reference, built-in quiz engine, and XP progression system. Designed to make studying for the A+ exam active rather than passive.
+              A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across all four CompTIA A+ domains — hardware, networking, operating systems, and security. Developed in vanilla JavaScript with no libraries or frameworks.
             </div>
             <div class="project-tech">
+              Input is captured via keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions from a domain-organized data structure, evaluates typed answers against an accepted-answers array, and tracks XP state across the session. Tab-switching required managing independent state per module to prevent bleed-through between sessions. Several edge cases in command matching and output rendering were identified through use and corrected across multiple iterations.
+            </div>
+            <div class="project-tags">
+              <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">HTML</span>
               <span class="tech-tag">CSS</span>
-              <span class="tech-tag">JavaScript</span>
-              <span class="tech-tag">GitHub Pages</span>
+              <span class="tech-tag">DOM Manipulation</span>
+              <span class="tech-tag">Event Handling</span>
               <span class="tech-tag">CompTIA A+</span>
             </div>
             <div class="project-link">Launch terminal</div>
@@ -219,17 +232,21 @@
         <div class="project-card-inner">
           <div class="project-number">02</div>
           <div class="project-content">
-            <div class="project-tag">INTERACTIVE DIAGNOSTIC TOOL &nbsp;·&nbsp; LIVE</div>
+            <div class="project-tag">DIAGNOSTIC TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">Network Troubleshooter</div>
             <div class="project-desc">
-              A scenario-based diagnostic tool that walks through real-world network problems step by step. Four scenarios covering no internet access, WAN connectivity failure, broadcast storms, and APIPA addressing. Each scenario teaches the correct CompTIA A+ troubleshooting methodology — layer by layer, decision by decision.
+              A scenario-based diagnostic tool structured around the CompTIA A+ troubleshooting methodology: identify the problem, establish a theory, test the theory, create an action plan, verify resolution, document findings. Covers four scenarios reflecting common help desk situations.
             </div>
             <div class="project-tech">
+              Scenarios include: a machine receiving an APIPA address due to DHCP failure, a WAN connectivity loss where the router responds locally but has no upstream IP, a network-wide slowdown caused by a physical loop creating a broadcast storm, and a workstation blocked by switch-level MAC filtering after a hardware swap. Each step maps choices to outcomes and feedback strings stored in a scenario data structure. Correct and incorrect paths both return explanatory feedback — the tool is designed to teach the reasoning behind each decision, not just surface the right answer. State is tracked per session to calculate score on completion.
+            </div>
+            <div class="project-tags">
+              <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">HTML</span>
               <span class="tech-tag">CSS</span>
-              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">State Management</span>
+              <span class="tech-tag">CompTIA A+ Methodology</span>
               <span class="tech-tag">Networking</span>
-              <span class="tech-tag">CompTIA A+</span>
             </div>
             <div class="project-link">Launch tool</div>
           </div>
