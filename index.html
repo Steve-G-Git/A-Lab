@@ -95,14 +95,16 @@
 
     .hero-name { font-family: 'VT323', monospace; font-size: clamp(64px, 10vw, 110px); color: var(--green); line-height: 0.9; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s; text-shadow: 0 0 40px rgba(51,255,51,0.15); }
 
-    .hero-title { font-family: 'Share Tech Mono', monospace; font-size: 16px; color: var(--amber); letter-spacing: 2px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; }
+    .hero-title { font-family: 'Share Tech Mono', monospace; font-size: 16px; color: var(--amber); letter-spacing: 2px; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s; }
+
+    .hero-location { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.65s; }
 
     .hero-desc { font-size: 17px; color: var(--text); max-width: 520px; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.8s; font-weight: 300; }
     .hero-desc strong { color: var(--green); font-weight: 500; }
 
     .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease forwards 1s; }
 
-    .btn { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; padding: 12px 28px; border-radius: 4px; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+    .btn { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; padding: 12px 28px; border-radius: 4px; text-decoration: none; transition: all 0.2s; cursor: pointer; display: inline-block; }
     .btn-primary { background: var(--green); color: #050b05; border: 1px solid var(--green); font-weight: 500; }
     .btn-primary:hover { background: transparent; color: var(--green); }
     .btn-secondary { background: transparent; color: var(--green); border: 1px solid var(--green-dim); }
@@ -133,6 +135,26 @@
     .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 3px 10px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
+    /* METHODOLOGY STRIP */
+    .methodology {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 6px;
+      padding: 16px 24px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .methodology-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 2px; flex-shrink: 0; }
+
+    .methodology-steps { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green-dim); }
+
+    .methodology-steps span { color: var(--green); }
+
     .cert-list { display: flex; flex-direction: column; gap: 16px; }
     .cert-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 20px 24px; display: flex; align-items: center; gap: 20px; }
     .cert-icon { font-family: 'Share Tech Mono', monospace; font-size: 22px; color: var(--amber); width: 36px; flex-shrink: 0; }
@@ -151,7 +173,8 @@
     .project-card:hover::before { transform: scaleX(1); }
     .project-card-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 2px; margin-bottom: 14px; }
     .project-card-title { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
-    .project-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+    .project-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 8px; }
+    .project-card-tech { font-size: 12px; color: var(--text-dim); font-style: italic; margin-bottom: 20px; opacity: 0.8; }
     .project-card-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; }
     .project-card-link::after { content: ' →'; }
 
@@ -195,13 +218,15 @@
 
   <div class="hero">
     <div class="hero-content">
-      <div class="hero-eyebrow">IT PROFESSIONAL IN TRAINING</div>
+      <div class="hero-eyebrow">IT SUPPORT &nbsp;·&nbsp; ENTRY LEVEL &nbsp;·&nbsp; COMPTIA A+</div>
       <h1 class="hero-name">Steve<br>Garnet</h1>
-      <div class="hero-title">HELP DESK &nbsp;/&nbsp; IT SUPPORT &nbsp;/&nbsp; COMPTIA A+</div>
+      <div class="hero-title">HELP DESK &nbsp;/&nbsp; IT SUPPORT &nbsp;/&nbsp; TROUBLESHOOTING</div>
+      <div class="hero-location">Based in Utah &nbsp;·&nbsp; Open to remote or local IT support roles</div>
       <p class="hero-desc">
-        Building a solid foundation in <strong>IT support, hardware,</strong> and
-        <strong>networking</strong>. Currently studying for CompTIA A+ — and
-        building real tools to prove it.
+        Building a strong foundation in <strong>IT support and troubleshooting</strong> through
+        structured study and hands-on practice. Currently studying for
+        <strong>CompTIA A+</strong> — reinforcing every concept with real-world
+        implementation, not just theory.
       </p>
       <div class="hero-ctas">
         <a href="projects.html" class="btn btn-primary">View Projects</a>
@@ -216,8 +241,9 @@
 
   <hr class="divider">
 
+  <!-- SKILLS -->
   <section id="skills">
-    <div class="section-label reveal">areas of knowledge</div>
+    <div class="section-label reveal">Areas of Knowledge</div>
     <h2 class="section-title reveal">Skills</h2>
     <div class="skills-grid">
       <div class="skill-card reveal">
@@ -225,11 +251,11 @@
         <div class="skill-card-title">PC Components & Assembly</div>
         <div class="skill-tags">
           <span class="tag">CPU / RAM</span>
-          <span class="tag">Storage</span>
+          <span class="tag">Storage / RAID</span>
           <span class="tag">Motherboards</span>
           <span class="tag">PSU</span>
-          <span class="tag">RAID</span>
           <span class="tag">Ports & Connectors</span>
+          <span class="tag">Boot Issues</span>
         </div>
       </div>
       <div class="skill-card reveal">
@@ -249,11 +275,10 @@
         <div class="skill-card-title">Windows, Linux & macOS</div>
         <div class="skill-tags">
           <span class="tag">Windows 10/11</span>
-          <span class="tag">Linux CLI</span>
+          <span class="tag">Linux CLI (navigation, permissions, packages)</span>
           <span class="tag">macOS</span>
-          <span class="tag">NTFS / FAT32</span>
-          <span class="tag">Troubleshooting</span>
-          <span class="tag">Registry</span>
+          <span class="tag">Troubleshooting (hardware, boot, connectivity)</span>
+          <span class="tag">File Systems</span>
         </div>
       </div>
       <div class="skill-card reveal">
@@ -274,16 +299,15 @@
           <span class="tag">HTML</span>
           <span class="tag">CSS</span>
           <span class="tag">JavaScript</span>
-          <span class="tag">Git</span>
+          <span class="tag">Git / GitHub</span>
           <span class="tag">GitHub Pages</span>
-          <span class="tag">VS Code</span>
         </div>
       </div>
       <div class="skill-card reveal">
         <div class="skill-card-label">SOFT SKILLS</div>
         <div class="skill-card-title">Professional Attributes</div>
         <div class="skill-tags">
-          <span class="tag">Problem Solving</span>
+          <span class="tag">Structured Problem-Solving</span>
           <span class="tag">Lean / TPS</span>
           <span class="tag">Kaizen</span>
           <span class="tag">Process Improvement</span>
@@ -291,12 +315,21 @@
         </div>
       </div>
     </div>
+
+    <!-- METHODOLOGY STRIP -->
+    <div class="methodology reveal">
+      <span class="methodology-label">COMPTIA A+ TROUBLESHOOTING METHODOLOGY</span>
+      <span class="methodology-steps">
+        <span>Identify</span> → <span>Establish Theory</span> → <span>Test</span> → <span>Establish Plan</span> → <span>Verify</span> → <span>Document</span>
+      </span>
+    </div>
   </section>
 
   <hr class="divider">
 
+  <!-- CERTS -->
   <section id="certs">
-    <div class="section-label reveal">credentials & progress</div>
+    <div class="section-label reveal">Credentials & Progress</div>
     <h2 class="section-title reveal">Certifications</h2>
     <div class="cert-list">
       <div class="cert-item reveal">
@@ -326,16 +359,19 @@
 
   <hr class="divider">
 
+  <!-- PROJECTS -->
   <section id="projects">
-    <div class="section-label reveal">things i've built</div>
+    <div class="section-label reveal">Things I've Built</div>
     <h2 class="section-title reveal">Projects</h2>
     <div class="projects-grid">
       <a href="lab.html" class="project-card reveal">
         <div class="project-card-tag">FEATURED PROJECT &nbsp;·&nbsp; INTERACTIVE TOOL</div>
         <div class="project-card-title">CompTIA A+ Lab Terminal</div>
         <div class="project-card-desc">
-          A fully functional command-line terminal simulator built from scratch in HTML, CSS, and JavaScript.
-          Covers all four A+ domains — hardware, networking, OS, and security fundamentals — with a built-in quiz engine and XP system.
+          An interactive command-line terminal simulator covering all four CompTIA A+ domains — hardware, networking, OS, and security — with a built-in quiz engine and XP system to reinforce active learning over passive reading.
+        </div>
+        <div class="project-card-tech">
+          Applies DOM manipulation, input event handling, and command parsing in JavaScript to simulate terminal behavior.
         </div>
         <div class="project-card-link">Launch terminal</div>
       </a>
@@ -343,7 +379,10 @@
         <div class="project-card-tag">INTERACTIVE TOOL &nbsp;·&nbsp; LIVE</div>
         <div class="project-card-title">Network Troubleshooter</div>
         <div class="project-card-desc">
-          An interactive diagnostic tool walking through real-world network troubleshooting scenarios step by step. Work through each problem using CompTIA A+ methodology.
+          A scenario-based diagnostic tool covering real-world network problems: no internet access, WAN failures, broadcast storms, and APIPA addressing. Each scenario is structured as a step-through decision process with feedback at every stage.
+        </div>
+        <div class="project-card-tech">
+          Structured around CompTIA A+ troubleshooting methodology: identify the issue, establish a theory, test layer by layer, verify resolution, and document findings.
         </div>
         <div class="project-card-link">Launch tool</div>
       </a>
@@ -352,10 +391,11 @@
 
   <hr class="divider">
 
+  <!-- CONTACT -->
   <section id="contact">
     <div class="contact-wrap reveal">
       <div class="contact-title">Let's Connect</div>
-      <p class="contact-sub">Open to help desk and IT support roles. Based in Tooele, Utah (Salt Lake City area).</p>
+      <p class="contact-sub">Open to help desk and IT support roles. Based in Tooele, Utah — remote or local.</p>
       <div class="contact-links">
         <a href="mailto:stevegarnet@outlook.com" class="btn btn-primary">Email Me</a>
         <a href="about.html" class="btn btn-secondary">About Me</a>
