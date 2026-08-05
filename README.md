@@ -1,6 +1,6 @@
 # Steve Garnet — IT Portfolio
 
-A personal IT portfolio site built to support a job search for entry-level help desk and IT support roles. Developed while studying for CompTIA A+ (Core 1 & Core 2).
+A personal IT portfolio site built to demonstrate hands-on troubleshooting, technical learning, and practical problem-solving for entry-level help desk and IT support roles. The original tools were developed while studying CompTIA A+ concepts and remain examples of applying those concepts through working software.
 
 Live site: **https://steve-g-git.github.io/A-Lab/**
 
@@ -8,7 +8,7 @@ Live site: **https://steve-g-git.github.io/A-Lab/**
 
 ## Overview
 
-This site demonstrates IT knowledge and problem-solving ability through working interactive tools — not just a list of topics studied. Every concept covered in the tools reflects active CompTIA A+ exam preparation.
+This site demonstrates IT knowledge and problem-solving ability through working interactive tools, rather than relying only on a list of topics studied. Its original tools cover hardware, operating systems, security, networking, and structured troubleshooting concepts commonly encountered in entry-level IT support.
 
 ---
 
@@ -59,7 +59,7 @@ Covers four scenarios reflecting common help desk situations: no internet access
 
 I come from a precision manufacturing background (US Synthetic — polycrystalline diamond compacts for oil and gas drill bits) with hands-on experience in Lean manufacturing and the Toyota Production System. I approach IT troubleshooting the same way I approached process improvement: isolate variables, test assumptions, document results, refine until the issue is resolved and repeatable.
 
-Currently studying for CompTIA A+. CompTIA Network+ is next.
+Currently preparing for the CompTIA Network+ certification through coursework, hands-on networking labs, and practical projects.
 
 ---
 
