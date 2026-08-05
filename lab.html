@@ -831,7 +831,7 @@ function processCommand(raw) {
   if (cmd === 'ls' || cmd === 'dir')             { showLS(); return; }
   if (cmd === 'score' || cmd === 'xp')           { showScore(); return; }
   if (cmd === 'quiz')                            { switchModule('quiz'); return; }
-  if (cmd === 'whoami')   { print('  student@aplus-lab — future CompTIA A+ certified tech', 'line-out'); return; }
+  if (cmd === 'whoami')   { print('  student@aplus-lab — practicing IT support fundamentals', 'line-out'); return; }
   if (cmd === 'pwd')      { print('  /home/student/' + state.module, 'line-out'); return; }
   if (cmd === 'uname -a') { print('  APlus-Lab 1.0 (220-1101/220-1102) x86_64', 'line-out'); return; }
   if (cmd === 'date')     { print('  ' + new Date().toString(), 'line-out'); return; }
