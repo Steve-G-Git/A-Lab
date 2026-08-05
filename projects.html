@@ -148,8 +148,10 @@
 
     .tech-tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 3px 10px; background: rgba(51,255,51,0.06); color: var(--green-dim); border: 1px solid rgba(51,255,51,0.15); border-radius: 3px; }
 
-    .project-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; }
+    .project-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; text-decoration: none; }
     .project-link::after { content: ' →'; }
+    .project-actions { display: flex; flex-wrap: wrap; gap: 18px; }
+    .project-link-secondary { color: var(--text-dim); }
 
     .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; position: relative; z-index: 1; }
 
@@ -198,22 +200,51 @@
     <div class="page-eyebrow">THINGS I'VE BUILT</div>
     <h1 class="page-title">Projects</h1>
     <p class="page-sub">
-      Both projects were developed to reinforce CompTIA A+ exam objectives through implementation rather than passive study. Each one required working through real problems — logic errors, state management, edge cases — and iterating until the behavior was correct and consistent.
+      These projects show my progression from browser-based IT study tools to a larger React networking application and a documented real-world firmware recovery. Each project emphasizes practical troubleshooting, clear technical explanation, and repeatable problem-solving.
     </p>
 
     <div class="projects-list">
 
-      <a href="lab.html" class="project-card reveal">
+      <article class="project-card reveal">
         <div class="project-card-inner">
           <div class="project-number">01</div>
           <div class="project-content">
-            <div class="project-tag">STUDY TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
-            <div class="project-title">CompTIA A+ Lab Terminal</div>
+            <div class="project-tag">FEATURED PROJECT &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
+            <div class="project-title">OSI Explorer</div>
             <div class="project-desc">
-              A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across all four CompTIA A+ domains — hardware, networking, operating systems, and security. Developed in vanilla JavaScript with no libraries or frameworks.
+              An interactive networking education application that presents the OSI model as a connected system rather than seven isolated layers. Learners can move between protocols, addressing methods, devices, commands, and troubleshooting concepts.
             </div>
             <div class="project-tech">
-              Input is captured via keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions from a domain-organized data structure, evaluates typed answers against an accepted-answers array, and tracks XP state across the session. Tab-switching required managing independent state per module to prevent bleed-through between sessions. Several edge cases in command matching and output rendering were identified through use and corrected across multiple iterations.
+              OSI Explorer includes a responsive connected knowledge map, seven detailed layer pages, a searchable topic encyclopedia, and a guided 12-step packet journey. Learning content is separated from interface code through reusable JavaScript data structures and stable topic IDs. The production site is built and deployed automatically through GitHub Actions.
+            </div>
+            <div class="project-tags">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Vite</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">React Router</span>
+              <span class="tech-tag">Responsive CSS</span>
+              <span class="tech-tag">GitHub Actions</span>
+              <span class="tech-tag">Networking</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://steve-g-git.github.io/osi-explorer/" class="project-link" target="_blank" rel="noopener noreferrer">Open live site</a>
+              <a href="https://github.com/Steve-G-Git/osi-explorer" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">View source</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <a href="lab.html" class="project-card reveal">
+        <div class="project-card-inner">
+          <div class="project-number">02</div>
+          <div class="project-content">
+            <div class="project-tag">EARLIER PROJECT &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
+            <div class="project-title">CompTIA A+ Lab Terminal</div>
+            <div class="project-desc">
+              A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
+            </div>
+            <div class="project-tech">
+              Input is captured through keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions, evaluates typed answers against accepted-answer arrays, and tracks XP state during the session.
             </div>
             <div class="project-tags">
               <span class="tech-tag">JavaScript</span>
@@ -230,28 +261,55 @@
 
       <a href="troubleshooter.html" class="project-card reveal">
         <div class="project-card-inner">
-          <div class="project-number">02</div>
+          <div class="project-number">03</div>
           <div class="project-content">
             <div class="project-tag">DIAGNOSTIC TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">Network Troubleshooter</div>
             <div class="project-desc">
-              A scenario-based diagnostic tool structured around the CompTIA A+ troubleshooting methodology: identify the problem, establish a theory, test the theory, create an action plan, verify resolution, document findings. Covers four scenarios reflecting common help desk situations.
+              A scenario-based diagnostic tool structured around the IT troubleshooting process: identify the problem, establish and test a theory, create an action plan, verify resolution, and document findings.
             </div>
             <div class="project-tech">
-              Scenarios include: a machine receiving an APIPA address due to DHCP failure, a WAN connectivity loss where the router responds locally but has no upstream IP, a network-wide slowdown caused by a physical loop creating a broadcast storm, and a workstation blocked by switch-level MAC filtering after a hardware swap. Each step maps choices to outcomes and feedback strings stored in a scenario data structure. Correct and incorrect paths both return explanatory feedback — the tool is designed to teach the reasoning behind each decision, not just surface the right answer. State is tracked per session to calculate score on completion.
+              Scenarios cover APIPA addressing and DHCP failure, loss of WAN connectivity, a broadcast storm caused by a physical loop, and switch-level MAC filtering after a hardware change. Correct and incorrect paths both provide explanatory feedback.
             </div>
             <div class="project-tags">
               <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">HTML</span>
               <span class="tech-tag">CSS</span>
               <span class="tech-tag">State Management</span>
-              <span class="tech-tag">CompTIA A+ Methodology</span>
+              <span class="tech-tag">Troubleshooting</span>
               <span class="tech-tag">Networking</span>
             </div>
             <div class="project-link">Launch tool</div>
           </div>
         </div>
       </a>
+
+      <article class="project-card reveal">
+        <div class="project-card-inner">
+          <div class="project-number">04</div>
+          <div class="project-content">
+            <div class="project-tag">TECHNICAL CASE STUDY &nbsp;·&nbsp; FIRMWARE RECOVERY</div>
+            <div class="project-title">Neptune 4 Plus MCU Recovery</div>
+            <div class="project-desc">
+              A documented real-world troubleshooting case involving a failed firmware update on a Klipper-based 3D printer. The Linux host remained available, but communication with the printer MCU and all hardware control were lost.
+            </div>
+            <div class="project-tech">
+              The investigation separated the host, firmware, serial interface, and MCU layers. It included identifying the CH340 USB serial device, isolating the correct COM port, testing UART communication, evaluating failed recovery attempts, and restoring MCU communication without replacing hardware.
+            </div>
+            <div class="project-tags">
+              <span class="tech-tag">Firmware</span>
+              <span class="tech-tag">UART</span>
+              <span class="tech-tag">COM Ports</span>
+              <span class="tech-tag">Device Manager</span>
+              <span class="tech-tag">Root-Cause Analysis</span>
+              <span class="tech-tag">Documentation</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-link" target="_blank" rel="noopener noreferrer">View case study</a>
+            </div>
+          </div>
+        </div>
+      </article>
 
     </div>
 

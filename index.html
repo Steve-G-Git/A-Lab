@@ -173,8 +173,10 @@
     .project-card-title { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
     .project-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 8px; }
     .project-card-tech { font-size: 12px; color: var(--text-dim); font-style: italic; margin-bottom: 20px; opacity: 0.8; line-height: 1.6; }
-    .project-card-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; }
+    .project-card-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; text-decoration: none; }
     .project-card-link::after { content: ' →'; }
+    .project-card-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }
+    .project-card-link-secondary { color: var(--text-dim); }
 
     .contact-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 48px; text-align: center; }
     .contact-title { font-family: 'VT323', monospace; font-size: 42px; color: var(--green); margin-bottom: 12px; }
@@ -351,28 +353,58 @@
     <div class="section-label reveal">Things I've Built</div>
     <h2 class="section-title reveal">Projects</h2>
     <div class="projects-grid">
-      <a href="lab.html" class="project-card reveal">
-        <div class="project-card-tag">FEATURED PROJECT &nbsp;·&nbsp; STUDY TOOL</div>
-        <div class="project-card-title">CompTIA A+ Lab Terminal</div>
+      <article class="project-card reveal">
+        <div class="project-card-tag">FEATURED PROJECT &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
+        <div class="project-card-title">OSI Explorer</div>
         <div class="project-card-desc">
-          A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across all four CompTIA A+ domains. No libraries or frameworks — developed in vanilla JavaScript.
+          An interactive networking education application that presents the OSI model as a connected system of layers, protocols, addressing methods, devices, commands, and troubleshooting concepts.
         </div>
         <div class="project-card-tech">
-          Input is captured via keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions, evaluates typed answers against an accepted-answers array, and tracks XP state across the session.
+          Includes a connected knowledge map, searchable topic encyclopedia, seven detailed layer pages, and a guided 12-step packet journey. Built with React, Vite, React Router, and automated GitHub Pages deployment.
+        </div>
+        <div class="project-card-actions">
+          <a href="https://steve-g-git.github.io/osi-explorer/" class="project-card-link" target="_blank" rel="noopener noreferrer">Open live site</a>
+          <a href="https://github.com/Steve-G-Git/osi-explorer" class="project-card-link project-card-link-secondary" target="_blank" rel="noopener noreferrer">View source</a>
+        </div>
+      </article>
+
+      <a href="lab.html" class="project-card reveal">
+        <div class="project-card-tag">EARLIER PROJECT &nbsp;·&nbsp; STUDY TOOL</div>
+        <div class="project-card-title">CompTIA A+ Lab Terminal</div>
+        <div class="project-card-desc">
+          A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
+        </div>
+        <div class="project-card-tech">
+          Built in vanilla JavaScript with a command registry, randomized quizzes, accepted-answer evaluation, and session-based XP tracking.
         </div>
         <div class="project-card-link">Launch terminal</div>
       </a>
+
       <a href="troubleshooter.html" class="project-card reveal">
         <div class="project-card-tag">DIAGNOSTIC TOOL &nbsp;·&nbsp; LIVE</div>
         <div class="project-card-title">Network Troubleshooter</div>
         <div class="project-card-desc">
-          A scenario-based diagnostic tool structured around the CompTIA A+ troubleshooting methodology. Covers four scenarios: no internet access, WAN connectivity failure, broadcast storms, and APIPA addressing.
+          A scenario-based diagnostic tool covering APIPA addressing, DHCP failure, WAN connectivity, broadcast storms, and switch-level MAC filtering.
         </div>
         <div class="project-card-tech">
-          Each scenario walks through diagnosis step by step — identify the problem, establish a theory, test layer by layer, verify resolution, document findings. Correct and incorrect paths both return explanatory feedback so the tool teaches reasoning, not just answers.
+          Each scenario walks through identification, theory, testing, resolution, verification, and documentation. Incorrect choices explain why the approach does not fit the evidence.
         </div>
         <div class="project-card-link">Launch tool</div>
       </a>
+
+      <article class="project-card reveal">
+        <div class="project-card-tag">TECHNICAL CASE STUDY &nbsp;·&nbsp; DOCUMENTED</div>
+        <div class="project-card-title">Neptune 4 Plus MCU Recovery</div>
+        <div class="project-card-desc">
+          A real-world firmware troubleshooting case involving a Klipper host that remained operational while communication with the printer MCU failed.
+        </div>
+        <div class="project-card-tech">
+          Demonstrates CH340 serial-device identification, COM-port isolation, UART troubleshooting, firmware recovery, layered fault isolation, and root-cause documentation.
+        </div>
+        <div class="project-card-actions">
+          <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-card-link" target="_blank" rel="noopener noreferrer">View case study</a>
+        </div>
+      </article>
     </div>
   </section>
 

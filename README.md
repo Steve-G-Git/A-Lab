@@ -1,69 +1,82 @@
-# Steve Garnet — IT Portfolio
+# Steve Garnet | IT Portfolio
 
-A personal IT portfolio site built to demonstrate hands-on troubleshooting, technical learning, and practical problem-solving for entry-level help desk and IT support roles. The original tools were developed while studying CompTIA A+ concepts and remain examples of applying those concepts through working software.
+A personal IT portfolio site built to demonstrate hands-on troubleshooting, technical learning, networking knowledge, and practical problem-solving for entry-level help desk and IT support roles.
 
-Live site: **https://steve-g-git.github.io/A-Lab/**
-
----
+**Live site:** https://steve-g-git.github.io/A-Lab/
 
 ## Overview
 
-This site demonstrates IT knowledge and problem-solving ability through working interactive tools, rather than relying only on a list of topics studied. Its original tools cover hardware, operating systems, security, networking, and structured troubleshooting concepts commonly encountered in entry-level IT support.
-
----
+This site shows my progression from browser-based IT study tools to a larger React networking application and a documented real-world firmware recovery. The projects emphasize structured troubleshooting, clear technical explanation, and repeatable solutions.
 
 ## Pages
 
 | File | Description |
 |---|---|
-| `index.html` | Landing page — skills, certifications, project overview |
-| `about.html` | Background, experience, and approach |
-| `projects.html` | Project showcase with technical descriptions |
-| `lab.html` | CompTIA A+ Lab Terminal (interactive study tool) |
-| `troubleshooter.html` | Network Troubleshooter (scenario-based diagnostic tool) |
-
----
+| `index.html` | Landing page with skills, training status, and project overview |
+| `about.html` | Background, experience, and current focus |
+| `projects.html` | Full project showcase with technical descriptions |
+| `lab.html` | CompTIA A+ Lab Terminal |
+| `troubleshooter.html` | Scenario-based Network Troubleshooter |
 
 ## Projects
 
-### CompTIA A+ Lab Terminal
+### 1. OSI Explorer
 
-A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across all four CompTIA A+ domains — hardware, networking, operating systems, and security.
+An interactive networking education application that presents the OSI model as a connected system of layers, protocols, devices, addressing methods, commands, and troubleshooting concepts.
 
-Built in vanilla JavaScript with no libraries or frameworks. Input is captured via keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions from a domain-organized data structure, evaluates typed answers against an accepted-answers array, and tracks XP state across the session.
+The project includes a responsive connected knowledge map, seven detailed layer pages, a searchable topic encyclopedia, and a guided 12-step packet journey showing what happens when a user visits a website.
 
-**Domains covered:** Hardware · Networking · Operating Systems · Security  
-**Tech used:** HTML, CSS, JavaScript (vanilla)
+**Technology:** React, Vite, JavaScript, CSS, React Router, GitHub Actions, GitHub Pages
 
----
+[Open the live project](https://steve-g-git.github.io/osi-explorer/)  
+[View the source repository](https://github.com/Steve-G-Git/osi-explorer)
 
-### Network Troubleshooter
+### 2. CompTIA A+ Lab Terminal
 
-A scenario-based diagnostic tool structured around the CompTIA A+ troubleshooting methodology: identify the problem, establish a theory, test the theory, create an action plan, verify resolution, document findings.
+A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
 
-Covers four scenarios reflecting common help desk situations: no internet access, WAN connectivity failure (router responds locally but has no upstream IP), a broadcast storm caused by a physical network loop, and a workstation blocked by switch-level MAC filtering after a hardware swap. Each step maps choices to outcomes and explanatory feedback. Incorrect paths explain *why* the answer is wrong — the tool teaches reasoning, not just correct answers.
+Built in vanilla JavaScript with a command registry, randomized quizzes, accepted-answer evaluation, and session-based XP tracking.
 
-**Tech used:** HTML, CSS, JavaScript (vanilla)
+**Technology:** HTML, CSS, JavaScript
 
----
+[Launch the terminal](https://steve-g-git.github.io/A-Lab/lab.html)
 
-## Tech Stack
+### 3. Network Troubleshooter
 
-- HTML5 / CSS3 / JavaScript (no frameworks)
-- Hosted on GitHub Pages
-- No build tools, no dependencies
+A scenario-based diagnostic tool structured around the IT troubleshooting process: identify the problem, establish and test a theory, create an action plan, verify resolution, and document findings.
 
----
+Scenarios cover APIPA addressing and DHCP failure, WAN connectivity, broadcast storms, and switch-level MAC filtering. Correct and incorrect choices both provide explanatory feedback.
+
+**Technology:** HTML, CSS, JavaScript
+
+[Launch the troubleshooter](https://steve-g-git.github.io/A-Lab/troubleshooter.html)
+
+### 4. Neptune 4 Plus MCU Recovery
+
+A documented real-world troubleshooting case involving a failed firmware update on a Klipper-based 3D printer.
+
+The investigation separated the Linux host, firmware, USB serial interface, and printer MCU layers. It demonstrates CH340 device identification, COM-port isolation, UART troubleshooting, firmware recovery, root-cause analysis, and technical documentation.
+
+[View the recovery case study](https://github.com/Steve-G-Git/neptune-4-mcu-recovery)
+
+## Technology
+
+**This portfolio site:** HTML, CSS, JavaScript, GitHub Pages
+
+**Featured application:** React, Vite, JavaScript, CSS, React Router, GitHub Actions
+
+**Support and troubleshooting:** Windows 10/11, Ubuntu Linux, VirtualBox, TCP/IP, IPv4, DNS, default gateways, subnetting, wireless connectivity, Command Prompt, Linux terminal, ping, ipconfig, tracert, nslookup, and ARP
 
 ## Background
 
-I come from a precision manufacturing background (US Synthetic — polycrystalline diamond compacts for oil and gas drill bits) with hands-on experience in Lean manufacturing and the Toyota Production System. I approach IT troubleshooting the same way I approached process improvement: isolate variables, test assumptions, document results, refine until the issue is resolved and repeatable.
+I come from a precision manufacturing background with hands-on experience in team leadership, Lean manufacturing, standardized work, training, equipment troubleshooting, and root-cause analysis.
+
+I approach IT troubleshooting the same way I approached process improvement: isolate variables, test assumptions, document findings, and produce a repeatable solution.
 
 Currently preparing for the CompTIA Network+ certification through coursework, hands-on networking labs, and practical projects.
 
----
-
 ## Contact
 
-**Email:** stevegarnet@outlook.com  
-**Location:** Tooele, Utah — open to remote or local IT support roles
+**Email:** [stevegarnet@outlook.com](mailto:stevegarnet@outlook.com)  
+**Location:** Tooele, Utah  
+**Career focus:** Help desk, desktop support, technical support, and field support roles
