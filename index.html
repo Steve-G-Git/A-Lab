@@ -176,7 +176,9 @@
     .project-card-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; text-decoration: none; }
     .project-card-link::after { content: ' →'; }
     .project-card-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }
-    .project-card-link-secondary { color: var(--text-dim); }
+    .project-card-link-primary::before { content: ''; position: absolute; inset: 0; z-index: 1; }
+    .project-card-link-primary:focus-visible::before { outline: 2px solid var(--green); outline-offset: -4px; }
+    .project-card-link-secondary { position: relative; z-index: 2; color: var(--text-dim); }
 
     .contact-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 48px; text-align: center; }
     .contact-title { font-family: 'VT323', monospace; font-size: 42px; color: var(--green); margin-bottom: 12px; }
@@ -363,7 +365,7 @@
           Includes a connected knowledge map, searchable topic encyclopedia, seven detailed layer pages, and a guided 12-step packet journey. Built with React, Vite, React Router, and automated GitHub Pages deployment.
         </div>
         <div class="project-card-actions">
-          <a href="https://steve-g-git.github.io/osi-explorer/" class="project-card-link" target="_blank" rel="noopener noreferrer">Open live site</a>
+          <a href="https://steve-g-git.github.io/osi-explorer/" class="project-card-link project-card-link-primary" target="_blank" rel="noopener noreferrer">Open live site</a>
           <a href="https://github.com/Steve-G-Git/osi-explorer" class="project-card-link project-card-link-secondary" target="_blank" rel="noopener noreferrer">View source</a>
         </div>
       </article>
@@ -402,7 +404,7 @@
           Demonstrates CH340 serial-device identification, COM-port isolation, UART troubleshooting, firmware recovery, layered fault isolation, and root-cause documentation.
         </div>
         <div class="project-card-actions">
-          <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-card-link" target="_blank" rel="noopener noreferrer">View case study</a>
+          <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-card-link project-card-link-primary" target="_blank" rel="noopener noreferrer">View case study</a>
         </div>
       </article>
     </div>

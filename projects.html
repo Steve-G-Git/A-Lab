@@ -151,7 +151,9 @@
     .project-link { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 1px; text-decoration: none; }
     .project-link::after { content: ' →'; }
     .project-actions { display: flex; flex-wrap: wrap; gap: 18px; }
-    .project-link-secondary { color: var(--text-dim); }
+    .project-link-primary::before { content: ''; position: absolute; inset: 0; z-index: 1; }
+    .project-link-primary:focus-visible::before { outline: 2px solid var(--green); outline-offset: -4px; }
+    .project-link-secondary { position: relative; z-index: 2; color: var(--text-dim); }
 
     .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; position: relative; z-index: 1; }
 
@@ -227,7 +229,7 @@
               <span class="tech-tag">Networking</span>
             </div>
             <div class="project-actions">
-              <a href="https://steve-g-git.github.io/osi-explorer/" class="project-link" target="_blank" rel="noopener noreferrer">Open live site</a>
+              <a href="https://steve-g-git.github.io/osi-explorer/" class="project-link project-link-primary" target="_blank" rel="noopener noreferrer">Open live site</a>
               <a href="https://github.com/Steve-G-Git/osi-explorer" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">View source</a>
             </div>
           </div>
@@ -305,7 +307,7 @@
               <span class="tech-tag">Documentation</span>
             </div>
             <div class="project-actions">
-              <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-link" target="_blank" rel="noopener noreferrer">View case study</a>
+              <a href="https://github.com/Steve-G-Git/neptune-4-mcu-recovery" class="project-link project-link-primary" target="_blank" rel="noopener noreferrer">View case study</a>
             </div>
           </div>
         </div>
