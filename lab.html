@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CompTIA A+ Lab Terminal</title>
+  <title>IT Support Lab Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
   <style>
@@ -185,7 +185,7 @@
   <!-- Back to portfolio nav -->
   <div id="topnav">
     <a href="index.html">&#8592; Back to Portfolio</a>
-    <span class="nav-right">CompTIA A+ Lab Terminal</span>
+    <span class="nav-right">IT Support Lab Terminal</span>
   </div>
 
   <div id="lab">
@@ -195,7 +195,7 @@
         <div class="dot dot-y"></div>
         <div class="dot dot-g"></div>
       </div>
-      <div id="title-bar">CompTIA A+ Lab Terminal v1.0</div>
+      <div id="title-bar">IT Support Lab Terminal v1.0</div>
       <div id="status-bar">&#9679; CONNECTED &nbsp;|&nbsp; <span id="score-display">XP: 0</span></div>
     </div>
 
@@ -600,7 +600,7 @@ function addXP(n) {
 
 function showBanner() {
   out.innerHTML = '';
-  print('  CompTIA A+ Lab Terminal', 'line-info');
+  print('  IT Support Lab Terminal', 'line-info');
   print('  Core 1 (220-1101) + Core 2 (220-1102)', 'line-dim');
   blank();
   print('  Domains: Hardware | Networking | OS | Security', 'line-out');
@@ -702,7 +702,7 @@ function showScore() {
     state.xp < 150 ? 'Support Technician' :
     state.xp < 250 ? 'A+ Candidate' :
     state.xp < 400 ? 'Senior Technician' :
-                     'CompTIA A+ Ready!';
+                     'IT Support Fundamentals Complete!';
   print('  Rank: ' + rank, 'line-info');
   blank();
 }
