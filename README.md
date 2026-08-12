@@ -2,21 +2,22 @@
 
 A personal IT portfolio site built to demonstrate hands-on troubleshooting, technical learning, networking knowledge, and practical problem-solving for entry-level help desk and IT support roles.
 
-**Live site:** https://steve-g-git.github.io/A-Lab/
+[![Live site](https://img.shields.io/badge/live_site-open-2563eb)](https://steve-g-git.github.io/A-Lab/)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ## Overview
 
 This site shows my progression from browser-based IT study tools to a larger React networking application and a documented real-world firmware recovery. The projects emphasize structured troubleshooting, clear technical explanation, and repeatable solutions.
 
-## Pages
+## Project guide
 
-| File | Description |
-|---|---|
-| `index.html` | Landing page with skills, training status, and project overview |
-| `about.html` | Background, experience, and current focus |
-| `projects.html` | Full project showcase with technical descriptions |
-| `lab.html` | IT Support Lab Terminal |
-| `troubleshooter.html` | Scenario-based Network Troubleshooter |
+| Project | Format | Open |
+|---|---|---|
+| OSI Explorer | Interactive React networking application | [Live site](https://steve-g-git.github.io/osi-explorer/) · [Source](https://github.com/Steve-G-Git/osi-explorer) |
+| IT Support Lab Terminal | Browser-based study tool | [Launch](https://steve-g-git.github.io/A-Lab/lab.html) |
+| Network Troubleshooter | Scenario-based diagnostic tool | [Launch](https://steve-g-git.github.io/A-Lab/troubleshooter.html) |
+| Neptune 4 Plus MCU Recovery | Technical troubleshooting case study | [Read](https://github.com/Steve-G-Git/neptune-4-mcu-recovery) |
 
 ## Projects
 
@@ -80,3 +81,7 @@ Currently preparing for the CompTIA Network+ certification through coursework, h
 **Email:** [stevegarnet@outlook.com](mailto:stevegarnet@outlook.com)  
 **Location:** Tooele, Utah  
 **Career focus:** Help desk, desktop support, technical support, and field support roles
+
+## License
+
+This project is available under the [MIT License](LICENSE).
