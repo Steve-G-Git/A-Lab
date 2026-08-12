@@ -15,7 +15,7 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 | `index.html` | Landing page with skills, training status, and project overview |
 | `about.html` | Background, experience, and current focus |
 | `projects.html` | Full project showcase with technical descriptions |
-| `lab.html` | CompTIA A+ Lab Terminal |
+| `lab.html` | IT Support Lab Terminal |
 | `troubleshooter.html` | Scenario-based Network Troubleshooter |
 
 ## Projects
@@ -31,7 +31,7 @@ The project includes a responsive connected knowledge map, seven detailed layer 
 [Open the live project](https://steve-g-git.github.io/osi-explorer/)  
 [View the source repository](https://github.com/Steve-G-Git/osi-explorer)
 
-### 2. CompTIA A+ Lab Terminal
+### 2. IT Support Lab Terminal
 
 A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
 
