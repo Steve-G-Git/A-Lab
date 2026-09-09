@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Steve Garnet — IT Portfolio</title>
+  <meta name="description" content="Steve Garnet's entry-level IT support and networking portfolio, featuring verified Linux administration, troubleshooting, and technical documentation projects.">
+  <meta name="theme-color" content="#070b07">
+  <link rel="canonical" href="https://steve-g-git.github.io/A-Lab/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <title>Steve Garnet - IT Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
@@ -71,7 +75,7 @@
       justify-content: space-between;
     }
 
-    .nav-brand { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--green); letter-spacing: 2px; }
+    .nav-brand { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--green); letter-spacing: 2px; text-decoration: none; }
     .nav-brand span { color: var(--text-dim); }
     .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
@@ -201,27 +205,35 @@
       .contact-wrap { padding: 32px 20px; }
     }
   </style>
+  <link rel="stylesheet" href="assets/site-polish.css">
+  <script src="assets/site.js"></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to main content</a>
+
   <nav>
-    <div class="nav-brand">SG<span>://</span>portfolio</div>
-    <ul class="nav-links">
-      <li><a href="about.html">about</a></li>
-      <li><a href="#skills">skills</a></li>
-      <li><a href="#certs">certs</a></li>
-      <li><a href="projects.html">projects</a></li>
-      <li><a href="#contact">contact</a></li>
-    </ul>
+    <a href="index.html" class="nav-brand">SG<span>://</span>portfolio</a>
+    <div class="nav-actions">
+      <ul class="nav-links">
+        <li><a href="about.html">about</a></li>
+        <li><a href="#skills">skills</a></li>
+        <li><a href="#certs">certs</a></li>
+        <li><a href="projects.html">projects</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+      <button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
+    </div>
   </nav>
 
+  <main id="main">
   <div class="hero">
     <div class="hero-content">
       <div class="hero-eyebrow">IT SUPPORT &nbsp;·&nbsp; NETWORKING &nbsp;·&nbsp; PROCESS-DRIVEN TROUBLESHOOTING</div>
       <h1 class="hero-name">Steve<br>Garnet</h1>
       <div class="hero-title">HELP DESK &nbsp;/&nbsp; IT SUPPORT &nbsp;/&nbsp; TROUBLESHOOTING</div>
       <div class="hero-location">Based in Utah &nbsp;·&nbsp; Open to remote or local IT support roles</div>
-      <div class="hero-background">Background in precision manufacturing and process improvement — translates directly into disciplined, systematic IT troubleshooting.</div>
+      <div class="hero-background">Background in precision manufacturing and process improvement - translates directly into disciplined, systematic IT troubleshooting.</div>
       <p class="hero-desc">
         Approaching IT support the same way I approached precision manufacturing:
         methodically, with <strong>structured troubleshooting</strong>, careful testing,
@@ -231,6 +243,7 @@
       </p>
       <div class="hero-ctas">
         <a href="projects.html" class="btn btn-primary">View Projects</a>
+        <a href="assets/resume/Steve_Garnet_Resume.pdf" class="btn btn-secondary" download>Download Résumé</a>
         <a href="#contact" class="btn btn-secondary">Get In Touch</a>
       </div>
     </div>
@@ -352,8 +365,22 @@
     <div class="section-label reveal">Things I've Built</div>
     <h2 class="section-title reveal">Projects</h2>
     <div class="projects-grid">
+      <a href="https://github.com/Steve-G-Git/LeanOps-Lab" class="project-card reveal" target="_blank" rel="noopener noreferrer">
+        <div class="project-card-tag">FEATURED LAB &nbsp;·&nbsp; VERSION 1 COMPLETE</div>
+        <div class="project-card-title">LeanOps Lab</div>
+        <div class="project-card-desc">
+          A documented Ubuntu Server operations lab that applies PDCA to networking, secure administration, monitoring, incident evidence, backup, recovery, and role-based file sharing.
+        </div>
+        <div class="project-card-tech">
+          Thirteen verified improvement cycles with rollback planning, sanitized evidence, operational runbooks, and a clearly defined Version 1 boundary.
+        </div>
+        <div class="project-card-actions">
+          <div class="project-card-link">View repository</div>
+        </div>
+      </a>
+
       <a href="https://steve-g-git.github.io/osi-explorer/" class="project-card reveal" target="_blank" rel="noopener noreferrer">
-        <div class="project-card-tag">FEATURED PROJECT &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
+        <div class="project-card-tag">INTERACTIVE PROJECT &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
         <div class="project-card-title">OSI Explorer</div>
         <div class="project-card-desc">
           An interactive networking education application that presents the OSI model as a connected system of layers, protocols, addressing methods, devices, commands, and troubleshooting concepts.
@@ -411,9 +438,12 @@
   <section id="contact">
     <div class="contact-wrap reveal">
       <div class="contact-title">Let's Connect</div>
-      <p class="contact-sub">Open to help desk and IT support roles. Based in Tooele, Utah — remote or local.</p>
+      <p class="contact-sub">Open to help desk and IT support roles. Based in Tooele, Utah - remote or local.</p>
       <div class="contact-links">
         <a href="mailto:stevegarnet@outlook.com" class="btn btn-primary">Email Me</a>
+        <a href="https://www.linkedin.com/in/steve-garnet-502b10334/" class="btn btn-secondary" target="_blank" rel="me noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/Steve-G-Git" class="btn btn-secondary" target="_blank" rel="me noopener noreferrer">GitHub</a>
+        <a href="assets/resume/Steve_Garnet_Resume.pdf" class="btn btn-secondary" download>Download Résumé</a>
         <a href="about.html" class="btn btn-secondary">About Me</a>
       </div>
       <p style="margin-top:24px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:1px">
@@ -421,6 +451,7 @@
       </p>
     </div>
   </section>
+  </main>
 
   <footer>
     <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>

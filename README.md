@@ -6,6 +6,8 @@ A personal IT portfolio site built to demonstrate hands-on troubleshooting, tech
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+[LinkedIn](https://www.linkedin.com/in/steve-garnet-502b10334/) | [GitHub](https://github.com/Steve-G-Git) | [Download résumé](assets/resume/Steve_Garnet_Resume.pdf)
+
 ## Overview
 
 This site shows my progression from browser-based IT study tools to a larger React networking application and a documented real-world firmware recovery. The projects emphasize structured troubleshooting, clear technical explanation, and repeatable solutions.
@@ -14,6 +16,7 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 
 | Project | Format | Open |
 |---|---|---|
+| LeanOps Lab | Documented Ubuntu Server operations lab | [Repository](https://github.com/Steve-G-Git/LeanOps-Lab) |
 | OSI Explorer | Interactive React networking application | [Live site](https://steve-g-git.github.io/osi-explorer/) · [Source](https://github.com/Steve-G-Git/osi-explorer) |
 | IT Support Lab Terminal | Browser-based study tool | [Launch](https://steve-g-git.github.io/A-Lab/lab.html) |
 | Network Troubleshooter | Scenario-based diagnostic tool | [Launch](https://steve-g-git.github.io/A-Lab/troubleshooter.html) |
@@ -21,7 +24,15 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 
 ## Projects
 
-### 1. OSI Explorer
+### 1. LeanOps Lab
+
+A self-directed Ubuntu Server lab applying PDCA to networking, secure administration, monitoring, incident evidence, notifications, backup, recovery, and role-based file sharing.
+
+Version 1 contains thirteen verified improvement cycles with rollback planning, sanitized evidence, operational runbooks, and a formal closeout boundary.
+
+[Review the repository](https://github.com/Steve-G-Git/LeanOps-Lab)
+
+### 2. OSI Explorer
 
 An interactive networking education application that presents the OSI model as a connected system of layers, protocols, devices, addressing methods, commands, and troubleshooting concepts.
 
@@ -32,7 +43,7 @@ The project includes a responsive connected knowledge map, seven detailed layer 
 [Open the live project](https://steve-g-git.github.io/osi-explorer/)  
 [View the source repository](https://github.com/Steve-G-Git/osi-explorer)
 
-### 2. IT Support Lab Terminal
+### 3. IT Support Lab Terminal
 
 A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
 
@@ -42,7 +53,7 @@ Built in vanilla JavaScript with a command registry, randomized quizzes, accepte
 
 [Launch the terminal](https://steve-g-git.github.io/A-Lab/lab.html)
 
-### 3. Network Troubleshooter
+### 4. Network Troubleshooter
 
 A scenario-based diagnostic tool structured around the IT troubleshooting process: identify the problem, establish and test a theory, create an action plan, verify resolution, and document findings.
 
@@ -52,7 +63,7 @@ Scenarios cover APIPA addressing and DHCP failure, WAN connectivity, broadcast s
 
 [Launch the troubleshooter](https://steve-g-git.github.io/A-Lab/troubleshooter.html)
 
-### 4. Neptune 4 Plus MCU Recovery
+### 5. Neptune 4 Plus MCU Recovery
 
 A documented real-world troubleshooting case involving a failed firmware update on a Klipper-based 3D printer.
 
@@ -78,9 +89,11 @@ Currently preparing for the CompTIA Network+ certification through coursework, h
 
 ## Contact
 
-**Email:** [stevegarnet@outlook.com](mailto:stevegarnet@outlook.com)  
-**Location:** Tooele, Utah  
-**Career focus:** Help desk, desktop support, technical support, and field support roles
+- **Email:** [stevegarnet@outlook.com](mailto:stevegarnet@outlook.com)
+- **LinkedIn:** [linkedin.com/in/steve-garnet-502b10334](https://www.linkedin.com/in/steve-garnet-502b10334/)
+- **Résumé:** [Download PDF](assets/resume/Steve_Garnet_Resume.pdf)
+- **Location:** Tooele, Utah
+- **Career focus:** Help desk, desktop support, technical support, and field support roles
 
 ## License
 

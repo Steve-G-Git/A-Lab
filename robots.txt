@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://steve-g-git.github.io/A-Lab/sitemap.xml

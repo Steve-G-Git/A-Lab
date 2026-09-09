@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Steve Garnet</title>
+  <meta name="description" content="Steve Garnet's transition from precision manufacturing and Lean leadership into entry-level IT support and networking.">
+  <meta name="theme-color" content="#070b07">
+  <link rel="canonical" href="https://steve-g-git.github.io/A-Lab/about.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <title>About - Steve Garnet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
@@ -177,20 +181,27 @@
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
+  <link rel="stylesheet" href="assets/site-polish.css">
+  <script src="assets/site.js"></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to main content</a>
+
   <nav>
     <a href="index.html" class="nav-brand">SG<span>://</span>portfolio</a>
-    <ul class="nav-links">
-      <li><a href="index.html">home</a></li>
-      <li><a href="about.html" class="active">about</a></li>
-      <li><a href="projects.html">projects</a></li>
-      <li><a href="index.html#contact">contact</a></li>
-    </ul>
+    <div class="nav-actions">
+      <ul class="nav-links">
+        <li><a href="index.html">home</a></li>
+        <li><a href="about.html" class="active">about</a></li>
+        <li><a href="projects.html">projects</a></li>
+        <li><a href="index.html#contact">contact</a></li>
+      </ul>
+      <button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
+    </div>
   </nav>
 
-  <div class="page">
+  <main class="page" id="main">
 
     <div class="page-eyebrow">THE PERSON BEHIND THE TERMINAL</div>
     <h1 class="page-title">About<br>Steve</h1>
@@ -214,10 +225,9 @@
         and repeatable.
       </p>
       <p>
-        I didn't move into IT because it sounded interesting. I moved into it because I was
-        already doing it. Building systems, breaking them, fixing them, and understanding
-        what's actually happening under the surface. That shift wasn't a leap — it was
-        a direction.
+        I chose to move into IT because the work fits how I think: build systems, test them,
+        troubleshoot what fails, and understand what is happening beneath the surface.
+        My technical projects turn that interest into practical, repeatable work.
       </p>
       <p>
         I'm currently preparing for <strong>CompTIA Network+</strong> while building
@@ -260,16 +270,16 @@
         <div class="stat-label">PREPARATION IN PROGRESS</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">4</div>
-        <div class="stat-label">DOMAINS STUDIED</div>
+        <div class="stat-value">13</div>
+        <div class="stat-label">VERIFIED LEANOPS CYCLES</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">4</div>
+        <div class="stat-value">5</div>
         <div class="stat-label">PORTFOLIO PROJECTS</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">SLC</div>
-        <div class="stat-label">TOOELE, UTAH</div>
+        <div class="stat-value">UT</div>
+        <div class="stat-label">BASED IN TOOELE</div>
       </div>
     </div>
 
@@ -350,8 +360,8 @@
       <div class="current-item">
         <div class="current-icon">[OSI]</div>
         <div class="current-text">
-          Expanding <strong>OSI Explorer</strong>, an interactive networking
-          education project built with React and Vite
+          Developing a staged <strong>Cisco Packet Tracer lab</strong> while studying
+          routing, switching, VLANs, DHCP, and network troubleshooting
         </div>
       </div>
       <div class="current-item">
@@ -373,10 +383,13 @@
 
     <div class="cta-row reveal">
       <a href="projects.html" class="btn btn-primary">See My Projects</a>
+      <a href="assets/resume/Steve_Garnet_Resume.pdf" class="btn btn-secondary" download>Download Résumé</a>
+      <a href="https://www.linkedin.com/in/steve-garnet-502b10334/" class="btn btn-secondary" target="_blank" rel="me noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/Steve-G-Git" class="btn btn-secondary" target="_blank" rel="me noopener noreferrer">GitHub Profile</a>
       <a href="mailto:stevegarnet@outlook.com" class="btn btn-secondary">Get In Touch</a>
     </div>
 
-  </div>
+  </main>
 
   <footer>
     <span>Steve Garnet &nbsp;·&nbsp; IT Portfolio</span>
