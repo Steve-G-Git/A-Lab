@@ -26,17 +26,25 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 
 ### 1. LeanOps Lab
 
-A self-directed Ubuntu Server lab applying PDCA to networking, secure administration, monitoring, incident evidence, notifications, backup, recovery, and role-based file sharing.
+**Type:** Infrastructure lab
 
-Version 1 contains thirteen verified improvement cycles with rollback planning, sanitized evidence, operational runbooks, and a formal closeout boundary.
+- **Problem:** A fictional small-business server began with unnecessary exposure, changing network addresses, weak administrative controls, no repeatable monitoring, and no tested recovery process.
+- **What I configured:** Ubuntu Server in VirtualBox, NAT and host-only networking, static addressing, key-only SSH, UFW, systemd monitoring, Bash and Python automation, SMTP alerts, Samba access groups, and backup processes.
+- **Verification:** Thirteen PDCA cycles include reboot checks, Nmap scans, allowed and denied share tests, controlled failures, rollback, isolated restores, email delivery, and SHA-256 comparisons.
+- **Problem and correction:** I corrected a mismatched VirtualBox DHCP subnet and later isolated a systemd sandbox setting that blocked UFW's runtime lock.
+- **Next improvement:** Add encrypted, versioned off-site backup or centralized identity after defining an observed problem, validation, and rollback.
 
 [Review the repository](https://github.com/Steve-G-Git/LeanOps-Lab)
 
 ### 2. OSI Explorer
 
-An interactive networking education application that presents the OSI model as a connected system of layers, protocols, devices, addressing methods, commands, and troubleshooting concepts.
+**Type:** Interactive study application
 
-The project includes a responsive connected knowledge map, seven detailed layer pages, a searchable topic encyclopedia, and a guided 12-step packet journey showing what happens when a user visits a website.
+- **Problem:** The OSI model is often taught as seven isolated boxes instead of a connected system.
+- **What I built:** A React application with seven layer pages, a searchable encyclopedia, a connected knowledge map, and a guided twelve-step packet journey.
+- **Verification:** Production build and preview checks, routed navigation, responsive layouts, keyboard focus, reduced-motion behavior, GitHub Actions deployment, and the live site.
+- **Problem and correction:** I worked through npm, lockfile, Vite, Git, and deployment failures, including correcting the Vite base path for GitHub Pages.
+- **Next improvement:** Add automated content-integrity tests, practical troubleshooting scenarios, and more protocol diagrams.
 
 **Technology:** React, Vite, JavaScript, CSS, React Router, GitHub Actions, GitHub Pages
 
@@ -45,9 +53,13 @@ The project includes a responsive connected knowledge map, seven detailed layer 
 
 ### 3. IT Support Lab Terminal
 
-A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
+**Type:** Browser study tool
 
-Built in vanilla JavaScript with a command registry, randomized quizzes, accepted-answer evaluation, and session-based XP tracking.
+- **Problem:** Static notes allowed passive rereading without command-oriented recall practice.
+- **What I built:** A terminal interface, command registry, topic navigation, randomized quizzes, accepted-answer matching, session scoring, and XP tracking in vanilla JavaScript.
+- **Verification:** The source implements command lookup, tab navigation, quiz flow, score and XP updates, and unknown-command feedback. Automated checks validate page destinations and JavaScript syntax.
+- **Problem and correction:** I removed stale A+ branding and corrected oversimplified technical entries during a later accuracy audit.
+- **Next improvement:** Separate content from interface code and add automated tests for every command and accepted answer.
 
 **Technology:** HTML, CSS, JavaScript
 
@@ -55,9 +67,13 @@ Built in vanilla JavaScript with a command registry, randomized quizzes, accepte
 
 ### 4. Network Troubleshooter
 
-A scenario-based diagnostic tool structured around the IT troubleshooting process: identify the problem, establish and test a theory, create an action plan, verify resolution, and document findings.
+**Type:** Browser study tool
 
-Scenarios cover APIPA addressing and DHCP failure, WAN connectivity, broadcast storms, and switch-level MAC filtering. Correct and incorrect choices both provide explanatory feedback.
+- **Problem:** Memorizing troubleshooting steps does not provide practice choosing the next action from incomplete evidence.
+- **What I built:** A state-driven engine with four network incidents, staged evidence, decision paths, progress tracking, and explanatory feedback.
+- **Verification:** The source contains four complete scenarios. Each step defines choices, a correct path, and explanatory feedback; automated checks validate page destinations and JavaScript syntax.
+- **Problem and correction:** I removed stale certification branding, corrected a WAN scenario that kept DNS in scope after a numeric-IP test failed, and strengthened the broadcast-storm evidence.
+- **Next improvement:** Add varied symptoms, more support scenarios, and automated tests for every scenario branch.
 
 **Technology:** HTML, CSS, JavaScript
 
@@ -65,9 +81,13 @@ Scenarios cover APIPA addressing and DHCP failure, WAN connectivity, broadcast s
 
 ### 5. Neptune 4 Plus MCU Recovery
 
-A documented real-world troubleshooting case involving a failed firmware update on a Klipper-based 3D printer.
+**Type:** Technical case study
 
-The investigation separated the Linux host, firmware, USB serial interface, and printer MCU layers. It demonstrates CH340 device identification, COM-port isolation, UART troubleshooting, firmware recovery, root-cause analysis, and technical documentation.
+- **Problem:** A failed firmware update left the Klipper interface available while temperature readings, motors, heaters, and MCU communication were lost.
+- **What I investigated:** The Linux host, CH340 serial interface, COM port, UART connection, and MCU firmware using Device Manager, vendor firmware, microSD recovery, and STM32CubeProgrammer.
+- **Verification:** The error cleared and temperature, motor, and heater control returned without hardware replacement or host reinstallation.
+- **Problem and correction:** The SD-card restore did not fix the fault, and direct UART initially failed with a boot-mode error. These failures focused recovery on the MCU firmware layer.
+- **Next improvement:** Capture screenshots and logs during the incident, record exact firmware versions and commands, and document a repeatable rollback procedure.
 
 [View the recovery case study](https://github.com/Steve-G-Git/neptune-4-mcu-recovery)
 

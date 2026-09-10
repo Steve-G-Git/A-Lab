@@ -134,7 +134,66 @@
 
     .project-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 14px; }
 
-    .project-desc { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 14px; max-width: 640px; }
+    .project-desc { font-size: 16px; color: var(--text); line-height: 1.7; margin-bottom: 14px; max-width: 760px; }
+
+    .project-type-guide {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 28px 0 36px;
+    }
+
+    .type-guide-item {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .type-guide-label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .project-proof {
+      display: grid;
+      gap: 1px;
+      max-width: 760px;
+      margin: 0 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--border);
+    }
+
+    .project-proof > div {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 18px;
+      padding: 12px 14px;
+      background: var(--bg2);
+    }
+
+    .project-proof dt {
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .project-proof dd {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.65;
+    }
 
     .project-tech {
       font-size: 13px;
@@ -182,6 +241,8 @@
       .page { padding: 90px 20px 60px; }
       .page-title { font-size: 52px; }
       .project-card-inner { flex-direction: column; gap: 16px; padding: 20px; }
+      .project-type-guide { grid-template-columns: 1fr; }
+      .project-proof > div { grid-template-columns: 1fr; gap: 4px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
@@ -213,20 +274,38 @@
       These projects document practical troubleshooting, networking, Linux administration, and technical learning. Each one identifies what was built or investigated, how the result was verified, and where the supporting evidence can be reviewed.
     </p>
 
+    <div class="project-type-guide" aria-label="Project type guide">
+      <div class="type-guide-item">
+        <span class="type-guide-label">Infrastructure lab</span>
+        A configured working environment with operational tests, recovery controls, and documented evidence.
+      </div>
+      <div class="type-guide-item">
+        <span class="type-guide-label">Study tool</span>
+        Software I built to practice, connect, and explain technical concepts. It is not a production support system.
+      </div>
+      <div class="type-guide-item">
+        <span class="type-guide-label">Technical case study</span>
+        A real failure I investigated and repaired, documented after the work was completed.
+      </div>
+    </div>
+
     <div class="projects-list">
 
       <article class="project-card reveal">
         <div class="project-card-inner">
           <div class="project-number">01</div>
           <div class="project-content">
-            <div class="project-tag">FEATURED LAB &nbsp;·&nbsp; LINUX OPERATIONS &nbsp;·&nbsp; VERSION 1 COMPLETE</div>
+            <div class="project-tag">INFRASTRUCTURE LAB &nbsp;·&nbsp; LINUX OPERATIONS &nbsp;·&nbsp; VERSION 1 COMPLETE</div>
             <div class="project-title">LeanOps Lab</div>
             <div class="project-desc">
-              A self-directed Ubuntu Server lab that applies PDCA and Lean problem-solving to networking, secure administration, health monitoring, incident evidence, notifications, backup, recovery, and role-based file sharing.
+              <strong>Problem:</strong> A fictional small-business server began with unnecessary exposure, changing network addresses, weak administrative controls, no repeatable monitoring, and no tested recovery process.
             </div>
-            <div class="project-tech">
-              Version 1 contains thirteen closed improvement cycles. Each cycle defines a problem, risk, change, verification method, rollback path, and adopted standard. The repository includes current-state architecture, operational runbooks, sanitized evidence, and a formal closeout boundary.
-            </div>
+            <dl class="project-proof">
+              <div><dt>What I configured</dt><dd>I built the Ubuntu Server VM and its NAT and isolated host-only networks, then configured static addressing, key-only SSH, UFW, systemd monitoring, Bash and Python automation, SMTP alerts, Samba access groups, and two backup processes.</dd></div>
+              <div><dt>Testing and proof</dt><dd>I closed thirteen PDCA cycles using reboot-persistence checks, Nmap scans, allowed and denied share-access tests, controlled failures, rollback tests, isolated restores, email-delivery tests, and SHA-256 comparisons from both Ubuntu and Windows.</dd></div>
+              <div><dt>Problem and correction</dt><dd>The original VirtualBox DHCP service was on the wrong subnet, and a later systemd sandbox blocked UFW's runtime lock. I corrected the subnet and isolated the sandbox failure before changing <code>ProtectSystem</code> from <code>strict</code> to <code>full</code>.</dd></div>
+              <div><dt>What I would improve next</dt><dd>The strongest next cycle would add encrypted, versioned off-site backup or centralized identity, but only after defining an observed problem, success criteria, validation, and rollback.</dd></div>
+            </dl>
             <div class="project-tags">
               <span class="tech-tag">Ubuntu Server</span>
               <span class="tech-tag">Linux</span>
@@ -248,14 +327,17 @@
         <div class="project-card-inner">
           <div class="project-number">02</div>
           <div class="project-content">
-            <div class="project-tag">FEATURED PROJECT &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
+            <div class="project-tag">INTERACTIVE STUDY APPLICATION &nbsp;·&nbsp; REACT &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">OSI Explorer</div>
             <div class="project-desc">
-              An interactive networking education application that presents the OSI model as a connected system rather than seven isolated layers. Learners can move between protocols, addressing methods, devices, commands, and troubleshooting concepts.
+              <strong>Problem:</strong> The OSI model is often taught as seven isolated boxes, which makes it difficult to see how protocols, addressing, devices, commands, and troubleshooting evidence connect.
             </div>
-            <div class="project-tech">
-              OSI Explorer includes a responsive connected knowledge map, seven detailed layer pages, a searchable topic encyclopedia, and a guided 12-step packet journey. Learning content is separated from interface code through reusable JavaScript data structures and stable topic IDs. The production site is built and deployed automatically through GitHub Actions.
-            </div>
+            <dl class="project-proof">
+              <div><dt>What I built</dt><dd>I built a React and Vite application with seven layer pages, a searchable topic encyclopedia, a connected knowledge map, and a guided twelve-step packet journey. Reusable data files and stable topic IDs keep the learning content separate from the interface.</dd></div>
+              <div><dt>Testing and proof</dt><dd>I ran the Vite production build and preview, checked routed navigation, desktop and mobile layouts, keyboard focus, and reduced-motion behavior, then verified the automated GitHub Pages deployment and live site.</dd></div>
+              <div><dt>Problem and correction</dt><dd>I worked through npm, lockfile, Vite, Git, and GitHub Actions deployment failures. Correcting the Vite base path to <code>/osi-explorer/</code> and standardizing the deployment workflow produced a repeatable live build.</dd></div>
+              <div><dt>What I would improve next</dt><dd>Add automated integrity checks for topic IDs and connections, practical troubleshooting scenarios, and more protocol diagrams while continuing mobile and accessibility testing.</dd></div>
+            </dl>
             <div class="project-tags">
               <span class="tech-tag">React</span>
               <span class="tech-tag">Vite</span>
@@ -277,14 +359,17 @@
         <div class="project-card-inner">
           <div class="project-number">03</div>
           <div class="project-content">
-            <div class="project-tag">EARLIER PROJECT &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
+            <div class="project-tag">BROWSER STUDY TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">IT Support Lab Terminal</div>
             <div class="project-desc">
-              A browser-based terminal simulator that responds to typed commands, parses input, and returns structured study content across hardware, networking, operating system, and security topics.
+              <strong>Problem:</strong> Static notes made it easy to reread technical facts without actively recalling them or practicing command-oriented navigation.
             </div>
-            <div class="project-tech">
-              Input is captured through keyboard events, parsed against a command registry, and routed to the appropriate content or quiz handler. The quiz engine randomizes questions, evaluates typed answers against accepted-answer arrays, and tracks XP state during the session.
-            </div>
+            <dl class="project-proof">
+              <div><dt>What I built</dt><dd>I built the terminal interface, keyboard input handling, command registry, topic navigation, randomized quiz engine, accepted-answer matching, session scoring, and XP tracking with HTML, CSS, and vanilla JavaScript.</dd></div>
+              <div><dt>Testing and proof</dt><dd>The source implements command lookup, tab navigation, quiz start and answer handling, score and XP updates, and unknown-command feedback. Automated portfolio checks validate page destinations and JavaScript syntax.</dd></div>
+              <div><dt>Problem and correction</dt><dd>A later accuracy review found stale A+ branding and several oversimplified technical entries. I removed the certification-specific identity and corrected material covering AM5, USB identification, NTFS, passwords, SFTP, malware response, and network troubleshooting.</dd></div>
+              <div><dt>What I would improve next</dt><dd>Move the study content out of the interface file, add automated tests for every command and accepted answer, and add progress persistence only if the tool continues to be useful.</dd></div>
+            </dl>
             <div class="project-tags">
               <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">HTML</span>
@@ -305,14 +390,17 @@
         <div class="project-card-inner">
           <div class="project-number">04</div>
           <div class="project-content">
-            <div class="project-tag">DIAGNOSTIC TOOL &nbsp;·&nbsp; VANILLA JAVASCRIPT &nbsp;·&nbsp; LIVE</div>
+            <div class="project-tag">BROWSER STUDY TOOL &nbsp;·&nbsp; TROUBLESHOOTING PRACTICE &nbsp;·&nbsp; LIVE</div>
             <div class="project-title">Network Troubleshooter</div>
             <div class="project-desc">
-              A scenario-based diagnostic tool structured around the IT troubleshooting process: identify the problem, establish and test a theory, create an action plan, verify resolution, and document findings.
+              <strong>Problem:</strong> Memorizing the troubleshooting process does not provide practice choosing the next action from incomplete evidence or explaining why another action is premature.
             </div>
-            <div class="project-tech">
-              Scenarios cover APIPA addressing and DHCP failure, loss of WAN connectivity, a broadcast storm caused by a physical loop, and switch-level MAC filtering after a hardware change. Correct and incorrect paths both provide explanatory feedback.
-            </div>
+            <dl class="project-proof">
+              <div><dt>What I built</dt><dd>I built a state-driven scenario engine with four network incidents, staged evidence, multiple-choice decisions, progress tracking, and separate explanatory feedback for correct and incorrect choices.</dd></div>
+              <div><dt>Testing and proof</dt><dd>The source contains four complete scenarios covering APIPA and DHCP, WAN failure, a physical loop, and switch security. Each step defines choices, a correct path, and explanatory feedback; automated checks validate page destinations and JavaScript syntax.</dd></div>
+              <div><dt>Problem and correction</dt><dd>The content audit exposed stale certification branding and a WAN scenario that incorrectly kept DNS in scope after a numeric external IP test failed. I removed the branding, corrected the WAN diagnosis, and strengthened the broadcast-storm evidence.</dd></div>
+              <div><dt>What I would improve next</dt><dd>Add more support scenarios, vary addresses and symptoms between sessions, and create automated path tests so every branch and explanation is checked after future edits.</dd></div>
+            </dl>
             <div class="project-tags">
               <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">HTML</span>
@@ -336,11 +424,14 @@
             <div class="project-tag">TECHNICAL CASE STUDY &nbsp;·&nbsp; FIRMWARE RECOVERY</div>
             <div class="project-title">Neptune 4 Plus MCU Recovery</div>
             <div class="project-desc">
-              A documented real-world troubleshooting case involving a failed firmware update on a Klipper-based 3D printer. The Linux host remained available, but communication with the printer MCU and all hardware control were lost.
+              <strong>Problem:</strong> After a failed firmware update, the Klipper interface still loaded but temperature readings, motors, heaters, and communication with the printer MCU were lost.
             </div>
-            <div class="project-tech">
-              The investigation separated the host, firmware, serial interface, and MCU layers. It included identifying the CH340 USB serial device, isolating the correct COM port, testing UART communication, evaluating failed recovery attempts, and restoring MCU communication without replacing hardware.
-            </div>
+            <dl class="project-proof">
+              <div><dt>What I investigated</dt><dd>This is a real repair case study, not a software project. I separated the Linux host, CH340 USB serial interface, COM port, UART connection, and MCU firmware layers, then used Device Manager, vendor firmware, a microSD recovery attempt, and STM32CubeProgrammer.</dd></div>
+              <div><dt>Testing and proof</dt><dd>The recovered printer cleared the Klipper error, restored live temperature readings, and regained motor and heater control without replacing hardware or reinstalling the host system.</dd></div>
+              <div><dt>Problem and correction</dt><dd>The standard SD-card restore completed but left the same error, and the first direct UART attempt failed with a boot-mode error. Those failures ruled out a host repair and focused recovery on restoring a valid MCU firmware state.</dd></div>
+              <div><dt>What I would improve next</dt><dd>Capture screenshots and logs during the incident, record exact firmware versions and recovery commands, and create a concise repeatable rollback procedure. The current case study clearly discloses that screenshots were not captured.</dd></div>
+            </dl>
             <div class="project-tags">
               <span class="tech-tag">Firmware</span>
               <span class="tech-tag">UART</span>

@@ -67,6 +67,30 @@ for (const file of pages) {
   }
 }
 
+const projectsHtml = fs.readFileSync(path.join(root, 'projects.html'), 'utf8');
+const projectAcceptanceChecks = [
+  ['project problems', /<strong>Problem:<\/strong>/g, 5],
+  ['personal contribution sections', /<dt>What I (?:configured|built|investigated)<\/dt>/g, 5],
+  ['testing and proof sections', /<dt>Testing and proof<\/dt>/g, 5],
+  ['problem and correction sections', /<dt>Problem and correction<\/dt>/g, 5],
+  ['next-improvement sections', /<dt>What I would improve next<\/dt>/g, 5],
+];
+
+for (const [label, pattern, expected] of projectAcceptanceChecks) {
+  const count = (projectsHtml.match(pattern) || []).length;
+  if (count !== expected) fail('projects.html', `${label}: expected ${expected}, found ${count}`);
+}
+
+for (const projectType of ['INFRASTRUCTURE LAB', 'STUDY APPLICATION', 'BROWSER STUDY TOOL', 'TECHNICAL CASE STUDY']) {
+  if (!projectsHtml.includes(projectType)) fail('projects.html', `missing project type: ${projectType}`);
+}
+
+const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+for (const label of ['**Type:**', '**Problem:**', '**Verification:**', '**Problem and correction:**', '**Next improvement:**']) {
+  const count = readme.split(label).length - 1;
+  if (count !== 5) fail('README.md', `${label} expected 5, found ${count}`);
+}
+
 if (failures.length) {
   console.error(`Site checks failed (${failures.length}):`);
   failures.forEach((failure) => console.error(`- ${failure}`));
