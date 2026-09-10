@@ -42,6 +42,17 @@ html[data-theme="light"] .ts-next {
   gap: 14px;
 }
 
+.nav-menu-toggle {
+  display: none;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg2);
+  color: var(--text);
+  font: 13px/1.2 'Share Tech Mono', monospace;
+  cursor: pointer;
+}
+
 .theme-toggle {
   min-width: 104px;
   padding: 7px 10px;
@@ -103,6 +114,18 @@ html[data-theme="light"] .ts-next {
 
 .skip-link:focus {
   transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 a:focus-visible,
@@ -209,26 +232,43 @@ html[data-theme="light"] .tab:hover {
     height: auto;
     padding: 10px 20px;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   .nav-actions {
     margin-left: auto;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    width: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
   }
 
   .nav-links {
-    flex: 1 1 auto;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 4px 0;
-    scrollbar-width: thin;
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 12px;
+    left: 12px;
+    flex-direction: column;
+    gap: 0;
+    overflow: visible;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg2);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   }
 
-  .nav-brand + .nav-actions {
-    margin-left: 0;
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 11px 12px;
+  }
+
+  .nav-menu-toggle {
+    display: inline-block;
   }
 
   .hero,
@@ -259,7 +299,7 @@ html[data-theme="light"] .tab:hover {
   }
 
   .theme-toggle {
-    min-width: 96px;
+    min-width: 92px;
   }
 }
 

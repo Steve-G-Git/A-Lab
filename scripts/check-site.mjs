@@ -25,7 +25,7 @@ for (const file of pages) {
   if (!/<meta\s+name=["']description["']/i.test(html)) fail(file, 'missing page description');
   if (!/<title>[^<]+<\/title>/i.test(html)) fail(file, 'missing page title');
   if (!/<main\b/i.test(html)) fail(file, 'missing main content landmark');
-  if ((html.match(/<h1\b/gi) || []).length > 1) fail(file, 'contains more than one h1');
+  if ((html.match(/<h1\b/gi) || []).length !== 1) fail(file, 'must contain exactly one h1');
   if (duplicateIds.length) fail(file, `duplicate IDs: ${[...new Set(duplicateIds)].join(', ')}`);
   if (/A\+ Candidate|aplus-lab|APlus-Lab|220-1101|220-1102/i.test(html)) fail(file, 'contains stale A+ branding');
 
@@ -37,6 +37,19 @@ for (const file of pages) {
 
   if (!/<link\s+rel=["']canonical["']/i.test(html)) fail(file, 'missing canonical URL');
   if (!/<link\s+rel=["']icon["']/i.test(html)) fail(file, 'missing favicon');
+  if (!/<meta\s+property=["']og:title["']/i.test(html)) fail(file, 'missing Open Graph title');
+  if (!/<meta\s+property=["']og:description["']/i.test(html)) fail(file, 'missing Open Graph description');
+  if (!/<meta\s+property=["']og:url["']/i.test(html)) fail(file, 'missing Open Graph URL');
+  if (!/<meta\s+name=["']twitter:card["']/i.test(html)) fail(file, 'missing social card metadata');
+  if (!/<a\s+class=["']skip-link["']/i.test(html)) fail(file, 'missing keyboard skip link');
+
+  for (const match of html.matchAll(/<button\b([^>]*)>/gi)) {
+    if (!/\btype=["']button["']/i.test(match[1])) fail(file, 'button missing explicit type="button"');
+  }
+
+  for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
+    if (!/\balt=["'][^"']*["']/i.test(match[1])) fail(file, 'image missing alt text');
+  }
 
   for (const match of html.matchAll(/\s(?:href|src)=["']([^"']+)["']/gi)) {
     const reference = match[1];
@@ -64,6 +77,18 @@ for (const file of pages) {
     } catch (error) {
       fail(file, `inline JavaScript syntax error: ${error.message}`);
     }
+  }
+}
+
+const polishCss = fs.readFileSync(path.join(root, 'assets', 'site-polish.css'), 'utf8');
+if (!/:focus-visible/.test(polishCss)) fail('assets/site-polish.css', 'missing visible keyboard focus styles');
+if (!/@media\s*\(prefers-reduced-motion:\s*reduce\)/.test(polishCss)) fail('assets/site-polish.css', 'missing reduced-motion support');
+
+for (const file of ['index.html', 'about.html', 'projects.html', 'troubleshooter.html']) {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  if (!/<nav\b[^>]*aria-label=/i.test(html)) fail(file, 'primary navigation is missing an accessible name');
+  if (!/data-menu-toggle[^>]*aria-controls=["']primary-menu["'][^>]*aria-expanded=["']false["']/i.test(html)) {
+    fail(file, 'mobile menu control is missing accessible state');
   }
 }
 

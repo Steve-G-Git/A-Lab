@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A browser-based IT support study terminal covering hardware, networking, operating systems, security, and troubleshooting fundamentals.">
   <meta name="theme-color" content="#070b07">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IT Support Lab - Steve Garnet">
+  <meta property="og:description" content="A browser-based IT support study terminal covering hardware, networking, operating systems, security, and troubleshooting fundamentals.">
+  <meta property="og:url" content="https://steve-g-git.github.io/A-Lab/lab.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="IT Support Lab - Steve Garnet">
+  <meta name="twitter:description" content="A command-driven study tool for IT support fundamentals.">
   <link rel="canonical" href="https://steve-g-git.github.io/A-Lab/lab.html">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <title>IT Support Lab Terminal - Steve Garnet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -197,6 +205,7 @@
   </div>
 
   <main id="lab">
+    <h1 class="sr-only">IT Support Lab Terminal</h1>
     <div id="topbar">
       <div class="dots" aria-hidden="true">
         <div class="dot dot-r"></div>
@@ -207,13 +216,13 @@
       <div id="status-bar">&#9679; CONNECTED &nbsp;|&nbsp; <span id="score-display">XP: 0</span></div>
     </div>
 
-    <div id="tabs">
-      <button class="tab active" onclick="switchModule('home')">~/home</button>
-      <button class="tab" onclick="switchModule('hardware')">~/hardware</button>
-      <button class="tab" onclick="switchModule('networking')">~/networking</button>
-      <button class="tab" onclick="switchModule('os')">~/os</button>
-      <button class="tab" onclick="switchModule('security')">~/security</button>
-      <button class="tab" onclick="switchModule('quiz')">~/quiz</button>
+    <div id="tabs" role="tablist" aria-label="Study modules">
+      <button class="tab active" type="button" role="tab" aria-selected="true" tabindex="0" onclick="switchModule('home')">~/home</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" tabindex="-1" onclick="switchModule('hardware')">~/hardware</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" tabindex="-1" onclick="switchModule('networking')">~/networking</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" tabindex="-1" onclick="switchModule('os')">~/os</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" tabindex="-1" onclick="switchModule('security')">~/security</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" tabindex="-1" onclick="switchModule('quiz')">~/quiz</button>
     </div>
 
     <div id="terminal">
@@ -720,9 +729,17 @@ function switchModule(mod) {
   state.module = mod;
   state.quizActive = false;
   currentQuiz = null;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => {
-    if (t.textContent.trim() === '~/' + mod) t.classList.add('active');
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+    t.setAttribute('tabindex', '-1');
+  });
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.textContent.trim() === '~/' + mod) {
+      t.classList.add('active');
+      t.setAttribute('aria-selected', 'true');
+      t.setAttribute('tabindex', '0');
+    }
   });
   promptLabel.textContent = prompts[mod] || 'user@support-lab:~$';
   if (mod === 'home') { showBanner(); inp.focus(); return; }
@@ -747,6 +764,23 @@ function switchModule(mod) {
   blank();
   inp.focus();
 }
+
+document.getElementById('tabs').addEventListener('keydown', function (event) {
+  const tabs = [...document.querySelectorAll('.tab')];
+  const current = tabs.indexOf(document.activeElement);
+  if (current < 0) return;
+
+  let next = current;
+  if (event.key === 'ArrowRight') next = (current + 1) % tabs.length;
+  else if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+  else if (event.key === 'Home') next = 0;
+  else if (event.key === 'End') next = tabs.length - 1;
+  else return;
+
+  event.preventDefault();
+  tabs[next].focus();
+  tabs[next].click();
+});
 
 let quizQueue = [];
 let currentQuiz = null;

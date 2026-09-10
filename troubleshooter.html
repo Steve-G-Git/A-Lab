@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="An interactive network troubleshooting exercise built around evidence, fault isolation, verification, and documentation.">
   <meta name="theme-color" content="#070b07">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Network Troubleshooter - Steve Garnet">
+  <meta property="og:description" content="An interactive network troubleshooting exercise built around evidence, fault isolation, verification, and documentation.">
+  <meta property="og:url" content="https://steve-g-git.github.io/A-Lab/troubleshooter.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Network Troubleshooter - Steve Garnet">
+  <meta name="twitter:description" content="Practice evidence-based network troubleshooting in four interactive scenarios.">
   <link rel="canonical" href="https://steve-g-git.github.io/A-Lab/troubleshooter.html">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <title>Network Troubleshooter - Steve Garnet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -326,15 +334,16 @@
 
   <a class="skip-link" href="#main">Skip to troubleshooter</a>
 
-  <nav>
+  <nav aria-label="Primary navigation">
     <a href="index.html" class="nav-brand">SG<span>://</span>portfolio</a>
     <div class="nav-actions">
-      <ul class="nav-links">
+      <ul class="nav-links" id="primary-menu" data-menu>
         <li><a href="index.html">home</a></li>
         <li><a href="about.html">about</a></li>
         <li><a href="projects.html">projects</a></li>
         <li><a href="index.html#contact">contact</a></li>
       </ul>
+      <button class="nav-menu-toggle" type="button" data-menu-toggle aria-controls="primary-menu" aria-expanded="false">Menu</button>
       <button class="theme-toggle" type="button" data-theme-toggle>Theme</button>
     </div>
   </nav>
@@ -354,22 +363,22 @@
 
     <!-- SCENARIO SELECTOR -->
     <div class="scenario-grid" id="scenario-grid">
-      <button class="scenario-btn" onclick="startScenario(0)">
+      <button class="scenario-btn" type="button" onclick="startScenario(0)">
         <div class="scenario-btn-tag">SCENARIO 01 &nbsp;·&nbsp; BASIC</div>
         <div class="scenario-btn-title">No Internet Access</div>
         <div class="scenario-btn-desc">User can't load any websites. Where do you start?</div>
       </button>
-      <button class="scenario-btn" onclick="startScenario(1)">
+      <button class="scenario-btn" type="button" onclick="startScenario(1)">
         <div class="scenario-btn-tag">SCENARIO 02 &nbsp;·&nbsp; INTERMEDIATE</div>
         <div class="scenario-btn-title">Can Ping Router, Not Internet</div>
         <div class="scenario-btn-desc">Local network works but no external connectivity.</div>
       </button>
-      <button class="scenario-btn" onclick="startScenario(2)">
+      <button class="scenario-btn" type="button" onclick="startScenario(2)">
         <div class="scenario-btn-tag">SCENARIO 03 &nbsp;·&nbsp; INTERMEDIATE</div>
         <div class="scenario-btn-title">Slow Network Performance</div>
         <div class="scenario-btn-desc">Everything connects but speeds are unusably slow.</div>
       </button>
-      <button class="scenario-btn" onclick="startScenario(3)">
+      <button class="scenario-btn" type="button" onclick="startScenario(3)">
         <div class="scenario-btn-tag">SCENARIO 04 &nbsp;·&nbsp; ADVANCED</div>
         <div class="scenario-btn-title">APIPA Address Assigned</div>
         <div class="scenario-btn-desc">User's PC shows a 169.254.x.x address. What now?</div>
@@ -383,23 +392,23 @@
         <span class="ts-header-step" id="ts-step">Step 1</span>
       </div>
       <div class="ts-body">
-        <div class="ts-progress" id="ts-progress"></div>
+        <div class="ts-progress" id="ts-progress" aria-label="Scenario progress"></div>
         <div class="ts-situation" id="ts-situation">
           <div class="ts-situation-label">SITUATION</div>
           <div id="ts-situation-text"></div>
         </div>
         <div class="ts-question" id="ts-question"></div>
         <div class="ts-choices" id="ts-choices"></div>
-        <div class="ts-feedback" id="ts-feedback">
+        <div class="ts-feedback" id="ts-feedback" role="status" aria-live="polite">
           <div class="ts-feedback-label" id="ts-feedback-label"></div>
           <p id="ts-feedback-text"></p>
         </div>
-        <button class="ts-next" id="ts-next" onclick="nextStep()">Next Step &rarr;</button>
+        <button class="ts-next" id="ts-next" type="button" onclick="nextStep()">Next Step &rarr;</button>
         <div class="ts-complete" id="ts-complete">
           <div class="ts-complete-title">Scenario Complete!</div>
           <div class="ts-complete-score" id="ts-complete-score"></div>
           <div class="ts-complete-msg" id="ts-complete-msg"></div>
-          <button class="ts-restart" onclick="backToScenarios()">&#8592; Choose Another Scenario</button>
+          <button class="ts-restart" type="button" onclick="backToScenarios()">&#8592; Choose Another Scenario</button>
         </div>
       </div>
     </div>
@@ -713,6 +722,7 @@ function renderStep() {
 
   step.choices.forEach((choice, i) => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'ts-choice';
     btn.textContent = choice.text;
     btn.onclick = () => selectChoice(i, choice.correct, step);

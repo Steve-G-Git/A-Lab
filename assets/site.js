@@ -33,17 +33,46 @@
   document.addEventListener('DOMContentLoaded', function () {
     applyTheme(root.dataset.theme);
     const control = document.querySelector('[data-theme-toggle]');
-    if (!control) return;
+    if (control) {
+      control.addEventListener('click', function () {
+        const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        try {
+          localStorage.setItem(storageKey, theme);
+        } catch (_) {
+          // The theme still works for this visit when storage is unavailable.
+        }
+        applyTheme(theme);
+      });
+    }
 
-    control.addEventListener('click', function () {
-      const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-      try {
-        localStorage.setItem(storageKey, theme);
-      } catch (_) {
-        // The theme still works for this visit when storage is unavailable.
+    const menuControl = document.querySelector('[data-menu-toggle]');
+    const menu = document.querySelector('[data-menu]');
+    if (menuControl && menu) {
+      function setMenu(open) {
+        menu.classList.toggle('is-open', open);
+        menuControl.setAttribute('aria-expanded', String(open));
+        menuControl.textContent = open ? 'Close' : 'Menu';
       }
-      applyTheme(theme);
-    });
+
+      menuControl.addEventListener('click', function () {
+        setMenu(menuControl.getAttribute('aria-expanded') !== 'true');
+      });
+
+      menu.addEventListener('click', function (event) {
+        if (event.target.closest('a')) setMenu(false);
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          setMenu(false);
+          menuControl.focus();
+        }
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!menu.contains(event.target) && !menuControl.contains(event.target)) setMenu(false);
+      });
+    }
   });
 
   systemTheme.addEventListener('change', function (event) {
