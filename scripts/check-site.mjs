@@ -92,6 +92,23 @@ for (const file of ['index.html', 'about.html', 'projects.html', 'troubleshooter
   }
 }
 
+const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+for (const requiredHeroDestination of [
+  'projects.html',
+  'assets/resume/Steve_Garnet_Resume.pdf',
+  'https://www.linkedin.com/in/steve-garnet-502b10334/',
+  'https://github.com/Steve-G-Git',
+]) {
+  const hero = homeHtml.match(/<div class=["']hero-ctas["']>([\s\S]*?)<\/div>/i)?.[1] || '';
+  if (!hero.includes(`href="${requiredHeroDestination}"`)) {
+    fail('index.html', `missing recruiter-critical hero link: ${requiredHeroDestination}`);
+  }
+}
+
+if (!/ENTRY-LEVEL IT SUPPORT[\s\S]*HELP DESK[\s\S]*JUNIOR NETWORKING/.test(homeHtml)) {
+  fail('index.html', 'target roles are not explicit in the first view');
+}
+
 const projectsHtml = fs.readFileSync(path.join(root, 'projects.html'), 'utf8');
 const projectAcceptanceChecks = [
   ['project problems', /<strong>Problem:<\/strong>/g, 5],
