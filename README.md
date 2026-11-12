@@ -100,7 +100,7 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 - **What I configured:** Three interconnected switches, VLANs, 802.1Q trunks, STP, VTP, SVIs for inter-VLAN routing, DHCP relay, Port Security, DHCP Snooping, and Dynamic ARP Inspection.
 - **Verification:** Cross-VLAN pings, DHCP client assignment and snooping binding, STP roles, trunk states, DAI active state, and a controlled port-security violation followed by recovery.
 - **Troubleshooting:** Corrected DAI trust settings independently of DHCP Snooping trust; documented that the rogue DHCP and ARP-spoof blocking tests were not conclusive.
-- **Next improvement:** Add the final Packet Tracer file, topology screenshot, and device configuration evidence.
+- **Evidence:** The completed `.pkt` file and topology screenshot are available in the [case study](projects/packet-tracer-switching-security/README.md). Next improvement: capture individual device command outputs.
 
 [Read the lab case study](projects/packet-tracer-switching-security/README.md)
 
