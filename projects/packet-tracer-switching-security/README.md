@@ -81,16 +81,15 @@ Build a three-switch network with distinct departments, redundant Layer 2 paths,
 - Port Security, DHCP Snooping, and DAI address different Layer 2 threats, with independently configured trust boundaries.
 - A successful ping is one piece of evidence; test conclusions should match what was actually observed.
 
-## Artifacts
+## Lab files and topology
 
-The following will be added from the local Packet Tracer project:
+![Packet Tracer three-switch VLAN and security topology](Screenshot%202026-11-11%20195239.png)
 
-- `packet-tracer/Ch11_17_Completed_Switching_Lab.pkt`
-- `screenshots/topology.png`
-- Optional command-output screenshots for STP, DHCP Snooping, Port Security, and DAI
+- **[Open or download the completed Packet Tracer lab](Ch11_17_Completed_Switching_Lab.pkt)** (Cisco Packet Tracer 9.0.1, about 89 KB)
+- **[View the full topology screenshot](Screenshot%202026-11-11%20195239.png)**
 
-These files are intentionally not linked until uploaded. No switch configuration dump is included yet; the final `.pkt` file is the authoritative source of device configurations.
+The `.pkt` project contains the device configurations and topology used for the documented tests. The disconnected ROGUE-PC in the screenshot was used for the earlier Port Security violation and recovery exercise.
 
 ## Next improvements
 
-Capture the topology and command evidence; check DAI with a reproducible ARP spoof test in a suitable environment; and narrow allowed VLANs on trunks after documenting the operational requirements.
+Capture individual device command-output evidence; check DAI with a reproducible ARP spoof test in a suitable environment; and narrow allowed VLANs on trunks after documenting the operational requirements.
