@@ -1,95 +1,76 @@
-# Cisco Packet Tracer: Switching and Layer 2 Security Lab
+# Cisco Packet Tracer: Switching & Layer 2 Security Lab
 
-**Type:** Hands-on networking lab  
+A completed Cisco Packet Tracer networking lab focused on VLAN segmentation, redundant switching, inter-VLAN routing, DHCP, and Layer 2 security. I built the environment, tested connectivity and security behavior, and documented both successful results and tests that remained inconclusive.
+
 **Platform:** Cisco Packet Tracer 9.0.1  
-**Focus:** VLAN switching, redundancy, inter-VLAN routing, DHCP, and Layer 2 security  
-**Status:** Configuration and final connectivity checks completed; supporting Packet Tracer file and screenshots pending upload.
+**Lab status:** Completed and saved; documentation includes known limitations  
+**Deliverables:** [Packet Tracer project (.pkt)](Ch11_17_Completed_Switching_Lab.pkt) | [Topology image](Screenshot%202026-11-11%20195239.png)
 
-## Objective
+## Network topology
 
-Build a three-switch network with distinct departments, redundant Layer 2 paths, inter-VLAN routing, and defensive switch configurations. Verify the behavior instead of treating successful command entry as proof.
+![Three-switch Packet Tracer topology with VLANs, client devices, and test systems](Screenshot%202026-11-11%20195239.png)
 
-## Topology
+The design uses a Cisco 3560 multilayer core switch (**CORE-MLS1**), two Cisco 2960 access switches (**ACCESS-SW1** and **ACCESS-SW2**), and three inter-switch links forming a redundant triangle. Endpoints include four department PCs, a DHCP test client, a legitimate DHCP server, and an unauthorized DHCP server used in a controlled scenario.
 
-- **CORE-MLS1:** Cisco 3560 multilayer switch providing SVIs and inter-VLAN routing
-- **ACCESS-SW1 / ACCESS-SW2:** Cisco 2960 switches
-- Three inter-switch connections forming a redundant triangle
-- Four department PCs, one DHCP test PC, a legitimate DHCP server, and a rogue DHCP server used for controlled testing
-
-### VLANs and addressing
-
-| VLAN | Purpose | Subnet / notes |
+| VLAN | Role | Addressing |
 |---|---|---|
 | 10 | STAFF | 192.168.10.0/24; gateway 192.168.10.1 |
 | 20 | LAB | 192.168.20.0/24; gateway 192.168.20.1 |
 | 30 | SERVERS | 192.168.30.0/24; gateway 192.168.30.1 |
-| 50 | VTP-TEST | Created to verify VLAN propagation |
+| 50 | VTP-TEST | Temporary VLAN used to verify propagation |
 | 99 | MANAGEMENT | Management VLAN |
-| 999 | NATIVE-BLACKHOLE | Configured native VLAN on 802.1Q trunks |
+| 999 | NATIVE-BLACKHOLE | Native VLAN configured on 802.1Q trunks |
 
-**Representative hosts:** STAFF-PC1 192.168.10.11, STAFF-PC2 192.168.10.12, LAB-PC1 192.168.20.11, LAB-PC2 192.168.20.12, SERVER1 192.168.30.10.
+Representative devices: STAFF-PC1 (`192.168.10.11`), STAFF-PC2 (`192.168.10.12`), LAB-PC1 (`192.168.20.11`), LAB-PC2 (`192.168.20.12`), and SERVER1 (`192.168.30.10`).
 
-## Work completed
+## What I configured
 
-### Switching and redundancy
+| Area | Implementation | Validation performed |
+|---|---|---|
+| Switching | VLANs, access-port assignment, 802.1Q trunks with native VLAN 999, DTP negotiation disabled on trunks | Checked trunk state, VLAN membership, MAC learning, and forwarding behavior |
+| Redundancy | Spanning Tree Protocol across the three-switch topology | Inspected root/designated/alternate roles; tested link behavior and recovery |
+| VLAN management | VTP server/client configuration | Checked propagation of VLAN 50 |
+| Layer 3 | Core-switch SVIs and inter-VLAN routing | Tested reachability across VLAN 10, VLAN 20, and VLAN 30 |
+| DHCP | Relay with `ip helper-address 192.168.30.10`; STAFF pool served from SERVER1 | Confirmed the test client received the intended address, gateway, and DHCP server |
+| Port Security | One sticky MAC permitted on ACCESS-SW1 Fa0/1; shutdown on violation | Triggered a violation with a substituted device, then restored the authorized device and port |
+| DHCP Snooping | Enabled on access switches with trust boundaries and a client binding | Confirmed legitimate lease/binding; rogue-offer blocking was not conclusively observed |
+| Dynamic ARP Inspection | Enabled for VLAN 10 on ACCESS-SW1; infrastructure uplinks trusted | Confirmed active state and normal ARP/gateway connectivity; spoof blocking was not conclusively observed |
 
-- Created VLANs and assigned access ports.
-- Configured 802.1Q trunks with native VLAN 999 and disabled DTP negotiation on trunk interfaces.
-- Inspected MAC address learning, flooding, and subsequent unicast delivery.
-- Examined Spanning Tree Protocol (STP) root, designated, and alternate roles; tested redundant-link behavior and recovery.
-- Configured VTP server/client roles and checked propagation of a test VLAN.
+## Verified results
 
-### Routing and DHCP
+These are the observations recorded during the lab, not claims that every possible attack or failure case was tested.
 
-- Enabled multilayer switching and inter-VLAN routing through switch virtual interfaces (SVIs).
-- Configured DHCP relay using `ip helper-address 192.168.30.10` on VLAN 10.
-- Configured SERVER1 to offer STAFF leases starting at 192.168.10.100.
-- Verified DHCP-TEST-PC received 192.168.10.100/24 with gateway 192.168.10.1 and DHCP server 192.168.30.10.
-
-### Layer 2 security
-
-- **Port Security:** Limited ACCESS-SW1 Fa0/1 to one sticky MAC, configured shutdown on violation, triggered a violation with a substituted device, then restored the authorized client and interface.
-- **DHCP Snooping:** Enabled on access switches, trusted server and infrastructure ports, and recorded a client binding on VLAN 10 / Fa0/4.
-- **Rogue DHCP scenario:** Connected an unauthorized DHCP server on an untrusted ACCESS-SW2 port. The test client still obtained its lease from the legitimate server.
-- **Dynamic ARP Inspection (DAI):** Enabled inspection on VLAN 10 of ACCESS-SW1, trusted infrastructure uplinks, and confirmed the feature reported Active. The test client could resolve and ping its gateway.
-
-## Final verification
-
-| Test | Observed result |
+| Check | Observed outcome |
 |---|---|
-| DHCP-TEST-PC to VLAN 10 gateway (192.168.10.1) | Ping passed |
-| DHCP-TEST-PC to LAB-PC1 (192.168.20.11) | Ping passed |
-| DHCP-TEST-PC to SERVER1 (192.168.30.10) | Ping passed |
-| ACCESS-SW1 DHCP Snooping binding | 192.168.10.100, MAC 00:E0:8F:03:05:97, VLAN 10, Fa0/4 |
-| ACCESS-SW1 DAI VLAN 10 | Active |
-| ACCESS-SW1 port security Fa0/1 | Secure-up, maximum one MAC, violation mode shutdown |
-| CORE-MLS1 trunks Gi0/1 and Gi0/2 | 802.1Q trunking, native VLAN 999; lab VLANs active and allowed |
-| STP roles | Verified a loop-free topology on ACCESS-SW1 |
+| DHCP test client address | `192.168.10.100/24` from `192.168.30.10`; gateway `192.168.10.1` |
+| Ping to STAFF gateway (`192.168.10.1`) | Passed |
+| Ping to LAB-PC1 (`192.168.20.11`) | Passed |
+| Ping to SERVER1 (`192.168.30.10`) | Passed |
+| DHCP Snooping binding on ACCESS-SW1 | VLAN 10, Fa0/4, `192.168.10.100` |
+| Dynamic ARP Inspection on ACCESS-SW1 | Reported Active for VLAN 10 |
+| Port Security on ACCESS-SW1 Fa0/1 | Secure-up after recovery; one MAC; shutdown violation mode |
+| Core trunk links Gi0/1 and Gi0/2 | 802.1Q trunking with native VLAN 999 |
+| STP | Loop-free forwarding roles observed on ACCESS-SW1 |
 
-## Troubleshooting notes and limitations
+## Troubleshooting and lessons learned
 
-1. **DAI trust settings:** Initially, Gigabit uplinks remained untrusted because DHCP Snooping trust is separate from DAI trust. Configuring `ip arp inspection trust` on each interface corrected the displayed state.
-2. **Rogue DHCP test:** The authorized server remained in use, but that alone **does not prove** DHCP Snooping discarded a specific rogue DHCP Offer. Packet Tracer Simulation Mode hit its event-buffer limit during inspection.
-3. **DAI inspection:** DAI reported Active, and normal ARP resolution worked, but the inspected packet counters showed zero. A blocked ARP spoof was **not** conclusively demonstrated.
-4. **Trunk permissions:** The final `show interfaces trunk` output showed allowed VLANs `1-1005`. The lab VLANs were active, but tightening the allowed list would be a sensible production hardening improvement.
+**DAI trust is separate from DHCP Snooping trust.** Initially, Gigabit uplinks were still untrusted for ARP inspection. Configuring `ip arp inspection trust` on the relevant interfaces corrected the reported DAI trust state.
 
-## What I learned
+**A successful DHCP lease does not prove that a rogue offer was blocked.** With an unauthorized DHCP server connected on an untrusted access port, the test PC still received its lease from the legitimate server. Packet Tracer Simulation Mode reached its event-buffer limit, so I could not conclusively observe the rogue offer being dropped.
 
-- A switch can flood an unknown destination without behaving like a hub; learned MAC addresses change subsequent forwarding.
-- STP's blocked paths are a resilience mechanism, not necessarily evidence of a fault.
-- Trunk configuration, native VLAN selection, VLAN availability, and STP forwarding state are different checks.
-- Port Security, DHCP Snooping, and DAI address different Layer 2 threats, with independently configured trust boundaries.
-- A successful ping is one piece of evidence; test conclusions should match what was actually observed.
+**An active security feature is not automatically a proven protection.** DAI reported Active, and normal ARP resolution worked, but the inspected packet counters showed zero. I did not demonstrate a blocked ARP-spoof attempt, so I have not marked that test as passed.
 
-## Lab files and topology
+**Working connectivity is not the same as a fully hardened configuration.** The final trunk output allowed VLANs `1-1005`. Only the lab VLANs were required for the documented topology, but an explicitly restricted allowed-VLAN list was not part of the final saved state.
 
-![Packet Tracer three-switch VLAN and security topology](Screenshot%202026-11-11%20195239.png)
+My main takeaway was to distinguish what I configured from what I actually verified. Commands such as `show interfaces trunk`, `show spanning-tree`, `show ip dhcp snooping binding`, and `show ip arp inspection` each answer a different question. A successful ping is useful evidence, but not a complete security test.
 
-- **[Open or download the completed Packet Tracer lab](Ch11_17_Completed_Switching_Lab.pkt)** (Cisco Packet Tracer 9.0.1, about 89 KB)
-- **[View the full topology screenshot](Screenshot%202026-11-11%20195239.png)**
+## Files and scope
 
-The `.pkt` project contains the device configurations and topology used for the documented tests. The disconnected ROGUE-PC in the screenshot was used for the earlier Port Security violation and recovery exercise.
+- **[Download the completed Packet Tracer lab](Ch11_17_Completed_Switching_Lab.pkt)** to inspect the saved topology and device configurations in Cisco Packet Tracer 9.0.1.
+- **[View the topology screenshot](Screenshot%202026-11-11%20195239.png)** to see the device layout. The disconnected ROGUE-PC was used for the Port Security violation/recovery exercise.
 
-## Next improvements
+This is a self-directed simulated lab, not a production network. The documented tests reflect what I observed during the exercise. Individual device command-output transcripts were not captured for publication.
 
-Capture individual device command-output evidence; check DAI with a reproducible ARP spoof test in a suitable environment; and narrow allowed VLANs on trunks after documenting the operational requirements.
+## Skills demonstrated
+
+VLAN configuration · 802.1Q trunking · STP · VTP · switch virtual interfaces · inter-VLAN routing · DHCP relay · Port Security · DHCP Snooping · Dynamic ARP Inspection · network verification · troubleshooting documentation
