@@ -16,6 +16,7 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 
 | Project | Format | Open |
 |---|---|---|
+| Packet Tracer Switching & Security Lab | VLANs, STP, inter-VLAN routing, DHCP, Layer 2 security | [Case study](projects/packet-tracer-switching-security/README.md) |
 | LeanOps Lab | Documented Ubuntu Server operations lab | [Repository](https://github.com/Steve-G-Git/LeanOps-Lab) |
 | OSI Explorer | Interactive React networking application | [Live site](https://steve-g-git.github.io/osi-explorer/) · [Source](https://github.com/Steve-G-Git/osi-explorer) |
 | IT Support Lab Terminal | Browser-based study tool | [Launch](https://steve-g-git.github.io/A-Lab/lab.html) |
@@ -90,6 +91,18 @@ This site shows my progression from browser-based IT study tools to a larger Rea
 - **Next improvement:** Capture screenshots and logs during the incident, record exact firmware versions and commands, and document a repeatable rollback procedure.
 
 [View the recovery case study](https://github.com/Steve-G-Git/neptune-4-mcu-recovery)
+
+### 6. Packet Tracer Switching & Security Lab
+
+**Type:** Simulated network infrastructure and security lab
+
+- **Problem:** Build a segmented switching environment with redundancy, routing, DHCP, and controls for common Layer 2 threats.
+- **What I configured:** Three interconnected switches, VLANs, 802.1Q trunks, STP, VTP, SVIs for inter-VLAN routing, DHCP relay, Port Security, DHCP Snooping, and Dynamic ARP Inspection.
+- **Verification:** Cross-VLAN pings, DHCP client assignment and snooping binding, STP roles, trunk states, DAI active state, and a controlled port-security violation followed by recovery.
+- **Troubleshooting:** Corrected DAI trust settings independently of DHCP Snooping trust; documented that the rogue DHCP and ARP-spoof blocking tests were not conclusive.
+- **Next improvement:** Add the final Packet Tracer file, topology screenshot, and device configuration evidence.
+
+[Read the lab case study](projects/packet-tracer-switching-security/README.md)
 
 ## Technology
 
